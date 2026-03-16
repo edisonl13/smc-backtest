@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0087)file:///C:/Users/ediso/Downloads/SMC_ICT_%E5%9B%9E%E6%B5%8B%E7%B3%BB%E7%BB%9F_V6_8.html -->
+<!-- saved from url=(0088)file:///C:/Users/ediso/Downloads/SMC_ICT_%E5%9B%9E%E6%B5%8B%E7%B3%BB%E7%BB%9F_V6_10.html -->
 <html lang="zh"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -152,6 +152,11 @@ textarea{resize:vertical;min-height:80px;font-size:15px}
 .img-ph{color:var(--txd);font-size:13px}
 .img-prev{display:none;max-height:150px;border-radius:6px}
 .img-clear{display:none;position:absolute;top:6px;right:6px;padding:2px 8px;border-radius:6px;border:1px solid var(--red);background:var(--red-d);color:var(--red);font-size:11px;cursor:pointer}
+.tip-btn{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:50%;background:var(--sf3);border:1px solid var(--bd2);color:var(--txd);font-size:10px;cursor:pointer;font-weight:700;margin-left:4px;vertical-align:middle}
+.tip-btn:hover{background:var(--blue-d);border-color:var(--blue);color:var(--blue)}
+.tip-text{display:none;background:var(--sf3);border:1px solid var(--bd2);border-radius:8px;padding:10px 14px;font-size:13px;color:var(--txd);line-height:1.6;margin-top:6px}
+.tip-text.show{display:block}
+.auto-tag{font-size:10px;padding:2px 8px;border-radius:6px;background:var(--blue-d);color:var(--blue);font-weight:600;margin-left:6px;font-family:'JetBrains Mono',monospace}
 .empty-state{text-align:center;padding:40px;color:var(--txm)}
 </style>
 </head>
@@ -159,9 +164,9 @@ textarea{resize:vertical;min-height:80px;font-size:15px}
 
 <div class="nav">
   <div class="nav-brand">SMC V6</div>
-  <div class="nav-tab active" onclick="showPage(&#39;entry&#39;,this)">记录</div>
+  <div class="nav-tab" onclick="showPage(&#39;entry&#39;,this)">记录</div>
   <div class="nav-tab" onclick="showPage(&#39;history&#39;,this)">历史</div>
-  <div class="nav-tab" onclick="showPage(&#39;dashboard&#39;,this)">统计</div>
+  <div class="nav-tab active" onclick="showPage(&#39;dashboard&#39;,this)">统计</div>
   <div class="nav-tab" onclick="showPage(&#39;ai&#39;,this)">AI</div>
   <div class="nav-right">
     <div class="nav-stat"><span class="nav-stat-val" id="navTotal">10</span><span class="nav-stat-label">笔</span></div>
@@ -189,7 +194,7 @@ textarea{resize:vertical;min-height:80px;font-size:15px}
 </div>
 
 <!-- ═══ ENTRY ═══ -->
-<div id="page-entry" class="page active">
+<div id="page-entry" class="page">
   <div class="alert-banner" id="lossAlert">⚠️ 连续亏损3笔！停下来复盘。</div>
 
   <div class="sec">
@@ -223,7 +228,8 @@ textarea{resize:vertical;min-height:80px;font-size:15px}
       <div class="fg-full"><label>4H结构</label>
         <div class="pills"><div class="pill" data-v="BOS延续-多" onclick="pick(&#39;h4&#39;,this)">BOS多</div><div class="pill" data-v="CHoCH反转-多" onclick="pick(&#39;h4&#39;,this)">CHoCH多</div><div class="pill" data-v="BOS延续-空" onclick="pick(&#39;h4&#39;,this)">BOS空</div><div class="pill" data-v="CHoCH反转-空" onclick="pick(&#39;h4&#39;,this)">CHoCH空</div><div class="pill" data-v="震荡-不做" onclick="pick(&#39;h4&#39;,this)">震荡✗</div></div>
       </div>
-      <div class="fg-full"><label>DOL 目标</label>
+      <div class="fg-full"><label>DOL 目标 <span class="tip-btn" onclick="togTip(this)">?</span></label>
+        <div class="tip-text">填TP1的目标位（最近的现实目标）。路径上有FVG/结构点→选那个。TP2才是4H远目标。</div>
         <div class="pills"><div class="pill" data-v="上方BSL（前高/等价高点）" onclick="pick(&#39;dol&#39;,this)">↑BSL前高</div><div class="pill" data-v="下方SSL（前低/等价低点）" onclick="pick(&#39;dol&#39;,this)">↓SSL前低</div><div class="pill" data-v="上方未回补4H FVG" onclick="pick(&#39;dol&#39;,this)">↑4H FVG</div><div class="pill" data-v="下方未回补4H FVG" onclick="pick(&#39;dol&#39;,this)">↓4H FVG</div><div class="pill" data-v="不清楚-不做" onclick="pick(&#39;dol&#39;,this)">不明✗</div></div>
       </div>
       <div class="fg-full"><label>路径有4H FVG阻挡？</label>
@@ -283,10 +289,12 @@ textarea{resize:vertical;min-height:80px;font-size:15px}
         <div id="autoNarr" style="background:var(--sf2);border:1px solid var(--bd);border-radius:8px;padding:12px 14px;font-size:15px;color:var(--blue);line-height:1.7;min-height:50px">填写上方信息后自动生成…</div>
         <input type="hidden" id="narrative" value="">
       </div>
-      <div class="fg-full"><label>入场质量</label>
+      <div class="fg-full"><label>入场质量 <span class="tip-btn" onclick="togTip(this)">?</span></label>
+        <div class="tip-text">Q3=结构清晰+位置理想+时机完美。Q2=SOP全过，标准执行。Q1=有妥协，过早/过晚/勉强入场。</div>
         <div class="pills"><div class="pill" data-v="3" onclick="pick(&#39;quality&#39;,this)">Q3 完美</div><div class="pill" data-v="2" onclick="pick(&#39;quality&#39;,this)">Q2 标准</div><div class="pill" data-v="1" onclick="pick(&#39;quality&#39;,this)">Q1 勉强</div></div>
       </div>
-      <div class="fg-full"><label>情绪</label>
+      <div class="fg-full"><label>情绪 <span class="tip-btn" onclick="togTip(this)">?</span></label>
+        <div class="tip-text">😌平静=按计划执行。😤急躁=想快点入场。😰FOMO=怕错过机会。😠报复=上笔亏了想捞回。诚实选，Gemini会对照你的教训检查。</div>
         <div class="pills"><div class="pill" data-v="平静" onclick="pick(&#39;emo&#39;,this)">😌 平静</div><div class="pill" data-v="急躁" onclick="pick(&#39;emo&#39;,this)">😤 急躁</div><div class="pill" data-v="FOMO" onclick="pick(&#39;emo&#39;,this)">😰 FOMO</div><div class="pill" data-v="报复" onclick="pick(&#39;emo&#39;,this)">😠 报复</div></div>
       </div>
     </div>
@@ -315,14 +323,27 @@ textarea{resize:vertical;min-height:80px;font-size:15px}
   <div class="sec">
     <div class="sec-head"><div class="sec-dot" style="background:var(--orange)"></div><div class="sec-title">交易结果</div></div>
     <div class="fg">
-      <div class="fg-full"><label>结果</label>
-        <div class="pills"><div class="pill" data-v="盈" onclick="pick(&#39;result&#39;,this)">✅ 盈</div><div class="pill" data-v="亏" onclick="pick(&#39;result&#39;,this)">❌ 亏</div><div class="pill" data-v="BE保本（小盈）" onclick="pick(&#39;result&#39;,this)">⚡ BE</div></div>
+      <div class="fg-full"><label>TP1触及？ <span class="tip-btn" onclick="togTip(this)">?</span></label>
+        <div class="tip-text">选了TP1触及后，结果、预判、逻辑会自动填写。你只需要选这一个。</div>
+        <div class="pills"><div class="pill" data-v="Y✅" onclick="pick(&#39;tp1h&#39;,this)">✅ 到了</div><div class="pill" data-v="N" onclick="pick(&#39;tp1h&#39;,this)">❌ 没到</div></div>
       </div>
-      <div><label>TP1触及？</label><div class="pills"><div class="pill" data-v="Y✅" onclick="pick(&#39;tp1h&#39;,this)">Y</div><div class="pill" data-v="N" onclick="pick(&#39;tp1h&#39;,this)">N</div></div></div>
+      <div class="fg-full"><label>结果 <span class="auto-tag" id="resultAutoTag">自动</span> <span class="tip-btn" onclick="togTip(this)">?</span></label>
+        <div class="tip-text">TP1到了→盈，没到→亏。BE需要手动选。</div>
+        <div class="pills" id="resultPills"><div class="pill" data-v="盈" onclick="pick(&#39;result&#39;,this)">✅ 盈</div><div class="pill" data-v="亏" onclick="pick(&#39;result&#39;,this)">❌ 亏</div><div class="pill" data-v="BE保本（小盈）" onclick="pick(&#39;result&#39;,this)">⚡ BE</div></div>
+      </div>
+      <div><label>预判正确 <span class="auto-tag" id="predAutoTag">自动</span> <span class="tip-btn" onclick="togTip(this)">?</span></label>
+        <div class="tip-text">TP1=DOL目标。TP1到了=预判Y。可手动改。</div>
+        <div class="pills" id="predPills"><div class="pill" data-v="Y" onclick="pick(&#39;pred&#39;,this)">Y</div><div class="pill" data-v="N" onclick="pick(&#39;pred&#39;,this)">N</div></div>
+      </div>
       <div><label>持仓（小时）</label><input type="number" id="holdingHours" placeholder="3.5" step="0.5" min="0"></div>
-      <div><label>预判正确？</label><div class="pills"><div class="pill" data-v="Y" onclick="pick(&#39;pred&#39;,this)">Y</div><div class="pill" data-v="N" onclick="pick(&#39;pred&#39;,this)">N</div></div></div>
-      <div><label>逻辑正确？</label><div class="pills"><div class="pill" data-v="Y" onclick="pick(&#39;logic&#39;,this)">Y</div><div class="pill" data-v="N" onclick="pick(&#39;logic&#39;,this)">N</div></div></div>
-      <div class="fg-full"><label>教训一句话</label><textarea id="lesson" placeholder="这笔最重要的教训是…"></textarea></div>
+      <div class="fg-full"><label>逻辑正确 <span class="auto-tag" id="logicAutoTag">自动Y</span> <span class="tip-btn" onclick="togTip(this)">?</span></label>
+        <div class="tip-text">Gate全过才能保存，所以默认Y。但如果你知道自己有作弊（比如条件差一点但强行通过），手动改N。</div>
+        <div class="pills" id="logicPills"><div class="pill on" data-v="Y" onclick="pick(&#39;logic&#39;,this)">Y — SOP全过</div><div class="pill" data-v="N" onclick="pick(&#39;logic&#39;,this)">N — 我知道有问题</div></div>
+      </div>
+      <div class="fg-full"><label>教训一句话 <span class="tip-btn" onclick="togTip(this)">?</span></label>
+        <div class="tip-text">写你知道但不想承认的那句话。Gemini会检查这跟你标的情绪/逻辑是否矛盾。</div>
+        <textarea id="lesson" placeholder="这笔最重要的教训是…"></textarea>
+      </div>
     </div>
   </div>
 
@@ -348,32 +369,230 @@ textarea{resize:vertical;min-height:80px;font-size:15px}
 </div>
 
 <!-- ═══ DASHBOARD ═══ -->
-<div id="page-dashboard" class="page">
+<div id="page-dashboard" class="page active">
   <div class="stat-grid">
-    <div class="stat-card"><span class="stat-val" id="dTotal" style="color:var(--blue)">0</span><div class="stat-label">总笔数</div><div class="prog-wrap"><div class="prog-bar" id="dTotalBar" style="width:0%;background:var(--blue)"></div></div></div>
-    <div class="stat-card"><span class="stat-val" id="dWinRate" style="color:var(--green)">—</span><div class="stat-label">胜率</div><div class="prog-wrap"><div class="prog-bar" id="dWinBar" style="width:0%"></div></div></div>
-    <div class="stat-card"><span class="stat-val" id="dPredRate" style="color:var(--orange)">—</span><div class="stat-label">预判准确率</div><div class="prog-wrap"><div class="prog-bar" id="dPredBar" style="width:0%;background:var(--orange)"></div></div></div>
-    <div class="stat-card"><span class="stat-val" id="dAvgRR" style="color:var(--purple)">—</span><div class="stat-label">平均RR1</div></div>
-    <div class="stat-card"><span class="stat-val" id="dWins" style="color:var(--green)">0</span><div class="stat-label">盈/<span id="dLosses" style="color:var(--red)">0</span>亏/<span id="dBE" style="color:var(--yellow)">0</span>BE</div></div>
+    <div class="stat-card"><span class="stat-val" id="dTotal" style="color:var(--blue)">10</span><div class="stat-label">总笔数</div><div class="prog-wrap"><div class="prog-bar" id="dTotalBar" style="width: 10%; background: var(--blue);"></div></div></div>
+    <div class="stat-card"><span class="stat-val" id="dWinRate" style="color:var(--green)">80.0%</span><div class="stat-label">胜率</div><div class="prog-wrap"><div class="prog-bar" id="dWinBar" style="width: 80%;"></div></div></div>
+    <div class="stat-card"><span class="stat-val" id="dPredRate" style="color:var(--orange)">50.0%</span><div class="stat-label">预判准确率</div><div class="prog-wrap"><div class="prog-bar" id="dPredBar" style="width: 50%; background: var(--orange);"></div></div></div>
+    <div class="stat-card"><span class="stat-val" id="dAvgRR" style="color:var(--purple)">3.71x</span><div class="stat-label">平均RR1</div></div>
+    <div class="stat-card"><span class="stat-val" id="dWins" style="color:var(--green)">8</span><div class="stat-label">盈/<span id="dLosses" style="color:var(--red)">2</span>亏/<span id="dBE" style="color:var(--yellow)">0</span>BE</div></div>
     <div class="stat-card"><span class="stat-val" id="dConsec" style="color:var(--txd)">0</span><div class="stat-label">当前连亏</div></div>
   </div>
 
   <!-- Win/Loss strip -->
   <div class="sec"><div class="sec-head"><div class="sec-dot" style="background:var(--green)"></div><div class="sec-title">📊 盈亏走势</div></div>
-    <div id="streakStrip" style="display:flex;gap:3px;flex-wrap:wrap;min-height:24px"></div>
+    <div id="streakStrip" style="display:flex;gap:3px;flex-wrap:wrap;min-height:24px"><div title="#1 盈" style="width:20px;height:24px;border-radius:4px;background:var(--green);opacity:.8;cursor:default;transition:transform .1s" onmouseenter="this.style.transform=&#39;scaleY(1.3)&#39;" onmouseleave="this.style.transform=&#39;&#39;"></div><div title="#2 盈" style="width:20px;height:24px;border-radius:4px;background:var(--green);opacity:.8;cursor:default;transition:transform .1s" onmouseenter="this.style.transform=&#39;scaleY(1.3)&#39;" onmouseleave="this.style.transform=&#39;&#39;"></div><div title="#3 亏" style="width:20px;height:24px;border-radius:4px;background:var(--red);opacity:.8;cursor:default;transition:transform .1s" onmouseenter="this.style.transform=&#39;scaleY(1.3)&#39;" onmouseleave="this.style.transform=&#39;&#39;"></div><div title="#4 盈" style="width:20px;height:24px;border-radius:4px;background:var(--green);opacity:.8;cursor:default;transition:transform .1s" onmouseenter="this.style.transform=&#39;scaleY(1.3)&#39;" onmouseleave="this.style.transform=&#39;&#39;"></div><div title="#5 盈" style="width:20px;height:24px;border-radius:4px;background:var(--green);opacity:.8;cursor:default;transition:transform .1s" onmouseenter="this.style.transform=&#39;scaleY(1.3)&#39;" onmouseleave="this.style.transform=&#39;&#39;"></div><div title="#6 BE保本（小盈）" style="width:20px;height:24px;border-radius:4px;background:var(--yellow);opacity:.8;cursor:default;transition:transform .1s" onmouseenter="this.style.transform=&#39;scaleY(1.3)&#39;" onmouseleave="this.style.transform=&#39;&#39;"></div><div title="#7 盈" style="width:20px;height:24px;border-radius:4px;background:var(--green);opacity:.8;cursor:default;transition:transform .1s" onmouseenter="this.style.transform=&#39;scaleY(1.3)&#39;" onmouseleave="this.style.transform=&#39;&#39;"></div><div title="#8 亏" style="width:20px;height:24px;border-radius:4px;background:var(--red);opacity:.8;cursor:default;transition:transform .1s" onmouseenter="this.style.transform=&#39;scaleY(1.3)&#39;" onmouseleave="this.style.transform=&#39;&#39;"></div><div title="#9 盈" style="width:20px;height:24px;border-radius:4px;background:var(--green);opacity:.8;cursor:default;transition:transform .1s" onmouseenter="this.style.transform=&#39;scaleY(1.3)&#39;" onmouseleave="this.style.transform=&#39;&#39;"></div><div title="#10 BE保本（小盈）" style="width:20px;height:24px;border-radius:4px;background:var(--yellow);opacity:.8;cursor:default;transition:transform .1s" onmouseenter="this.style.transform=&#39;scaleY(1.3)&#39;" onmouseleave="this.style.transform=&#39;&#39;"></div></div>
   </div>
 
   <div class="sec"><div class="sec-head"><div class="sec-dot"></div><div class="sec-title">🎯 100笔进度</div></div>
-    <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--txd);margin-bottom:6px"><span>RR≥2x + 连续30笔无违规</span><span id="goalPct">0%</span></div>
-    <div class="prog-wrap" style="height:8px"><div class="prog-bar" id="goalBar" style="width:0%"></div></div>
-    <div style="margin-top:10px;font-size:13px;color:var(--txd)" id="goalStatus"></div>
+    <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--txd);margin-bottom:6px"><span>RR≥2x + 连续30笔无违规</span><span id="goalPct">10%</span></div>
+    <div class="prog-wrap" style="height:8px"><div class="prog-bar" id="goalBar" style="width: 10%;"></div></div>
+    <div style="margin-top:10px;font-size:13px;color:var(--txd)" id="goalStatus">完成 <b style="color:var(--blue)">10/100</b> ｜ 平均RR <b style="color:var(--green)">3.71x</b>/2x ｜ 连续30笔无违规 <b style="color:var(--red)">(10/30)</b></div>
   </div>
 
   <!-- Visual bar sections -->
-  <div class="sec"><div class="sec-head"><div class="sec-dot" style="background:var(--blue)"></div><div class="sec-title">📊 主模型 vs Silver Bullet</div></div><div id="modelBars"></div></div>
-  <div class="sec"><div class="sec-head"><div class="sec-dot" style="background:var(--orange)"></div><div class="sec-title">⏰ 时段对比</div></div><div id="sessionBars"></div></div>
-  <div class="sec"><div class="sec-head"><div class="sec-dot" style="background:var(--teal)"></div><div class="sec-title">🎯 质量对比</div></div><div id="qualityBars"></div></div>
-  <div class="sec"><div class="sec-head"><div class="sec-dot" style="background:var(--purple)"></div><div class="sec-title">🧠 情绪对比</div></div><div id="emotionBars"></div></div>
+  <div class="sec"><div class="sec-head"><div class="sec-dot" style="background:var(--green)"></div><div class="sec-title">📈 多 vs 空</div></div><div id="dirBars"><div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+      <div style="width:90px;font-size:13px;font-weight:600;color:var(--tx);text-align:right;flex-shrink:0">📈 做多</div>
+      <div style="flex:1;position:relative;height:32px;background:var(--sf2);border-radius:6px;border:1px solid var(--bd);overflow:hidden">
+        <div style="height:100%;width:66.66666666666666%;background:var(--green);opacity:.2;border-radius:6px;transition:width .5s"></div>
+        <div style="position:absolute;inset:0;display:flex;align-items:center;padding:0 10px;gap:12px;font-family:&#39;JetBrains Mono&#39;,monospace;font-size:12px">
+          <span style="color:var(--tx);font-weight:700">4笔</span>
+          <span style="color:var(--green);font-weight:700">胜率 75%</span>
+          <span style="color:var(--green)">RR 3.8x</span>
+        </div>
+      </div>
+    </div><div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+      <div style="width:90px;font-size:13px;font-weight:600;color:var(--tx);text-align:right;flex-shrink:0">📉 做空</div>
+      <div style="flex:1;position:relative;height:32px;background:var(--sf2);border-radius:6px;border:1px solid var(--bd);overflow:hidden">
+        <div style="height:100%;width:100%;background:var(--green);opacity:.2;border-radius:6px;transition:width .5s"></div>
+        <div style="position:absolute;inset:0;display:flex;align-items:center;padding:0 10px;gap:12px;font-family:&#39;JetBrains Mono&#39;,monospace;font-size:12px">
+          <span style="color:var(--tx);font-weight:700">6笔</span>
+          <span style="color:var(--green);font-weight:700">胜率 83%</span>
+          <span style="color:var(--green)">RR 3.6x</span>
+        </div>
+      </div>
+    </div></div></div>
+  <div class="sec"><div class="sec-head"><div class="sec-dot" style="background:var(--purple)"></div><div class="sec-title">🏗️ BOS vs CHoCH</div></div><div id="structBars"><div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+      <div style="width:90px;font-size:13px;font-weight:600;color:var(--tx);text-align:right;flex-shrink:0">BOS多</div>
+      <div style="flex:1;position:relative;height:32px;background:var(--sf2);border-radius:6px;border:1px solid var(--bd);overflow:hidden">
+        <div style="height:100%;width:40%;background:var(--purple);opacity:.2;border-radius:6px;transition:width .5s"></div>
+        <div style="position:absolute;inset:0;display:flex;align-items:center;padding:0 10px;gap:12px;font-family:&#39;JetBrains Mono&#39;,monospace;font-size:12px">
+          <span style="color:var(--tx);font-weight:700">2笔</span>
+          <span style="color:var(--txd);font-weight:700">胜率 50%</span>
+          <span style="color:var(--green)">RR 4.6x</span>
+        </div>
+      </div>
+    </div><div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+      <div style="width:90px;font-size:13px;font-weight:600;color:var(--tx);text-align:right;flex-shrink:0">CHoCH多</div>
+      <div style="flex:1;position:relative;height:32px;background:var(--sf2);border-radius:6px;border:1px solid var(--bd);overflow:hidden">
+        <div style="height:100%;width:40%;background:var(--purple);opacity:.2;border-radius:6px;transition:width .5s"></div>
+        <div style="position:absolute;inset:0;display:flex;align-items:center;padding:0 10px;gap:12px;font-family:&#39;JetBrains Mono&#39;,monospace;font-size:12px">
+          <span style="color:var(--tx);font-weight:700">2笔</span>
+          <span style="color:var(--green);font-weight:700">胜率 100%</span>
+          <span style="color:var(--green)">RR 3.1x</span>
+        </div>
+      </div>
+    </div><div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+      <div style="width:90px;font-size:13px;font-weight:600;color:var(--tx);text-align:right;flex-shrink:0">BOS空</div>
+      <div style="flex:1;position:relative;height:32px;background:var(--sf2);border-radius:6px;border:1px solid var(--bd);overflow:hidden">
+        <div style="height:100%;width:100%;background:var(--purple);opacity:.2;border-radius:6px;transition:width .5s"></div>
+        <div style="position:absolute;inset:0;display:flex;align-items:center;padding:0 10px;gap:12px;font-family:&#39;JetBrains Mono&#39;,monospace;font-size:12px">
+          <span style="color:var(--tx);font-weight:700">5笔</span>
+          <span style="color:var(--green);font-weight:700">胜率 80%</span>
+          <span style="color:var(--green)">RR 3.6x</span>
+        </div>
+      </div>
+    </div><div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+      <div style="width:90px;font-size:13px;font-weight:600;color:var(--tx);text-align:right;flex-shrink:0">CHoCH空</div>
+      <div style="flex:1;position:relative;height:32px;background:var(--sf2);border-radius:6px;border:1px solid var(--bd);overflow:hidden">
+        <div style="height:100%;width:20%;background:var(--purple);opacity:.2;border-radius:6px;transition:width .5s"></div>
+        <div style="position:absolute;inset:0;display:flex;align-items:center;padding:0 10px;gap:12px;font-family:&#39;JetBrains Mono&#39;,monospace;font-size:12px">
+          <span style="color:var(--tx);font-weight:700">1笔</span>
+          <span style="color:var(--green);font-weight:700">胜率 100%</span>
+          <span style="color:var(--green)">RR 3.8x</span>
+        </div>
+      </div>
+    </div></div></div>
+  <div class="sec"><div class="sec-head"><div class="sec-dot" style="background:var(--yellow)"></div><div class="sec-title">🎯 DOL类型</div></div><div id="dolBars"><div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+      <div style="width:90px;font-size:13px;font-weight:600;color:var(--tx);text-align:right;flex-shrink:0">↑BSL前高</div>
+      <div style="flex:1;position:relative;height:32px;background:var(--sf2);border-radius:6px;border:1px solid var(--bd);overflow:hidden">
+        <div style="height:100%;width:20%;background:var(--yellow);opacity:.2;border-radius:6px;transition:width .5s"></div>
+        <div style="position:absolute;inset:0;display:flex;align-items:center;padding:0 10px;gap:12px;font-family:&#39;JetBrains Mono&#39;,monospace;font-size:12px">
+          <span style="color:var(--tx);font-weight:700">1笔</span>
+          <span style="color:var(--green);font-weight:700">胜率 100%</span>
+          <span style="color:var(--green)">RR 4.4x</span>
+        </div>
+      </div>
+    </div><div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+      <div style="width:90px;font-size:13px;font-weight:600;color:var(--tx);text-align:right;flex-shrink:0">↓SSL前低</div>
+      <div style="flex:1;position:relative;height:32px;background:var(--sf2);border-radius:6px;border:1px solid var(--bd);overflow:hidden">
+        <div style="height:100%;width:100%;background:var(--yellow);opacity:.2;border-radius:6px;transition:width .5s"></div>
+        <div style="position:absolute;inset:0;display:flex;align-items:center;padding:0 10px;gap:12px;font-family:&#39;JetBrains Mono&#39;,monospace;font-size:12px">
+          <span style="color:var(--tx);font-weight:700">5笔</span>
+          <span style="color:var(--green);font-weight:700">胜率 80%</span>
+          <span style="color:var(--green)">RR 2.9x</span>
+        </div>
+      </div>
+    </div><div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+      <div style="width:90px;font-size:13px;font-weight:600;color:var(--tx);text-align:right;flex-shrink:0">↑4H FVG</div>
+      <div style="flex:1;position:relative;height:32px;background:var(--sf2);border-radius:6px;border:1px solid var(--bd);overflow:hidden">
+        <div style="height:100%;width:40%;background:var(--yellow);opacity:.2;border-radius:6px;transition:width .5s"></div>
+        <div style="position:absolute;inset:0;display:flex;align-items:center;padding:0 10px;gap:12px;font-family:&#39;JetBrains Mono&#39;,monospace;font-size:12px">
+          <span style="color:var(--tx);font-weight:700">2笔</span>
+          <span style="color:var(--txd);font-weight:700">胜率 50%</span>
+          <span style="color:var(--green)">RR 3.9x</span>
+        </div>
+      </div>
+    </div><div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+      <div style="width:90px;font-size:13px;font-weight:600;color:var(--tx);text-align:right;flex-shrink:0">↓4H FVG</div>
+      <div style="flex:1;position:relative;height:32px;background:var(--sf2);border-radius:6px;border:1px solid var(--bd);overflow:hidden">
+        <div style="height:100%;width:40%;background:var(--yellow);opacity:.2;border-radius:6px;transition:width .5s"></div>
+        <div style="position:absolute;inset:0;display:flex;align-items:center;padding:0 10px;gap:12px;font-family:&#39;JetBrains Mono&#39;,monospace;font-size:12px">
+          <span style="color:var(--tx);font-weight:700">2笔</span>
+          <span style="color:var(--green);font-weight:700">胜率 100%</span>
+          <span style="color:var(--green)">RR 5.2x</span>
+        </div>
+      </div>
+    </div></div></div>
+  <div class="sec"><div class="sec-head"><div class="sec-dot" style="background:var(--blue)"></div><div class="sec-title">📊 主模型 vs Silver Bullet</div></div><div id="modelBars"><div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+      <div style="width:90px;font-size:13px;font-weight:600;color:var(--tx);text-align:right;flex-shrink:0">主模型</div>
+      <div style="flex:1;position:relative;height:32px;background:var(--sf2);border-radius:6px;border:1px solid var(--bd);overflow:hidden">
+        <div style="height:100%;width:100%;background:var(--blue);opacity:.2;border-radius:6px;transition:width .5s"></div>
+        <div style="position:absolute;inset:0;display:flex;align-items:center;padding:0 10px;gap:12px;font-family:&#39;JetBrains Mono&#39;,monospace;font-size:12px">
+          <span style="color:var(--tx);font-weight:700">10笔</span>
+          <span style="color:var(--green);font-weight:700">胜率 80%</span>
+          <span style="color:var(--green)">RR 3.7x</span>
+        </div>
+      </div>
+    </div><div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+      <div style="width:90px;font-size:13px;font-weight:600;color:var(--txd);text-align:right;flex-shrink:0">⭐ SB</div>
+      <div style="flex:1;height:28px;background:var(--sf2);border-radius:6px;border:1px solid var(--bd);display:flex;align-items:center;padding-left:10px;font-size:12px;color:var(--txm)">无数据</div>
+    </div></div></div>
+  <div class="sec"><div class="sec-head"><div class="sec-dot" style="background:var(--orange)"></div><div class="sec-title">⏰ 时段对比</div></div><div id="sessionBars"><div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+      <div style="width:90px;font-size:13px;font-weight:600;color:var(--tx);text-align:right;flex-shrink:0">伦敦KZ</div>
+      <div style="flex:1;position:relative;height:32px;background:var(--sf2);border-radius:6px;border:1px solid var(--bd);overflow:hidden">
+        <div style="height:100%;width:100%;background:var(--orange);opacity:.2;border-radius:6px;transition:width .5s"></div>
+        <div style="position:absolute;inset:0;display:flex;align-items:center;padding:0 10px;gap:12px;font-family:&#39;JetBrains Mono&#39;,monospace;font-size:12px">
+          <span style="color:var(--tx);font-weight:700">5笔</span>
+          <span style="color:var(--green);font-weight:700">胜率 60%</span>
+          <span style="color:var(--green)">RR 3.1x</span>
+        </div>
+      </div>
+    </div><div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+      <div style="width:90px;font-size:13px;font-weight:600;color:var(--txd);text-align:right;flex-shrink:0">伦敦SB</div>
+      <div style="flex:1;height:28px;background:var(--sf2);border-radius:6px;border:1px solid var(--bd);display:flex;align-items:center;padding-left:10px;font-size:12px;color:var(--txm)">无数据</div>
+    </div><div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+      <div style="width:90px;font-size:13px;font-weight:600;color:var(--tx);text-align:right;flex-shrink:0">纽约KZ</div>
+      <div style="flex:1;position:relative;height:32px;background:var(--sf2);border-radius:6px;border:1px solid var(--bd);overflow:hidden">
+        <div style="height:100%;width:100%;background:var(--orange);opacity:.2;border-radius:6px;transition:width .5s"></div>
+        <div style="position:absolute;inset:0;display:flex;align-items:center;padding:0 10px;gap:12px;font-family:&#39;JetBrains Mono&#39;,monospace;font-size:12px">
+          <span style="color:var(--tx);font-weight:700">5笔</span>
+          <span style="color:var(--green);font-weight:700">胜率 100%</span>
+          <span style="color:var(--green)">RR 4.4x</span>
+        </div>
+      </div>
+    </div><div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+      <div style="width:90px;font-size:13px;font-weight:600;color:var(--txd);text-align:right;flex-shrink:0">纽约SB</div>
+      <div style="flex:1;height:28px;background:var(--sf2);border-radius:6px;border:1px solid var(--bd);display:flex;align-items:center;padding-left:10px;font-size:12px;color:var(--txm)">无数据</div>
+    </div></div></div>
+  <div class="sec"><div class="sec-head"><div class="sec-dot" style="background:var(--teal)"></div><div class="sec-title">🎯 质量对比</div></div><div id="qualityBars"><div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+      <div style="width:90px;font-size:13px;font-weight:600;color:var(--tx);text-align:right;flex-shrink:0">Q3 完美</div>
+      <div style="flex:1;position:relative;height:32px;background:var(--sf2);border-radius:6px;border:1px solid var(--bd);overflow:hidden">
+        <div style="height:100%;width:50%;background:var(--teal);opacity:.2;border-radius:6px;transition:width .5s"></div>
+        <div style="position:absolute;inset:0;display:flex;align-items:center;padding:0 10px;gap:12px;font-family:&#39;JetBrains Mono&#39;,monospace;font-size:12px">
+          <span style="color:var(--tx);font-weight:700">3笔</span>
+          <span style="color:var(--green);font-weight:700">胜率 100%</span>
+          <span style="color:var(--green)">RR 3.1x</span>
+        </div>
+      </div>
+    </div><div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+      <div style="width:90px;font-size:13px;font-weight:600;color:var(--tx);text-align:right;flex-shrink:0">Q2 标准</div>
+      <div style="flex:1;position:relative;height:32px;background:var(--sf2);border-radius:6px;border:1px solid var(--bd);overflow:hidden">
+        <div style="height:100%;width:100%;background:var(--teal);opacity:.2;border-radius:6px;transition:width .5s"></div>
+        <div style="position:absolute;inset:0;display:flex;align-items:center;padding:0 10px;gap:12px;font-family:&#39;JetBrains Mono&#39;,monospace;font-size:12px">
+          <span style="color:var(--tx);font-weight:700">6笔</span>
+          <span style="color:var(--green);font-weight:700">胜率 83%</span>
+          <span style="color:var(--green)">RR 3.8x</span>
+        </div>
+      </div>
+    </div><div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+      <div style="width:90px;font-size:13px;font-weight:600;color:var(--tx);text-align:right;flex-shrink:0">Q1 勉强</div>
+      <div style="flex:1;position:relative;height:32px;background:var(--sf2);border-radius:6px;border:1px solid var(--bd);overflow:hidden">
+        <div style="height:100%;width:16.666666666666664%;background:var(--teal);opacity:.2;border-radius:6px;transition:width .5s"></div>
+        <div style="position:absolute;inset:0;display:flex;align-items:center;padding:0 10px;gap:12px;font-family:&#39;JetBrains Mono&#39;,monospace;font-size:12px">
+          <span style="color:var(--tx);font-weight:700">1笔</span>
+          <span style="color:var(--red);font-weight:700">胜率 0%</span>
+          <span style="color:var(--green)">RR 4.7x</span>
+        </div>
+      </div>
+    </div></div></div>
+  <div class="sec"><div class="sec-head"><div class="sec-dot" style="background:var(--purple)"></div><div class="sec-title">🧠 情绪对比</div></div><div id="emotionBars"><div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+      <div style="width:90px;font-size:13px;font-weight:600;color:var(--tx);text-align:right;flex-shrink:0">😌 平静</div>
+      <div style="flex:1;position:relative;height:32px;background:var(--sf2);border-radius:6px;border:1px solid var(--bd);overflow:hidden">
+        <div style="height:100%;width:100%;background:var(--purple);opacity:.2;border-radius:6px;transition:width .5s"></div>
+        <div style="position:absolute;inset:0;display:flex;align-items:center;padding:0 10px;gap:12px;font-family:&#39;JetBrains Mono&#39;,monospace;font-size:12px">
+          <span style="color:var(--tx);font-weight:700">8笔</span>
+          <span style="color:var(--green);font-weight:700">胜率 100%</span>
+          <span style="color:var(--green)">RR 3.8x</span>
+        </div>
+      </div>
+    </div><div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+      <div style="width:90px;font-size:13px;font-weight:600;color:var(--tx);text-align:right;flex-shrink:0">😤 急躁</div>
+      <div style="flex:1;position:relative;height:32px;background:var(--sf2);border-radius:6px;border:1px solid var(--bd);overflow:hidden">
+        <div style="height:100%;width:25%;background:var(--purple);opacity:.2;border-radius:6px;transition:width .5s"></div>
+        <div style="position:absolute;inset:0;display:flex;align-items:center;padding:0 10px;gap:12px;font-family:&#39;JetBrains Mono&#39;,monospace;font-size:12px">
+          <span style="color:var(--tx);font-weight:700">2笔</span>
+          <span style="color:var(--red);font-weight:700">胜率 0%</span>
+          <span style="color:var(--green)">RR 3.5x</span>
+        </div>
+      </div>
+    </div><div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+      <div style="width:90px;font-size:13px;font-weight:600;color:var(--txd);text-align:right;flex-shrink:0">😰 FOMO</div>
+      <div style="flex:1;height:28px;background:var(--sf2);border-radius:6px;border:1px solid var(--bd);display:flex;align-items:center;padding-left:10px;font-size:12px;color:var(--txm)">无数据</div>
+    </div><div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+      <div style="width:90px;font-size:13px;font-weight:600;color:var(--txd);text-align:right;flex-shrink:0">😠 报复</div>
+      <div style="flex:1;height:28px;background:var(--sf2);border-radius:6px;border:1px solid var(--bd);display:flex;align-items:center;padding-left:10px;font-size:12px;color:var(--txm)">无数据</div>
+    </div></div></div>
 </div>
 
 <!-- ═══ AI PAGE ═══ -->
@@ -431,7 +650,7 @@ else{
   for(const dt of defaultTrades){if(!existingIds.has(dt.id)){trades.push(dt);added++;}}
   if(added){trades.sort((a,b)=>a.num-b.num);localStorage.setItem('smc_trades_v6',JSON.stringify(trades));}
 }
-let P={kz:'',dir:'',bias:'',h4:'',dol:'',block:'',judas:'',sweep:'',quality:'',emo:'',result:'',tp1h:'',pred:'',logic:''};
+let P={kz:'',dir:'',bias:'',h4:'',dol:'',block:'',judas:'',sweep:'',quality:'',emo:'',result:'',tp1h:'',pred:'',logic:'Y'};
 let mc={choch:false,fvg:false,e50:false,slpos:false,narr:false};
 let currentFilter='all';
 
@@ -439,6 +658,16 @@ function gv(id){const el=document.getElementById(id);return el?el.value.trim():'
 function gf(id){const v=parseFloat(gv(id));return isNaN(v)?null:v;}
 function isSB(){return P.kz.includes('银弹');}
 function getModel(t){return(t.killzone||'').includes('银弹')?'SB':'主模型';}
+
+function togTip(btn){const tip=btn.parentElement.nextElementSibling;if(tip&&tip.classList.contains('tip-text'))tip.classList.toggle('show');}
+
+function autoPick(containerId,value){
+  const c=document.getElementById(containerId);if(!c)return;
+  c.querySelectorAll('.pill').forEach(p=>{
+    if(p.dataset.v===value){p.classList.add('on');p.className='pill on';}
+    else{p.className='pill';}
+  });
+}
 
 // ─── PILL PICKER ──────────────────────────────────────────────
 function pick(key,el){
@@ -448,6 +677,16 @@ function pick(key,el){
   P[key]=el.dataset.v;
   if(key==='kz'||key==='dir') updateSweep();
   if(key==='kz') updateSBMode();
+  // Auto-fill when TP1 hit is selected
+  if(key==='tp1h'){
+    if(P.tp1h==='Y✅'){
+      P.result='盈';autoPick('resultPills','盈');
+      P.pred='Y';autoPick('predPills','Y');
+    } else if(P.tp1h==='N'){
+      P.result='亏';autoPick('resultPills','亏');
+      P.pred='N';autoPick('predPills','N');
+    }
+  }
   run();
 }
 
@@ -644,7 +883,7 @@ function checkConsec(){
 }
 
 function clearForm(){
-  P={kz:'',dir:'',bias:'',h4:'',dol:'',block:'',judas:'',sweep:'',quality:'',emo:'',result:'',tp1h:'',pred:'',logic:''};
+  P={kz:'',dir:'',bias:'',h4:'',dol:'',block:'',judas:'',sweep:'',quality:'',emo:'',result:'',tp1h:'',pred:'',logic:'Y'};
   mc={choch:false,fvg:false,e50:false,slpos:false,narr:false};
   formImgs={entry:null,result:null};
   document.querySelectorAll('.pill.on,.pill.on-g,.pill.on-r,.pill.on-y').forEach(p=>p.className='pill');
@@ -657,6 +896,10 @@ function clearForm(){
   document.getElementById('rr1Disp').className='rr-box';document.getElementById('rr1Disp').innerHTML='—<span class="rr-sub">最低 2.0x</span>';
   document.getElementById('rr2Disp').className='rr-box';document.getElementById('rr2Disp').innerHTML='—';
   clearFormImg('entry');clearFormImg('result');
+  // Default logic=Y (gate must pass to save)
+  autoPick('logicPills','Y');
+  // Hide all tooltips
+  document.querySelectorAll('.tip-text.show').forEach(t=>t.classList.remove('show'));
   run();setToday();
 }
 
@@ -866,6 +1109,25 @@ function renderDash(){
   }).join('')||'<span style="color:var(--txm);font-size:13px">完成交易后显示</span>';
 
   // Bar charts
+  renderBarGroup('dirBars',[
+    {label:'📈 做多',trades:trades.filter(t=>t.direction==='做多')},
+    {label:'📉 做空',trades:trades.filter(t=>t.direction==='做空')},
+  ],'var(--green)');
+
+  renderBarGroup('structBars',[
+    {label:'BOS多',trades:trades.filter(t=>(t.h4structure||'')==='BOS延续-多')},
+    {label:'CHoCH多',trades:trades.filter(t=>(t.h4structure||'')==='CHoCH反转-多')},
+    {label:'BOS空',trades:trades.filter(t=>(t.h4structure||'')==='BOS延续-空')},
+    {label:'CHoCH空',trades:trades.filter(t=>(t.h4structure||'')==='CHoCH反转-空')},
+  ],'var(--purple)');
+
+  renderBarGroup('dolBars',[
+    {label:'↑BSL前高',trades:trades.filter(t=>(t.dol||'').includes('BSL'))},
+    {label:'↓SSL前低',trades:trades.filter(t=>(t.dol||'').includes('SSL'))},
+    {label:'↑4H FVG',trades:trades.filter(t=>(t.dol||'').includes('上方未回补'))},
+    {label:'↓4H FVG',trades:trades.filter(t=>(t.dol||'').includes('下方未回补'))},
+  ],'var(--yellow)');
+
   renderBarGroup('modelBars',[
     {label:'主模型',trades:trades.filter(t=>getModel(t)==='主模型')},
     {label:'⭐ SB',trades:trades.filter(t=>getModel(t)==='SB')},
@@ -1055,15 +1317,15 @@ function buildPrompt(trade,hasImg){
 
 ═══ 背景 ═══
 【回测】用TradingView Replay在历史数据练习。截图日期是历史，记录日期是今天。不要说"时间不符"。
-【DOL = 最近一站】路径上有未回补4H FVG → DOL就是那个FVG。路径干净 → DOL是SSL/BSL。
+【DOL = TP1的目标位】DOL是最近的现实目标（路径上的FVG、结构点、半路支撑阻力），TP1设在DOL上（80%仓位锁利）。TP2是更远的4H目标（SSL/BSL），20%仓位博弈。
 【逻辑正确】= 入场时SOP 10条全满足。跟结果无关。
-【预判正确】= 价格最终到了DOL位置。跟赚不赚无关。
-矛盾要指出（如TP1到了但预判标N）。
+【预判正确】= TP1到了（即DOL到了）= Y。TP1没到 = N。跟TP2和赚不赚无关。
+矛盾要指出（如TP1到了但预判标N，说明DOL可能选错了）。
 
 ═══ SOP ═══
 主模型10条：1.日线偏见 2.4H一致 3.PD区域 4.DOL清晰 5.KZ时段 6.Judas在KZ内 7.CHoCH确认 8.FVG有效 9.路径无阻 10.RR≥2x
 Silver Bullet：前置1-4，SB窗口内位移+FVG，不需Judas/CHoCH。
-管理：TP1平80%→20%移BE。每笔1-2%，连亏3笔停。
+管理：TP1=DOL（最近目标）平80%→20%移BE→等TP2（4H远目标）或BE。每笔1-2%，连亏3笔停。
 
 ═══ 常见错误 ═══
 #1 KZ外信号 #3 忘4H区域 #4 没CHoCH就入 #8 日线4H矛盾 #11 以结果判逻辑 #14"差不多"心态
