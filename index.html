@@ -1,1508 +1,844 @@
 <!DOCTYPE html>
-<!-- saved from url=(0045)file:///C:/Users/ediso/Downloads/index_3.html -->
+<!-- saved from url=(0087)file:///C:/Users/ediso/Downloads/SMC_ICT_%E5%9B%9E%E6%B5%8B%E7%B3%BB%E7%BB%9F_V6_7.html -->
 <html lang="zh"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SMC/ICT 回测系统 V5 (链接版)</title>
+<title>SMC/ICT 回测系统 V6</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=DM+Sans:wght@300;400;500;600;700&display=swap');
-:root {
-  --bg:#090910;--surface:#0f0f1a;--surface2:#161625;--surface3:#1e1e30;
-  --border:#252535;--border2:#353550;
-  --blue:#5b9fff;--blue-dim:#0e1e3a;
-  --green:#00e87a;--green-dim:#001f10;
-  --red:#ff4060;--red-dim:#280810;
-  --yellow:#ffc930;--yellow-dim:#251800;
-  --purple:#a855f7;--purple-dim:#160a2a;
-  --orange:#ff7a2d;--orange-dim:#2a1200;
-  --teal:#00d4aa;--teal-dim:#001f18;
-  --text:#dde0f0;--text-dim:#5a5a80;--text-muted:#2a2a45;
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+:root{
+  --bg:#07070e;--sf:#0d0d18;--sf2:#141422;--sf3:#1c1c30;
+  --bd:#222238;--bd2:#333350;
+  --blue:#6aadff;--blue-d:#0c1a30;
+  --green:#00f080;--green-d:#001a10;
+  --red:#ff4466;--red-d:#2a0810;
+  --yellow:#ffd040;--yellow-d:#261a00;
+  --purple:#b070ff;--purple-d:#180a30;
+  --orange:#ff8030;--orange-d:#2a1400;
+  --teal:#00ddb0;--teal-d:#002018;
+  --tx:#e0e4f0;--txd:#6a6a90;--txm:#303050;
 }
-*{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
-
-/* NAV */
-.nav{display:flex;align-items:center;padding:0 20px;background:var(--surface);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;height:52px;gap:2px;}
-.nav-brand{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;color:var(--blue);letter-spacing:3px;padding-right:16px;border-right:1px solid var(--border);margin-right:4px;white-space:nowrap;}
-.nav-tab{padding:0 14px;height:52px;display:flex;align-items:center;cursor:pointer;font-size:12px;color:var(--text-dim);border-bottom:2px solid transparent;transition:all 0.15s;font-weight:500;white-space:nowrap;}
-.nav-tab:hover{color:var(--text);}
-.nav-tab.active{color:var(--blue);border-bottom-color:var(--blue);}
-.nav-right{margin-left:auto;display:flex;align-items:center;gap:16px;}
-.nav-stat{text-align:center;font-family:'JetBrains Mono',monospace;}
-.nav-stat-val{color:var(--green);font-weight:700;font-size:14px;display:block;}
-.nav-stat-label{color:var(--text-dim);font-size:9px;}
-
-/* CLOCK BAR */
-.clock-bar{background:var(--surface2);border-bottom:1px solid var(--border);padding:6px 20px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
-.clock-item{display:flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:11px;}
-.clock-label{color:var(--text-dim);}
-.clock-val{color:var(--text);font-weight:600;}
-.session-badge{padding:3px 10px;border-radius:10px;font-size:10px;font-weight:700;font-family:'JetBrains Mono',monospace;}
-.session-asia{background:var(--teal-dim);color:var(--teal);border:1px solid var(--teal);}
-.session-london{background:var(--red-dim);color:var(--red);border:1px solid var(--red);}
-.session-ny{background:var(--green-dim);color:var(--green);border:1px solid var(--green);}
-.session-silver{background:var(--yellow-dim);color:var(--yellow);border:1px solid var(--yellow);}
-.session-closed{background:var(--surface3);color:var(--text-muted);border:1px solid var(--border);}
-
-/* PHASE BANNER */
-.phase-banner{background:var(--surface);border-bottom:2px solid var(--blue);padding:10px 20px;display:flex;align-items:center;gap:20px;flex-wrap:wrap;}
-.phase-tag{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;letter-spacing:2px;color:var(--blue);background:var(--blue-dim);border:1px solid var(--blue);padding:3px 10px;border-radius:6px;white-space:nowrap;}
-.phase-rule{display:flex;align-items:center;gap:6px;font-size:11px;}
-.phase-rule-dot{width:5px;height:5px;border-radius:50%;background:var(--yellow);flex-shrink:0;}
-.phase-rule-text{color:var(--text-dim);}
-.phase-rule-text b{color:var(--yellow);}
-.phase-progress{margin-left:auto;display:flex;align-items:center;gap:10px;}
-.phase-prog-wrap{width:140px;background:var(--surface2);border-radius:3px;height:5px;overflow:hidden;border:1px solid var(--border);}
-.phase-prog-bar{height:100%;border-radius:3px;background:var(--blue);transition:width 0.5s;}
-.phase-prog-label{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-dim);white-space:nowrap;}
-.phase-prog-label b{color:var(--blue);}
-
-/* GATE BAR */
-.gate-bar{background:var(--surface);border-bottom:1px solid var(--border);padding:7px 20px;display:flex;align-items:center;gap:5px;flex-wrap:wrap;}
-.gate-item{display:flex;align-items:center;gap:4px;font-size:10px;font-family:'JetBrains Mono',monospace;padding:3px 8px;border-radius:8px;border:1px solid var(--border);background:var(--surface2);color:var(--text-muted);transition:all 0.2s;}
-.gate-item.pass{border-color:var(--green);background:var(--green-dim);color:var(--green);}
-.gate-item.fail{border-color:var(--red);background:var(--red-dim);color:var(--red);}
-.gate-dot{width:4px;height:4px;border-radius:50%;background:currentColor;flex-shrink:0;}
-
-/* PAGE */
-.page{display:none;padding:20px;max-width:980px;margin:0 auto;}
-.page.active{display:block;}
-
-/* SECTIONS */
-.sop-section{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:18px;margin-bottom:12px;}
-.section-header{display:flex;align-items:center;gap:8px;margin-bottom:14px;}
-.section-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
-.section-title{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;color:var(--text-dim);letter-spacing:2px;text-transform:uppercase;}
-.section-status{margin-left:auto;font-size:10px;font-family:'JetBrains Mono',monospace;padding:2px 8px;border-radius:8px;}
-.section-status.ok{background:var(--green-dim);color:var(--green);}
-.section-status.ng{background:var(--red-dim);color:var(--red);}
-.section-status.pending{background:var(--surface3);color:var(--text-dim);}
-
-/* FORMS */
-.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
-.form-group{display:flex;flex-direction:column;gap:5px;}
-.form-group.full{grid-column:1/-1;}
-.form-group.third{grid-column:span 1;}
-label{font-size:10px;color:var(--text-dim);font-weight:600;letter-spacing:0.5px;text-transform:uppercase;display:flex;align-items:center;gap:5px;}
-.lhint{font-size:10px;color:var(--text-muted);font-weight:400;text-transform:none;letter-spacing:0;margin-left:3px;}
-select,input[type="text"],input[type="number"],input[type="url"],textarea{background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:9px 11px;border-radius:6px;font-size:13px;font-family:'DM Sans',sans-serif;transition:border-color 0.15s;outline:none;appearance:none;width:100%;}
-select:focus,input:focus,textarea:focus{border-color:var(--blue);background:var(--surface3);}
-select option{background:var(--surface2);}
-textarea{resize:vertical;min-height:70px;}
-
-/* INFO TOOLTIP */
-.info-btn{display:inline-flex;align-items:center;justify-content:center;width:15px;height:15px;border-radius:50%;background:var(--surface3);border:1px solid var(--border2);color:var(--text-dim);font-size:9px;cursor:pointer;flex-shrink:0;transition:all 0.15s;font-family:'JetBrains Mono',monospace;font-weight:700;}
-.info-btn:hover{background:var(--blue-dim);border-color:var(--blue);color:var(--blue);}
-.tooltip-overlay{display:none;position:fixed;inset:0;z-index:500;background:rgba(0,0,0,0.7);align-items:center;justify-content:center;padding:20px;}
-.tooltip-overlay.show{display:flex;}
-.tooltip-box{background:var(--surface);border:1px solid var(--border2);border-radius:12px;padding:22px;max-width:460px;width:100%;}
-.tooltip-title{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;color:var(--blue);margin-bottom:10px;}
-.tooltip-body{font-size:13px;color:var(--text-dim);line-height:1.8;}
-.tooltip-body b{color:var(--text);}
-.tooltip-body .tag{display:inline-block;padding:1px 7px;border-radius:6px;font-size:11px;font-family:'JetBrains Mono',monospace;margin:1px;}
-.tooltip-close{margin-top:14px;width:100%;padding:9px;border-radius:6px;border:none;background:var(--surface3);color:var(--text-dim);cursor:pointer;font-family:'DM Sans',sans-serif;font-size:12px;}
-.tooltip-close:hover{background:var(--surface2);color:var(--text);}
-
-/* RR */
-.rr-display{background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:9px 12px;font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:700;color:var(--text-dim);min-height:40px;display:flex;align-items:center;}
-.rr-display.pass{color:var(--green);border-color:var(--green);background:var(--green-dim);}
-.rr-display.fail{color:var(--red);border-color:var(--red);background:var(--red-dim);}
-.rr-min{font-size:10px;font-weight:400;opacity:0.7;margin-left:auto;}
-
-/* CHECKLIST */
-.checklist{display:flex;flex-direction:column;gap:8px;}
-.check-item{display:flex;align-items:center;gap:12px;padding:12px 16px;background:var(--surface2);border-radius:8px;border:1px solid var(--border);cursor:pointer;transition:all 0.15s;}
-.check-item:hover{border-color:var(--border2);}
-.check-item.checked{border-color:var(--green);background:var(--green-dim);}
-.check-box{width:20px;height:20px;border:2px solid var(--border2);border-radius:4px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:13px;transition:all 0.15s;}
-.check-item.checked .check-box{background:var(--green);border-color:var(--green);color:#000;}
-.check-label{font-size:15px;flex:1;font-weight:500;letter-spacing:0.01em;}
-.check-tag{margin-left:auto;font-size:11px;font-family:'JetBrains Mono',monospace;padding:3px 9px;border-radius:8px;white-space:nowrap;font-weight:600;}
-.tag-auto-pass{background:var(--green-dim);color:var(--green);}
-.tag-auto-fail{background:var(--red-dim);color:var(--red);}
-.tag-manual{background:var(--surface3);color:var(--text-dim);}
-
-/* NARRATIVE */
-.narrative-box{background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:12px 14px;font-size:12px;color:var(--text-dim);line-height:1.7;font-style:italic;}
-.nh{color:var(--yellow);font-style:normal;font-weight:600;}
-
-/* INVALID RULE BOX */
-.invalid-box{background:var(--orange-dim);border:1px solid var(--orange);border-radius:8px;padding:12px 14px;font-size:12px;color:var(--orange);line-height:1.7;margin-top:8px;}
-
-/* TRADE MGMT */
-.mgmt-box{background:var(--purple-dim);border:1px solid var(--purple);border-radius:8px;padding:12px 14px;font-size:12px;color:var(--purple);line-height:1.8;}
-.mgmt-box b{color:var(--text);}
-
-/* SCREENSHOT AREA REMOVED */
-
-/* SAVE BTN */
-.save-btn{width:100%;padding:14px;border-radius:8px;border:none;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:all 0.2s;margin-top:14px;}
-.save-btn.ready{background:var(--green);color:#000;}
-.save-btn.ready:hover{filter:brightness(1.1);}
-.save-btn.locked{background:var(--surface3);color:var(--text-muted);cursor:not-allowed;border:1px solid var(--border);}
-
-/* GATE SUMMARY */
-.gate-summary{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:11px 14px;margin-top:12px;font-size:12px;color:var(--text-dim);line-height:1.8;}
-.gtxt-pass{color:var(--green);font-weight:700;}
-.gtxt-fail{color:var(--red);font-weight:600;}
-
-/* ALERT */
-.alert-banner{display:none;background:var(--red-dim);border:1px solid var(--red);border-radius:8px;padding:12px 16px;margin-bottom:12px;font-size:13px;color:var(--red);font-weight:600;}
-.alert-banner.show{display:block;}
-
-/* BUTTONS */
-.btn{padding:8px 18px;border-radius:6px;border:none;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:all 0.15s;}
-.btn-ghost{background:transparent;color:var(--text-dim);border:1px solid var(--border);}
-.btn-ghost:hover{border-color:var(--border2);color:var(--text);}
-.btn-danger{background:var(--red-dim);color:var(--red);border:1px solid var(--red-dim);}
-.btn-danger:hover{background:var(--red);color:#fff;}
-.btn-primary{background:var(--blue);color:#fff;}
-.btn-primary:hover{filter:brightness(1.1);}
-.btn-row{display:flex;gap:8px;justify-content:flex-end;margin-top:10px;}
-
-/* HISTORY */
-.history-filters{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;align-items:center;}
-.filter-btn{padding:5px 14px;border-radius:16px;border:1px solid var(--border);background:transparent;color:var(--text-dim);font-size:12px;cursor:pointer;transition:all 0.15s;font-family:'DM Sans',sans-serif;}
-.filter-btn:hover,.filter-btn.active{border-color:var(--blue);color:var(--blue);background:rgba(91,159,255,0.08);}
-.trade-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin-bottom:8px;cursor:pointer;transition:all 0.15s;border-left-width:3px;}
-.trade-card:hover{border-color:var(--border2);}
-.trade-card.win{border-left-color:var(--green);}
-.trade-card.loss{border-left-color:var(--red);}
-.trade-card.be{border-left-color:var(--yellow);}
-.trade-card-header{display:flex;align-items:center;gap:10px;margin-bottom:6px;flex-wrap:wrap;}
-.trade-num{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-muted);}
-.trade-symbol{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;}
-.trade-date{font-size:11px;color:var(--text-dim);}
-.badge{padding:2px 9px;border-radius:10px;font-size:10px;font-weight:700;font-family:'JetBrains Mono',monospace;}
-.badge-win{background:var(--green-dim);color:var(--green);}
-.badge-loss{background:var(--red-dim);color:var(--red);}
-.badge-be{background:var(--yellow-dim);color:var(--yellow);}
-.badge-london{background:var(--red-dim);color:var(--red);}
-.badge-ny{background:var(--green-dim);color:var(--green);}
-.badge-silver{background:var(--yellow-dim);color:var(--yellow);}
-.trade-meta{display:flex;gap:10px;flex-wrap:wrap;}
-.meta-item{font-size:11px;color:var(--text-dim);font-family:'JetBrains Mono',monospace;}
-.meta-item span{color:var(--text);}
-
-/* MODAL */
-.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:200;align-items:center;justify-content:center;padding:20px;}
-.modal-overlay.show{display:flex;}
-.ai-thinking{color:var(--text-muted);font-style:italic;animation:pulse 1.2s infinite;}
-@keyframes pulse{0%,100%{opacity:0.4}50%{opacity:1}}
-.ai-section{margin-bottom:14px;}
-.ai-section-title{font-size:11px;font-family:'JetBrains Mono',monospace;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px;}
-.ai-rating{display:inline-block;padding:3px 12px;border-radius:20px;font-weight:700;font-size:13px;margin-bottom:10px;}
-.ai-rating.A{background:var(--green-dim);color:var(--green);}
-.ai-rating.B{background:var(--yellow-dim);color:var(--yellow);}
-.ai-rating.C{background:var(--red-dim);color:var(--red);}
-.ai-point{padding:5px 0;border-bottom:1px solid var(--border);font-size:12.5px;line-height:1.7;}
-.ai-point:last-child{border-bottom:none;}
-.ai-point.good::before{content:"✅ ";} 
-.ai-point.warn::before{content:"⚠️ ";}
-.ai-point.bad::before{content:"❌ ";}
-.modal{background:var(--surface);border:1px solid var(--border2);border-radius:12px;padding:22px;max-width:700px;width:100%;max-height:90vh;overflow-y:auto;}
-.modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;padding-bottom:12px;border-bottom:1px solid var(--border);}
-.modal-title{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;color:var(--blue);}
-.modal-close{background:none;border:none;color:var(--text-dim);font-size:18px;cursor:pointer;padding:4px 8px;border-radius:4px;}
-.modal-close:hover{background:var(--surface3);color:var(--text);}
-.modal-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;}
-.detail-item{background:var(--surface2);border-radius:6px;padding:9px 12px;}
-.detail-label{font-size:10px;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:3px;}
-.detail-value{font-size:13px;font-weight:500;}
-.detail-value.green{color:var(--green);}
-.detail-value.red{color:var(--red);}
-.detail-value.yellow{color:var(--yellow);}
-
-/* DASHBOARD */
-.stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px;}
-.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:18px;text-align:center;}
-.stat-val{font-family:'JetBrains Mono',monospace;font-size:28px;font-weight:700;display:block;margin-bottom:4px;}
-.stat-label{font-size:10px;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;}
-.prog-wrap{background:var(--surface2);border-radius:3px;height:4px;overflow:hidden;margin-top:10px;}
-.prog-bar{height:100%;border-radius:3px;transition:width 0.5s;background:var(--green);}
-
-/* COMPARE TABLE */
-.compare-table{width:100%;border-collapse:collapse;font-size:12px;}
-.compare-table th{text-align:left;padding:8px 10px;color:var(--text-dim);font-size:10px;font-family:'JetBrains Mono',monospace;text-transform:uppercase;border-bottom:1px solid var(--border);}
-.compare-table td{padding:8px 10px;border-bottom:1px solid var(--border);font-family:'JetBrains Mono',monospace;}
-.compare-table tr:last-child td{border-bottom:none;}
-.compare-table .good{color:var(--green);}
-.compare-table .bad{color:var(--red);}
-.compare-table .neu{color:var(--text-dim);}
-
-/* TOAST */
-.toast{position:fixed;bottom:20px;right:20px;background:var(--surface3);border:1px solid var(--border2);border-radius:8px;padding:12px 18px;font-size:13px;font-weight:500;z-index:1000;transform:translateY(60px);opacity:0;transition:all 0.25s;}
-.toast.show{transform:translateY(0);opacity:1;}
-.toast.success{border-color:var(--green);color:var(--green);}
-.toast.error{border-color:var(--red);color:var(--red);}
-.empty-state{text-align:center;padding:50px 20px;color:var(--text-dim);}
-::-webkit-scrollbar{width:5px;}
-::-webkit-scrollbar-track{background:var(--surface);}
-::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px;}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;font-size:15px}
+.nav{display:flex;align-items:center;padding:0 20px;background:var(--sf);border-bottom:1px solid var(--bd);position:sticky;top:0;z-index:100;height:56px;gap:4px}
+.nav-brand{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;color:var(--blue);letter-spacing:2px;padding-right:16px;border-right:1px solid var(--bd);margin-right:4px;white-space:nowrap}
+.nav-tab{padding:0 16px;height:56px;display:flex;align-items:center;cursor:pointer;font-size:14px;color:var(--txd);border-bottom:2px solid transparent;transition:all .15s;font-weight:600;white-space:nowrap}
+.nav-tab:hover{color:var(--tx)}
+.nav-tab.active{color:var(--blue);border-bottom-color:var(--blue)}
+.nav-right{margin-left:auto;display:flex;align-items:center;gap:18px}
+.nav-stat{text-align:center;font-family:'JetBrains Mono',monospace}
+.nav-stat-val{color:var(--green);font-weight:700;font-size:16px;display:block}
+.nav-stat-label{color:var(--txd);font-size:10px}
+.phase-banner{background:var(--sf);border-bottom:2px solid var(--blue);padding:10px 20px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.phase-tag{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;letter-spacing:2px;color:var(--blue);background:var(--blue-d);border:1px solid var(--blue);padding:4px 12px;border-radius:6px;white-space:nowrap}
+.phase-progress{margin-left:auto;display:flex;align-items:center;gap:10px}
+.phase-prog-wrap{width:140px;background:var(--sf2);border-radius:3px;height:6px;overflow:hidden;border:1px solid var(--bd)}
+.phase-prog-bar{height:100%;border-radius:3px;background:var(--blue);transition:width .5s}
+.phase-prog-label{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--txd);white-space:nowrap}
+.phase-prog-label b{color:var(--blue)}
+.gate-bar{background:var(--sf);border-bottom:1px solid var(--bd);padding:8px 20px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.gate-item{display:flex;align-items:center;gap:4px;font-size:11px;font-family:'JetBrains Mono',monospace;padding:4px 10px;border-radius:8px;border:1px solid var(--bd);background:var(--sf2);color:var(--txm);transition:all .2s}
+.gate-item.pass{border-color:var(--green);background:var(--green-d);color:var(--green)}
+.gate-item.fail{border-color:var(--red);background:var(--red-d);color:var(--red)}
+.gate-item.skip{border-color:var(--txm);background:var(--sf2);color:var(--txm);opacity:.5}
+.gate-dot{width:5px;height:5px;border-radius:50%;background:currentColor;flex-shrink:0}
+.page{display:none;padding:20px;max-width:900px;margin:0 auto}
+.page.active{display:block}
+.sec{background:var(--sf);border:1px solid var(--bd);border-radius:12px;padding:20px;margin-bottom:14px}
+.sec-head{display:flex;align-items:center;gap:8px;margin-bottom:16px}
+.sec-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.sec-title{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;color:var(--txd);letter-spacing:2px;text-transform:uppercase}
+.sec-tag{margin-left:auto;font-size:11px;font-family:'JetBrains Mono',monospace;padding:3px 10px;border-radius:8px}
+.sec-tag.ok{background:var(--green-d);color:var(--green)}
+.sec-tag.wait{background:var(--sf3);color:var(--txd)}
+.fg{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.fg-full{grid-column:1/-1}
+label{font-size:12px;color:var(--txd);font-weight:600;letter-spacing:.5px;text-transform:uppercase;margin-bottom:4px;display:block}
+select,input[type="text"],input[type="number"],input[type="url"],textarea{background:var(--sf2);border:1px solid var(--bd);color:var(--tx);padding:12px 14px;border-radius:8px;font-size:16px;font-family:'Space Grotesk',sans-serif;transition:border-color .15s;outline:none;appearance:none;width:100%}
+select:focus,input:focus,textarea:focus{border-color:var(--blue);background:var(--sf3)}
+textarea{resize:vertical;min-height:80px;font-size:15px}
+.pills{display:flex;gap:6px;flex-wrap:wrap}
+.pill{padding:10px 14px;border-radius:10px;border:1px solid var(--bd);background:var(--sf2);color:var(--txd);font-size:15px;font-weight:600;cursor:pointer;transition:all .15s;user-select:none;text-align:center;flex:1;min-width:0}
+.pill:hover{border-color:var(--txd);color:var(--tx)}
+.pill.on{border-color:var(--blue);background:var(--blue-d);color:var(--blue)}
+.pill.on-g{border-color:var(--green);background:var(--green-d);color:var(--green)}
+.pill.on-r{border-color:var(--red);background:var(--red-d);color:var(--red)}
+.pill.on-y{border-color:var(--yellow);background:var(--yellow-d);color:var(--yellow)}
+.ck{display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:8px;border:1px solid var(--bd);background:var(--sf2);cursor:pointer;transition:all .15s;margin-bottom:6px;font-size:15px}
+.ck:hover{border-color:var(--txd)}
+.ck.on{border-color:var(--green);background:var(--green-d)}
+.ck-box{width:22px;height:22px;border-radius:6px;border:2px solid var(--bd);display:flex;align-items:center;justify-content:center;font-size:14px;color:transparent;transition:all .15s;flex-shrink:0}
+.ck.on .ck-box{border-color:var(--green);color:var(--green);background:var(--green-d)}
+.rr-box{font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:700;padding:10px 14px;border-radius:8px;background:var(--sf2);border:1px solid var(--bd);text-align:center}
+.rr-box.pass{color:var(--green);border-color:var(--green)}
+.rr-box.fail{color:var(--red);border-color:var(--red)}
+.rr-sub{font-size:10px;color:var(--txd);font-weight:400;display:block;margin-top:2px}
+.gate-summary{background:var(--sf);border:1px solid var(--bd);border-radius:10px;padding:14px 18px;margin-bottom:10px;font-size:13px;line-height:1.7}
+.gtxt-pass{color:var(--green);font-weight:700}
+.gtxt-fail{color:var(--red)}
+.save-btn{width:100%;padding:16px;border:none;border-radius:10px;font-size:16px;font-weight:700;cursor:pointer;font-family:'Space Grotesk',sans-serif;transition:all .2s}
+.save-btn.locked{background:var(--sf2);color:var(--txm);cursor:not-allowed}
+.save-btn.ready{background:var(--green);color:#000}
+.save-btn.ready:hover{transform:translateY(-1px);box-shadow:0 4px 20px rgba(0,240,128,.3)}
+.alert-banner{display:none;background:var(--red-d);border:1px solid var(--red);color:var(--red);padding:12px 18px;border-radius:10px;font-size:14px;font-weight:600;margin-bottom:14px;text-align:center}
+.alert-banner.show{display:block}
+.invalid-box{background:var(--red-d);border:1px solid var(--red);border-radius:8px;padding:12px 16px;font-size:13px;color:var(--red);line-height:1.6}
+.coll-tog{display:flex;align-items:center;gap:8px;cursor:pointer;padding:10px 0;color:var(--txd);font-size:13px;font-weight:600}
+.coll-tog:hover{color:var(--tx)}
+.coll-tog .arr{transition:transform .2s;font-size:10px}
+.coll-tog.open .arr{transform:rotate(90deg)}
+.coll-body{display:none;margin-top:10px}
+.coll-body.show{display:block}
+.history-filters{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap;align-items:center}
+.filter-btn{padding:8px 14px;border-radius:8px;border:1px solid var(--bd);background:var(--sf2);color:var(--txd);font-size:13px;cursor:pointer;font-weight:600;transition:all .15s}
+.filter-btn.active,.filter-btn:hover{border-color:var(--blue);color:var(--blue);background:var(--blue-d)}
+.trade-card{background:var(--sf);border:1px solid var(--bd);border-radius:10px;padding:14px 18px;margin-bottom:8px;cursor:pointer;transition:all .15s}
+.trade-card:hover{border-color:var(--txd);transform:translateY(-1px)}
+.trade-card.win{border-left:3px solid var(--green)}
+.trade-card.loss{border-left:3px solid var(--red)}
+.trade-card.be{border-left:3px solid var(--yellow)}
+.tc-head{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:14px}
+.tc-num{font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--txd);font-size:13px}
+.tc-sym{font-weight:700;font-size:15px}
+.tc-date{color:var(--txd);font-size:13px}
+.badge{padding:3px 10px;border-radius:6px;font-size:11px;font-weight:700;font-family:'JetBrains Mono',monospace}
+.b-win{background:var(--green-d);color:var(--green)}
+.b-loss{background:var(--red-d);color:var(--red)}
+.b-be{background:var(--yellow-d);color:var(--yellow)}
+.b-ldn{background:var(--red-d);color:var(--red)}
+.b-ny{background:var(--green-d);color:var(--green)}
+.b-sb{background:var(--yellow-d);color:var(--yellow)}
+.b-model{background:var(--blue-d);color:var(--blue)}
+.tc-meta{display:flex;gap:12px;margin-top:8px;flex-wrap:wrap;font-size:13px;color:var(--txd)}
+.tc-meta span{font-weight:600;color:var(--tx)}
+.stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
+.stat-card{background:var(--sf);border:1px solid var(--bd);border-radius:10px;padding:16px;text-align:center}
+.stat-val{font-family:'JetBrains Mono',monospace;font-size:24px;font-weight:700;display:block}
+.stat-label{font-size:11px;color:var(--txd);margin-top:4px}
+.prog-wrap{height:4px;background:var(--sf2);border-radius:2px;overflow:hidden;margin-top:8px;border:1px solid var(--bd)}
+.prog-bar{height:100%;border-radius:2px;background:var(--green);transition:width .5s}
+.cmp-table{width:100%;border-collapse:collapse;font-size:13px}
+.cmp-table th{text-align:left;padding:8px;color:var(--txd);font-weight:600;border-bottom:1px solid var(--bd)}
+.cmp-table td{padding:8px;border-bottom:1px solid var(--bd)}
+.cmp-table .good{color:var(--green);font-weight:700}
+.cmp-table .bad{color:var(--red);font-weight:700}
+.cmp-table .neu{color:var(--txd)}
+.modal-overlay{display:none;position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.8);align-items:flex-start;justify-content:center;padding:40px 16px;overflow-y:auto}
+.modal-overlay.show{display:flex}
+.modal-box{background:var(--sf);border:1px solid var(--bd2);border-radius:14px;padding:24px;max-width:700px;width:100%;position:relative}
+.modal-close{position:absolute;top:14px;right:14px;width:32px;height:32px;border-radius:8px;border:1px solid var(--bd);background:var(--sf2);color:var(--txd);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px}
+.modal-close:hover{border-color:var(--red);color:var(--red)}
+.modal-title{font-size:18px;font-weight:700;margin-bottom:16px;padding-right:40px}
+.modal-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
+.d-item{padding:8px 10px;background:var(--sf2);border-radius:6px}
+.d-label{font-size:10px;color:var(--txd);font-weight:600;text-transform:uppercase;margin-bottom:2px}
+.d-val{font-size:14px;font-weight:600}
+.d-val.green{color:var(--green)}.d-val.red{color:var(--red)}.d-val.yellow{color:var(--yellow)}
+.btn-row{display:flex;gap:8px;margin-top:14px}
+.btn{padding:10px 18px;border-radius:8px;border:1px solid var(--bd);background:var(--sf2);color:var(--tx);font-size:13px;font-weight:600;cursor:pointer;transition:all .15s}
+.btn:hover{border-color:var(--blue)}
+.btn-danger{border-color:var(--red);color:var(--red)}
+.btn-danger:hover{background:var(--red-d)}
+.btn-ghost{background:transparent;color:var(--txd)}
+.btn-primary{background:var(--blue);color:#000;border:none;font-weight:700}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(100px);padding:12px 24px;border-radius:10px;font-size:14px;font-weight:600;z-index:999;transition:transform .3s;opacity:0}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+.toast.success{background:var(--green);color:#000}
+.toast.error{background:var(--red);color:#fff}
+.empty-state{text-align:center;padding:40px;color:var(--txm)}
+.img-drop{border:2px dashed var(--bd2);border-radius:10px;padding:16px;text-align:center;cursor:pointer;transition:all .15s;min-height:60px;display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;position:relative}
+.img-drop:hover{border-color:var(--txd)}
+.img-drop.has-img{border-color:var(--green);border-style:solid}
+.img-ph{color:var(--txd);font-size:13px}
+.img-prev{display:none;max-height:150px;border-radius:6px}
+.img-clear{display:none;position:absolute;top:6px;right:6px;padding:2px 8px;border-radius:6px;border:1px solid var(--red);background:var(--red-d);color:var(--red);font-size:11px;cursor:pointer}
+.empty-state{text-align:center;padding:40px;color:var(--txm)}
 </style>
 </head>
 <body>
 
-<!-- TOOLTIP OVERLAY -->
-<div class="tooltip-overlay" id="tooltipOverlay" onclick="if(event.target===this)closeTooltip()">
-  <div class="tooltip-box">
-    <div class="tooltip-title" id="tooltipTitle"></div>
-    <div class="tooltip-body" id="tooltipBody"></div>
-    <button class="tooltip-close" onclick="closeTooltip()">关闭</button>
-  </div>
-</div>
-
-<nav class="nav">
-  <div class="nav-brand">SMC//ICT V5</div>
-  <div class="nav-tab" onclick="showPage(&#39;entry&#39;,this)">📋 入场SOP</div>
-  <div class="nav-tab active" onclick="showPage(&#39;history&#39;,this)">📊 历史</div>
-  <div class="nav-tab" onclick="showPage(&#39;dashboard&#39;,this)">📈 仪表板</div>
+<div class="nav">
+  <div class="nav-brand">SMC V6</div>
+  <div class="nav-tab active" onclick="showPage(&#39;entry&#39;,this)">记录</div>
+  <div class="nav-tab" onclick="showPage(&#39;history&#39;,this)">历史</div>
+  <div class="nav-tab" onclick="showPage(&#39;dashboard&#39;,this)">统计</div>
+  <div class="nav-tab" onclick="showPage(&#39;ai&#39;,this)">AI</div>
   <div class="nav-right">
-    <div class="nav-stat"><span class="nav-stat-val" id="navTotal">7</span><span class="nav-stat-label">总笔数</span></div>
-    <div class="nav-stat"><span class="nav-stat-val" id="navWin">86%</span><span class="nav-stat-label">胜率</span></div>
-    <div class="nav-stat"><span class="nav-stat-val" id="navRR">4.55x</span><span class="nav-stat-label">平均RR</span></div>
+    <div class="nav-stat"><span class="nav-stat-val" id="navTotal">10</span><span class="nav-stat-label">笔</span></div>
+    <div class="nav-stat"><span class="nav-stat-val" id="navWin">80%</span><span class="nav-stat-label">胜率</span></div>
+    <div class="nav-stat"><span class="nav-stat-val" id="navRR">3.71x</span><span class="nav-stat-label">RR</span></div>
   </div>
-</nav>
-
-<!-- PHASE BANNER -->
+</div>
 <div class="phase-banner">
-  <div class="phase-tag">BACKTEST 阶段一</div>
-  <div class="phase-rule"><div class="phase-rule-dot"></div><div class="phase-rule-text">目标：<b>100笔</b>，仅练习执行，不评判盈亏</div></div>
-  <div class="phase-rule"><div class="phase-rule-dot" style="background:var(--red)"></div><div class="phase-rule-text">资金规则：<b>每笔最多亏账户 2%</b>，超出即违规</div></div>
-  <div class="phase-rule"><div class="phase-rule-dot" style="background:var(--green)"></div><div class="phase-rule-text">达标条件：<b>平均RR ≥ 2x</b> + <b>连续30笔无重大SOP违规</b></div></div>
+  <div class="phase-tag" id="phaseTag">BACKTEST 阶段一</div>
   <div class="phase-progress">
-    <div class="phase-prog-wrap"><div class="phase-prog-bar" id="phaseProg" style="width: 7%;"></div></div>
-    <div class="phase-prog-label"><b id="phaseCount">7</b>/100</div>
+    <div class="phase-prog-wrap"><div class="phase-prog-bar" id="phaseProg" style="width: 10%;"></div></div>
+    <div class="phase-prog-label"><b id="phaseCount">10</b>/100</div>
   </div>
 </div>
-
-<!-- CLOCK BAR -->
-<div class="clock-bar">
-  <div class="clock-item"><span class="clock-label">UTC-5（图表时间）</span><span class="clock-val" id="clockUTC5">02:36:49</span></div>
-  <div class="clock-item"><span class="clock-label">马来西亚 GMT+8</span><span class="clock-val" id="clockMY">15:36:49</span></div>
-  <div class="clock-item"><span class="clock-label">当前时段</span><span id="sessionBadge" class="session-badge session-london">伦敦KZ</span></div>
-  <div class="clock-item" id="silverBadgeWrap" style="display:none"><span class="session-badge session-silver">⭐ 银弹时段</span></div>
-  <div class="clock-item" style="margin-left:auto;font-size:10px;color:var(--text-muted);font-family:&#39;JetBrains Mono&#39;,monospace;" id="clockNote">冬令 UTC-5</div>
-</div>
-
-<!-- GATE BAR -->
 <div class="gate-bar" id="gateBar">
-  <div class="gate-item fail" id="g-kz"><div class="gate-dot"></div>Killzone</div>
-  <div class="gate-item fail" id="g-sweep"><div class="gate-dot"></div>Sweep✓</div>
+  <div class="gate-item fail" id="g-kz"><div class="gate-dot"></div>KZ</div>
+  <div class="gate-item fail" id="g-sweep"><div class="gate-dot"></div>Sweep</div>
   <div class="gate-item fail" id="g-judas"><div class="gate-dot"></div>Judas</div>
   <div class="gate-item fail" id="g-choch"><div class="gate-dot"></div>CHoCH</div>
-  <div class="gate-item fail" id="g-fvg"><div class="gate-dot"></div>FVG有效</div>
-  <div class="gate-item fail" id="g-align"><div class="gate-dot"></div>日线+4H</div>
-  <div class="gate-item fail" id="g-dir"><div class="gate-dot"></div>方向一致</div>
-  <div class="gate-item fail" id="g-dol"><div class="gate-dot"></div>DOL清晰</div>
-  <div class="gate-item fail" id="g-doldir"><div class="gate-dot"></div>DOL方向</div>
+  <div class="gate-item fail" id="g-fvg"><div class="gate-dot"></div>FVG</div>
+  <div class="gate-item fail" id="g-align"><div class="gate-dot"></div>方向</div>
+  <div class="gate-item fail" id="g-dol"><div class="gate-dot"></div>DOL</div>
   <div class="gate-item fail" id="g-noblock"><div class="gate-dot"></div>无阻挡</div>
   <div class="gate-item fail" id="g-rr"><div class="gate-dot"></div>RR≥2x</div>
 </div>
 
-<!-- ENTRY PAGE -->
-<div id="page-entry" class="page">
-  <div class="alert-banner" id="lossAlert">⚠️ 连续亏损3笔！建议停止今天交易，冷静复盘后再继续。</div>
+<!-- ═══ ENTRY ═══ -->
+<div id="page-entry" class="page active">
+  <div class="alert-banner" id="lossAlert">⚠️ 连续亏损3笔！停下来复盘。</div>
 
-  <!-- S1: 基本信息 -->
-  <div class="sop-section">
-    <div class="section-header">
-      <div class="section-dot" style="background:var(--blue)"></div>
-      <div class="section-title">基本信息</div>
-      <div class="section-status pending" id="s1st">待填写</div>
-    </div>
-    <div class="form-grid">
-      <div class="form-group">
-        <label>品种 <span class="info-btn" onclick="showTip(&#39;symbol&#39;)">?</span></label>
-        <select id="symbol" onchange="runGates()">
-          <option value="">选择品种</option>
-          <option>EURUSD</option><option>GBPUSD</option><option>XAUUSD</option><option>USDJPY</option><option>NAS100</option><option>US30</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label>日期</label>
-        <input type="text" id="tradeDate" placeholder="2026-02-28" oninput="runGates()">
-      </div>
-      <div class="form-group">
-        <label>Killzone时段 <span class="info-btn" onclick="showTip(&#39;killzone&#39;)">?</span></label>
-        <select id="killzone" onchange="onKillzoneChange()">
-          <option value="">选择时段</option>
-          <option value="伦敦KZ">伦敦KZ（UTC-5: 02:00-05:00 / MY: 15:00-18:00）</option>
-          <option value="伦敦银弹">⭐ 伦敦银弹（UTC-5: 03:00-04:00 / MY: 16:00-17:00）</option>
-          <option value="纽约KZ">纽约KZ（UTC-5: 07:00-10:00 / MY: 20:00-23:00）</option>
-          <option value="纽约银弹">⭐ 纽约银弹（UTC-5: 10:00-11:00 / MY: 23:00-00:00）</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label>交易方向 <span class="info-btn" onclick="showTip(&#39;direction&#39;)">?</span></label>
-        <select id="direction" onchange="onDirectionChange()">
-          <option value="">选择</option><option>做多</option><option>做空</option>
-        </select>
-      </div>
-    </div>
-  </div>
-
-  <!-- S2: HTF分析 -->
-  <div class="sop-section">
-    <div class="section-header">
-      <div class="section-dot" style="background:var(--purple)"></div>
-      <div class="section-title">📊 高时间框架分析 (HTF)</div>
-      <div class="section-status pending" id="s2st">待填写</div>
-    </div>
-    <div class="form-grid">
-      <div class="form-group">
-        <label>日线偏见 <span class="info-btn" onclick="showTip(&#39;bias&#39;)">?</span></label>
-        <select id="bias" onchange="runGates()">
-          <option value="">选择</option><option>多</option><option>空</option><option>震荡-不做</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label>4H结构 <span class="info-btn" onclick="showTip(&#39;h4structure&#39;)">?</span></label>
-        <select id="h4structure" onchange="runGates()">
-          <option value="">选择</option>
-          <option>BOS延续-多</option><option>BOS延续-空</option>
-          <option>CHoCH反转-多</option><option>CHoCH反转-空</option><option>震荡-不做</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label>DOL目标 <span class="info-btn" onclick="showTip(&#39;dol&#39;)">?</span></label>
-        <select id="dol" onchange="runGates()">
-          <option value="">选择</option>
-          <option>上方BSL（前高/等价高点）</option>
-          <option>下方SSL（前低/等价低点）</option>
-          <option>上方未回补4H FVG</option>
-          <option>下方未回补4H FVG</option>
-          <option>上方OB订单块</option>
-          <option>下方OB订单块</option>
-          <option>不清楚-不做</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label>目标路径有4H FVG阻挡？ <span class="info-btn" onclick="showTip(&#39;htfFvg&#39;)">?</span></label>
-        <select id="htfFvg" onchange="runGates()">
-          <option value="">选择</option>
-          <option value="无阻挡✅">无阻挡✅ — 路径干净</option>
-          <option value="有阻挡">有阻挡 — 不做或缩短TP</option>
-        </select>
-      </div>
-    </div>
-  </div>
-
-  <!-- S3: Judas Swing -->
-  <div class="sop-section">
-    <div class="section-header">
-      <div class="section-dot" style="background:var(--red)"></div>
-      <div class="section-title">🎭 Judas Swing &amp; 流动性扫除</div>
-      <div class="section-status pending" id="s3st">待填写</div>
-    </div>
-    <div class="form-grid">
-      <div class="form-group">
-        <label>前时段高点(ASH/LOH) <span class="info-btn" onclick="showTip(&#39;ash&#39;)">?</span></label>
-        <input type="text" id="ash" placeholder="1.18400" oninput="runGates()">
-      </div>
-      <div class="form-group">
-        <label>前时段低点(ASL/LOL) <span class="info-btn" onclick="showTip(&#39;asl&#39;)">?</span></label>
-        <input type="text" id="asl" placeholder="1.18100" oninput="runGates()">
-      </div>
-      <div class="form-group full">
-        <label>Judas扫除方向 <span class="info-btn" onclick="showTip(&#39;sweep&#39;)">?</span></label>
-        <select id="sweep" onchange="runGates()">
-          <option value="">请先选择Killzone和交易方向</option>
-        </select>
-      </div>
-      <div class="form-group full">
-        <label>Judas Swing已发生？ <span class="info-btn" onclick="showTip(&#39;judas&#39;)">?</span></label>
-        <select id="judas" onchange="runGates()">
-          <option value="">选择</option>
-          <option value="Y✅">Y✅ — 已确认扫除并反转</option>
-          <option value="N">N — 尚未发生，等待</option>
-        </select>
-      </div>
-    </div>
-  </div>
-
-  <!-- S4: 入场模型 -->
-  <div class="sop-section">
-    <div class="section-header">
-      <div class="section-dot" style="background:var(--green)"></div>
-      <div class="section-title">⚡ 入场模型</div>
-      <div class="section-status pending" id="s4st">待填写</div>
-    </div>
-    <div class="form-grid">
-      <div class="form-group full">
-        <label>入场触发类型 <span class="info-btn" onclick="showTip(&#39;entryTrigger&#39;)">?</span></label>
-        <select id="entryTrigger" onchange="runGates()">
-          <option value="">选择入场模型</option>
-          <option value="A">A型：5m CHoCH + 位移FVG → 直接挂单FVG 50%</option>
-          <option value="B">B型：5m CHoCH + FVG → 等回测 → 再次CHoCH → 新FVG 50%</option>
-        </select>
-      </div>
-    </div>
-    <div style="margin-top:10px;">
-      <div class="checklist">
-        <div class="check-item" id="ci-choch" onclick="toggleCheck(this,&#39;choch&#39;)">
-          <div class="check-box">✓</div>
-          <div class="check-label">小周期 CHoCH 已确认 <span class="info-btn" onclick="event.stopPropagation();showTip(&#39;choch&#39;)">?</span></div>
-          <div class="check-tag tag-manual" id="ct-choch">手动</div>
+  <div class="sec">
+    <div class="sec-head"><div class="sec-dot" style="background:var(--blue)"></div><div class="sec-title">基本信息</div><div class="sec-tag wait" id="s1st">待填写</div></div>
+    <div class="fg">
+      <div><label>品种</label><select id="symbol" onchange="run()"><option value="">选择</option><option>EURUSD</option><option>GBPUSD</option><option>XAUUSD</option><option>USDJPY</option><option>NAS100</option><option>US30</option></select></div>
+      <div><label>回测日期（自动填今天）</label><input type="text" id="tradeDate" placeholder="2026-03-16" oninput="run()"></div>
+      <div class="fg-full"><label>Killzone</label>
+        <div class="pills" id="kzPills">
+          <div class="pill" data-v="伦敦KZ" onclick="pick(&#39;kz&#39;,this)">伦敦KZ</div>
+          <div class="pill" data-v="伦敦银弹" onclick="pick(&#39;kz&#39;,this)">⭐伦敦SB</div>
+          <div class="pill" data-v="纽约KZ" onclick="pick(&#39;kz&#39;,this)">纽约KZ</div>
+          <div class="pill" data-v="纽约银弹" onclick="pick(&#39;kz&#39;,this)">⭐纽约SB</div>
         </div>
-        <div class="check-item" id="ci-fvg" onclick="toggleCheck(this,&#39;fvg&#39;)">
-          <div class="check-box">✓</div>
-          <div class="check-label">位移 FVG 已出现且有效 <span class="info-btn" onclick="event.stopPropagation();showTip(&#39;fvg&#39;)">?</span></div>
-          <div class="check-tag tag-manual" id="ct-fvg">手动</div>
-        </div>
-        <div class="check-item" id="ci-e50" onclick="toggleCheck(this,&#39;e50&#39;)">
-          <div class="check-box">✓</div>
-          <div class="check-label">入场挂单在 FVG 50%附近（多单≤50% / 空单≥50%） <span class="info-btn" onclick="event.stopPropagation();showTip(&#39;e50&#39;)">?</span></div>
-          <div class="check-tag tag-manual" id="ct-e50">手动</div>
-        </div>
-        <div class="check-item" id="ci-slpos" onclick="toggleCheck(this,&#39;slpos&#39;)">
-          <div class="check-box">✓</div>
-          <div class="check-label">止损放在 CHoCH 外侧（多单在低点下方 / 空单在高点上方） <span class="info-btn" onclick="event.stopPropagation();showTip(&#39;slpos&#39;)">?</span></div>
-          <div class="check-tag tag-manual" id="ct-slpos">手动</div>
-        </div>
-        <div class="check-item" id="ci-noblock" style="cursor:default">
-          <div class="check-box">✓</div>
-          <div class="check-label">目标路径无大级别 FVG 阻挡 <span class="info-btn" onclick="event.stopPropagation();showTip(&#39;noblock&#39;)">?</span></div>
-          <div class="check-tag tag-auto-fail" id="ct-noblock">自动✗</div>
-        </div>
-        <div class="check-item" id="ci-align" style="cursor:default">
-          <div class="check-box">✓</div>
-          <div class="check-label">日线偏见 + 4H结构方向一致</div>
-          <div class="check-tag tag-auto-fail" id="ct-align">自动✗</div>
-        </div>
-        <div class="check-item" id="ci-narr" onclick="toggleCheck(this,&#39;narr&#39;)">
-          <div class="check-box">✓</div>
-          <div class="check-label">叙事已完整说出：扫流动性 → CHoCH → FVG → DOL目标 <span class="info-btn" onclick="event.stopPropagation();showTip(&#39;narr&#39;)">?</span></div>
-          <div class="check-tag tag-manual" id="ct-narr">手动</div>
+      </div>
+      <div class="fg-full"><label>方向</label>
+        <div class="pills">
+          <div class="pill" data-v="做多" onclick="pick(&#39;dir&#39;,this)">📈 做多</div>
+          <div class="pill" data-v="做空" onclick="pick(&#39;dir&#39;,this)">📉 做空</div>
         </div>
       </div>
     </div>
-
-    <!-- 失效条件提示 -->
-    <div class="invalid-box" style="margin-top:12px;">
-      <b>⚠️ 交易失效条件（出现任一即作废）</b><br>
-      · Killzone时段结束仍未触发入场 → 作废，等下一个KZ<br>
-      · FVG被价格直接穿透而非回测 → FVG失效，重新找<br>
-      · 4H结构在等待期间破坏（出现反方向BOS）→ 偏见改变，作废
-    </div>
   </div>
 
-  <!-- S5: 价格参数 -->
-  <div class="sop-section">
-    <div class="section-header">
-      <div class="section-dot" style="background:var(--yellow)"></div>
-      <div class="section-title">💰 价格参数 &amp; 盈亏比</div>
-      <div class="section-status pending" id="s5st">待填写</div>
-    </div>
-    <div class="form-grid">
-      <div class="form-group"><label>入场价格</label><input type="number" id="entry" placeholder="1.18388" step="0.00001" oninput="calcRR();runGates()"></div>
-      <div class="form-group"><label>止损价格 <span class="info-btn" onclick="showTip(&#39;sl&#39;)">?</span></label><input type="number" id="sl" placeholder="1.18270" step="0.00001" oninput="calcRR();runGates()"></div>
-      <div class="form-group"><label>TP1 <span class="lhint">80%仓位 — 最近DOL</span></label><input type="number" id="tp1" placeholder="1.18943" step="0.00001" oninput="calcRR();runGates()"></div>
-      <div class="form-group"><label>TP2 <span class="lhint">20%仓位 — 更远目标</span></label><input type="number" id="tp2" placeholder="1.19495" step="0.00001" oninput="calcRR();runGates()"></div>
-      <div class="form-group"><label>RR1 自动计算</label>
-        <div class="rr-display" id="rr1Disp">—<span class="rr-min">最低 2.0x</span></div>
+  <div class="sec">
+    <div class="sec-head"><div class="sec-dot" style="background:var(--purple)"></div><div class="sec-title">HTF 分析</div><div class="sec-tag wait" id="s2st">待填写</div></div>
+    <div class="fg">
+      <div class="fg-full"><label>日线偏见</label>
+        <div class="pills"><div class="pill" data-v="多" onclick="pick(&#39;bias&#39;,this)">多 ↑</div><div class="pill" data-v="空" onclick="pick(&#39;bias&#39;,this)">空 ↓</div><div class="pill" data-v="震荡-不做" onclick="pick(&#39;bias&#39;,this)">震荡 ✗</div></div>
       </div>
-      <div class="form-group"><label>RR2 自动计算</label>
-        <div class="rr-display" id="rr2Disp">—</div>
+      <div class="fg-full"><label>4H结构</label>
+        <div class="pills"><div class="pill" data-v="BOS延续-多" onclick="pick(&#39;h4&#39;,this)">BOS多</div><div class="pill" data-v="CHoCH反转-多" onclick="pick(&#39;h4&#39;,this)">CHoCH多</div><div class="pill" data-v="BOS延续-空" onclick="pick(&#39;h4&#39;,this)">BOS空</div><div class="pill" data-v="CHoCH反转-空" onclick="pick(&#39;h4&#39;,this)">CHoCH空</div><div class="pill" data-v="震荡-不做" onclick="pick(&#39;h4&#39;,this)">震荡✗</div></div>
       </div>
-      <div class="form-group"><label>BE价格 <span class="lhint">TP1后20%移到此位</span></label>
-        <div class="rr-display" id="beDisp" style="font-size:12px">—</div>
+      <div class="fg-full"><label>DOL 目标</label>
+        <div class="pills"><div class="pill" data-v="上方BSL（前高/等价高点）" onclick="pick(&#39;dol&#39;,this)">↑BSL前高</div><div class="pill" data-v="下方SSL（前低/等价低点）" onclick="pick(&#39;dol&#39;,this)">↓SSL前低</div><div class="pill" data-v="上方未回补4H FVG" onclick="pick(&#39;dol&#39;,this)">↑4H FVG</div><div class="pill" data-v="下方未回补4H FVG" onclick="pick(&#39;dol&#39;,this)">↓4H FVG</div><div class="pill" data-v="不清楚-不做" onclick="pick(&#39;dol&#39;,this)">不明✗</div></div>
       </div>
-      <div class="form-group"><label>加权实际RR <span class="lhint">80%×RR1 + 20%×RR2</span></label>
-        <div class="rr-display" id="wrrDisp">—</div>
-      </div>
-    </div>
-
-    <!-- 交易管理规则 -->
-    <div class="mgmt-box" style="margin-top:12px;">
-      <b>📐 交易管理规则（固定执行，不靠临场决定）</b><br>
-      · TP1到达：平掉 <b>80%</b> 仓位，锁定利润<br>
-      · 剩余 <b>20%</b>：移止损至入场价（BE保本）<br>
-      · 之后：不再干预，让价格自行运行至TP2或BE
-    </div>
-
-    <div style="margin-top:12px;display:flex;flex-direction:column;gap:10px;">
-      <div class="form-group full">
-        <label>叙事预览（自动生成）<span class="info-btn" onclick="showTip(&#39;narrauto&#39;)">?</span></label>
-        <div class="narrative-box" id="narrBox">填写基本信息后自动生成...</div>
-      </div>
-      <div class="form-group full">
-        <label>我的叙事（用自己的话说）<span class="info-btn" onclick="showTip(&#39;mynarr&#39;)">?</span></label>
-        <textarea id="narrative" placeholder="例：日线上涨CHoCH确认偏见多，4H折扣区出现CHoCH反转，伦敦KZ扫了亚盘SSL诱空做多，5m CHoCH确认后FVG有效，挂单FVG 50%，DOL目标上方BSL前高，RR1 3.5x..."></textarea>
+      <div class="fg-full"><label>路径有4H FVG阻挡？</label>
+        <div class="pills"><div class="pill" data-v="无阻挡✅" onclick="pick(&#39;block&#39;,this)">无阻挡 ✅</div><div class="pill" data-v="有阻挡" onclick="pick(&#39;block&#39;,this)">有阻挡 ✗</div></div>
       </div>
     </div>
   </div>
 
-  <!-- S6: 交易质量评估 -->
-  <div class="sop-section">
-    <div class="section-header">
-      <div class="section-dot" style="background:var(--teal)"></div>
-      <div class="section-title">🧠 交易质量评估</div>
+  <!-- JUDAS — hidden for SB -->
+  <div class="sec" id="judasSec">
+    <div class="sec-head"><div class="sec-dot" style="background:var(--red)"></div><div class="sec-title">JUDAS SWING</div><div class="sec-tag wait" id="s3st">待填写</div></div>
+    <div class="fg">
+      <div class="fg-full"><label>Sweep 方向</label><div class="pills" id="sweepPills"><div class="pill" style="color:var(--txm);cursor:default">先选KZ和方向</div></div></div>
+      <div class="fg-full"><label>Judas 已发生？</label>
+        <div class="pills"><div class="pill" data-v="Y✅" onclick="pick(&#39;judas&#39;,this)">✅ 已确认</div><div class="pill" data-v="N" onclick="pick(&#39;judas&#39;,this)">❌ 未发生</div></div>
+      </div>
     </div>
-    <div class="form-grid">
-      <div class="form-group">
-        <label>入场质量评分 <span class="info-btn" onclick="showTip(&#39;entryQuality&#39;)">?</span></label>
-        <select id="entryQuality">
-          <option value="">选择</option>
-          <option value="3">3 — 完美：结构清晰，位置理想</option>
-          <option value="2">2 — 标准：符合全部SOP条件</option>
-          <option value="1">1 — 勉强：过早或过晚，有妥协</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label>情绪状态 <span class="info-btn" onclick="showTip(&#39;emotion&#39;)">?</span></label>
-        <select id="emotion">
-          <option value="">选择</option>
-          <option value="平静">😌 平静 — 按计划执行</option>
-          <option value="急躁">😤 急躁 — 想快点入场</option>
-          <option value="FOMO">😰 FOMO — 怕错过</option>
-          <option value="报复">😠 报复 — 上笔亏了想捞回</option>
-        </select>
-      </div>
+    <div class="coll-tog" onclick="togColl(this)"><span class="arr">▶</span> 前时段高低点（可选）</div>
+    <div class="coll-body"><div class="fg"><div><label>ASH/LOH</label><input type="text" id="ash" placeholder="1.18400"></div><div><label>ASL/LOL</label><input type="text" id="asl" placeholder="1.18100"></div></div></div>
+  </div>
+
+  <!-- SB NOTICE -->
+  <div class="sec" id="sbNotice" style="display:none">
+    <div class="sec-head"><div class="sec-dot" style="background:var(--yellow)"></div><div class="sec-title">⭐ SILVER BULLET</div><div class="sec-tag ok">SB</div></div>
+    <div style="font-size:15px;color:var(--yellow);line-height:1.7">不需要Judas Swing。窗口内找<b>位移 + FVG</b>即可。</div>
+  </div>
+
+  <!-- ENTRY CONFIRM -->
+  <div class="sec">
+    <div class="sec-head"><div class="sec-dot" style="background:var(--green)"></div><div class="sec-title">入场确认</div><div class="sec-tag wait" id="s4st">待填写</div></div>
+    <div class="ck" onclick="togCk(this,&#39;choch&#39;)"><div class="ck-box">✓</div><div>小周期 CHoCH / 位移已确认</div></div>
+    <div class="ck" onclick="togCk(this,&#39;fvg&#39;)"><div class="ck-box">✓</div><div>位移 FVG 已出现且有效</div></div>
+    <div class="ck" onclick="togCk(this,&#39;e50&#39;)"><div class="ck-box">✓</div><div>挂单在 FVG 50% 附近</div></div>
+    <div class="ck" onclick="togCk(this,&#39;slpos&#39;)"><div class="ck-box">✓</div><div>止损在 CHoCH / 位移外侧</div></div>
+    <div class="ck" onclick="togCk(this,&#39;narr&#39;)"><div class="ck-box">✓</div><div>叙事已说出</div></div>
+    <div class="invalid-box" style="margin-top:12px"><b>⚠️ 失效</b>：KZ结束未触发→撤单 ｜ FVG被穿透→失效 ｜ 4H结构破坏→作废</div>
+  </div>
+
+  <!-- PRICE -->
+  <div class="sec">
+    <div class="sec-head"><div class="sec-dot" style="background:var(--yellow)"></div><div class="sec-title">价格 &amp; RR</div><div class="sec-tag wait" id="s5st">待填写</div></div>
+    <div class="fg">
+      <div><label>入场价</label><input type="number" id="entry" placeholder="1.18388" step="0.00001" oninput="calcRR();run()"></div>
+      <div><label>止损价</label><input type="number" id="sl" placeholder="1.18270" step="0.00001" oninput="calcRR();run()"></div>
+      <div><label>TP1（80%仓位）</label><input type="number" id="tp1" placeholder="1.18943" step="0.00001" oninput="calcRR();run()"></div>
+      <div><label>TP2（20%仓位）</label><input type="number" id="tp2" placeholder="1.19495" step="0.00001" oninput="calcRR();run()"></div>
+      <div><label>RR1</label><div class="rr-box" id="rr1Disp">—<span class="rr-sub">最低 2.0x</span></div></div>
+      <div><label>RR2</label><div class="rr-box" id="rr2Disp">—</div></div>
     </div>
   </div>
 
-  <!-- S7: 图表链接 (取代截图) -->
-  <div class="sop-section">
-    <div class="section-header">
-      <div class="section-dot" style="background:var(--text-dim)"></div>
-      <div class="section-title">🔗 图表链接 (TradingView)</div>
+  <!-- NARRATIVE -->
+  <div class="sec">
+    <div class="sec-head"><div class="sec-dot" style="background:var(--teal)"></div><div class="sec-title">叙事 &amp; 质量</div></div>
+    <div class="fg">
+      <div class="fg-full"><label>自动叙事（根据填写生成）</label>
+        <div id="autoNarr" style="background:var(--sf2);border:1px solid var(--bd);border-radius:8px;padding:12px 14px;font-size:15px;color:var(--blue);line-height:1.7;min-height:50px">填写上方信息后自动生成…</div>
+        <input type="hidden" id="narrative" value="">
+      </div>
+      <div class="fg-full"><label>入场质量</label>
+        <div class="pills"><div class="pill" data-v="3" onclick="pick(&#39;quality&#39;,this)">Q3 完美</div><div class="pill" data-v="2" onclick="pick(&#39;quality&#39;,this)">Q2 标准</div><div class="pill" data-v="1" onclick="pick(&#39;quality&#39;,this)">Q1 勉强</div></div>
+      </div>
+      <div class="fg-full"><label>情绪</label>
+        <div class="pills"><div class="pill" data-v="平静" onclick="pick(&#39;emo&#39;,this)">😌 平静</div><div class="pill" data-v="急躁" onclick="pick(&#39;emo&#39;,this)">😤 急躁</div><div class="pill" data-v="FOMO" onclick="pick(&#39;emo&#39;,this)">😰 FOMO</div><div class="pill" data-v="报复" onclick="pick(&#39;emo&#39;,this)">😠 报复</div></div>
+      </div>
     </div>
-    <div class="form-grid">
-      <div class="form-group full">
-        <label>入场图表链接 <span class="info-btn" onclick="showTip(&#39;chartLink&#39;)">?</span></label>
-        <input type="url" id="entryChartLink" placeholder="https://www.tradingview.com/x/..." oninput="runGates()">
+    <!-- SCREENSHOTS -->
+    <div style="margin-top:14px">
+      <label>📷 入场截图（粘贴 / 拖拽 / 点击）</label>
+      <div class="img-drop" id="entryImgDrop" onclick="document.getElementById(&#39;entryImgFile&#39;).click()">
+        <span class="img-ph" id="entryImgPh">📷 粘贴截图 / 拖拽 / 点击上传</span>
+        <img class="img-prev" id="entryImgPrev">
+        <button class="img-clear" id="entryImgClear" onclick="event.stopPropagation();clearFormImg(&#39;entry&#39;)">✕</button>
       </div>
-      <div class="form-group full">
-        <label>结果图表链接</label>
-        <input type="url" id="resultChartLink" placeholder="https://www.tradingview.com/x/..." oninput="runGates()">
-      </div>
+      <input type="file" id="entryImgFile" accept="image/*" style="display:none" onchange="handleFormImg(&#39;entry&#39;,this.files[0])">
     </div>
-  </div>
-
-  <!-- S8: 结果 -->
-  <div class="sop-section">
-    <div class="section-header">
-      <div class="section-dot" style="background:var(--orange)"></div>
-      <div class="section-title">✅ 交易结果（完成后填写）</div>
-    </div>
-    <div class="form-grid">
-      <div class="form-group"><label>结果</label>
-        <select id="result" onchange="onResultChange()"><option value="">选择</option><option>盈</option><option>亏</option><option>BE保本（小盈）</option><option>主动平仓</option></select>
+    <div style="margin-top:10px">
+      <label>📷 结果截图（可选）</label>
+      <div class="img-drop" id="resultImgDrop" onclick="document.getElementById(&#39;resultImgFile&#39;).click()">
+        <span class="img-ph" id="resultImgPh">📷 粘贴截图 / 拖拽 / 点击上传</span>
+        <img class="img-prev" id="resultImgPrev">
+        <button class="img-clear" id="resultImgClear" onclick="event.stopPropagation();clearFormImg(&#39;result&#39;)">✕</button>
       </div>
-      <div class="form-group"><label>TP1 已触及？</label>
-        <select id="tp1Hit"><option value="">选择</option><option>Y✅</option><option>N</option></select>
-      </div>
-      <div class="form-group"><label>TP2 已触及？</label>
-        <select id="tp2Hit"><option value="">选择</option><option>Y✅</option><option>N（BE出场）</option></select>
-      </div>
-      <div class="form-group">
-        <label>持仓时间（小时）<span class="info-btn" onclick="showTip(&#39;holdingHours&#39;)">?</span></label>
-        <input type="number" id="holdingHours" placeholder="3.5" step="0.5" min="0">
-      </div>
-      <div class="form-group">
-        <label>预判正确？<span class="info-btn" onclick="showTip(&#39;predCorrect&#39;)">?</span></label>
-        <select id="predCorrect">
-          <option value="">选择</option>
-          <option value="Y">Y — 价格去到了DOL方向</option>
-          <option value="N">N — 价格没有去DOL方向</option>
-        </select>
-      </div>
-      <div class="form-group full">
-        <label>逻辑正确？<span class="info-btn" onclick="showTip(&#39;logicCorrect&#39;)">?</span></label>
-        <select id="logicCorrect">
-          <option value="">选择</option>
-          <option value="Y">Y — 全部SOP条件符合</option>
-          <option value="N">N — 有SOP条件不符合（在教训里说明）</option>
-        </select>
-      </div>
-      <div class="form-group full"><label>教训一句话 <span class="info-btn" onclick="showTip(&#39;lesson&#39;)">?</span></label>
-        <textarea id="lesson" placeholder="这笔最重要的教训是...（要诚实写出你知道但不想承认的那句话）"></textarea>
-      </div>
+      <input type="file" id="resultImgFile" accept="image/*" style="display:none" onchange="handleFormImg(&#39;result&#39;,this.files[0])">
     </div>
   </div>
 
-  <div class="gate-summary" id="gateSummary">🔴 未通过：<span class="gtxt-fail">品种/日期、Killzone未选、Sweep方向矛盾或未选、Judas未发生、CHoCH未确认、FVG未确认、FVG挂单未确认、止损位置未确认、叙事未说出、日线+4H方向不一致、方向与偏见不符、DOL不清楚、TP1与DOL矛盾、路径有FVG阻挡、RR不足2倍、入场模型未选</span></div>
-  <button class="save-btn locked" id="saveBtn" onclick="saveTrade()">🔒 条件未达标，无法保存</button>
-  <div style="display:flex;justify-content:flex-end;margin-top:8px;">
-    <button class="btn btn-ghost" onclick="clearForm()">🗑 清空表单</button>
+  <!-- RESULT -->
+  <div class="sec">
+    <div class="sec-head"><div class="sec-dot" style="background:var(--orange)"></div><div class="sec-title">交易结果</div></div>
+    <div class="fg">
+      <div class="fg-full"><label>结果</label>
+        <div class="pills"><div class="pill" data-v="盈" onclick="pick(&#39;result&#39;,this)">✅ 盈</div><div class="pill" data-v="亏" onclick="pick(&#39;result&#39;,this)">❌ 亏</div><div class="pill" data-v="BE保本（小盈）" onclick="pick(&#39;result&#39;,this)">⚡ BE</div></div>
+      </div>
+      <div><label>TP1触及？</label><div class="pills"><div class="pill" data-v="Y✅" onclick="pick(&#39;tp1h&#39;,this)">Y</div><div class="pill" data-v="N" onclick="pick(&#39;tp1h&#39;,this)">N</div></div></div>
+      <div><label>持仓（小时）</label><input type="number" id="holdingHours" placeholder="3.5" step="0.5" min="0"></div>
+      <div><label>预判正确？</label><div class="pills"><div class="pill" data-v="Y" onclick="pick(&#39;pred&#39;,this)">Y</div><div class="pill" data-v="N" onclick="pick(&#39;pred&#39;,this)">N</div></div></div>
+      <div><label>逻辑正确？</label><div class="pills"><div class="pill" data-v="Y" onclick="pick(&#39;logic&#39;,this)">Y</div><div class="pill" data-v="N" onclick="pick(&#39;logic&#39;,this)">N</div></div></div>
+      <div class="fg-full"><label>教训一句话</label><textarea id="lesson" placeholder="这笔最重要的教训是…"></textarea></div>
+    </div>
   </div>
+
+  <div class="gate-summary" id="gateSummary">🔴 未通过：<span class="gtxt-fail">品种/日期、KZ、Sweep、Judas、CHoCH、FVG、方向不一致、DOL、路径阻挡、RR&lt;2x、FVG挂单、止损位、叙事</span></div>
+  <button class="save-btn locked" id="saveBtn" onclick="saveTrade()">🔒 条件未达标</button>
+  <div style="display:flex;justify-content:flex-end;margin-top:8px"><button class="btn btn-ghost" onclick="clearForm()">🗑 清空</button></div>
 </div>
 
-<!-- HISTORY PAGE -->
-<div id="page-history" class="page active">
+<!-- ═══ HISTORY ═══ -->
+<div id="page-history" class="page">
   <div class="history-filters">
     <button class="filter-btn active" onclick="filterH(&#39;all&#39;,this)">全部</button>
-    <button class="filter-btn" onclick="filterH(&#39;盈&#39;,this)">盈利</button>
-    <button class="filter-btn" onclick="filterH(&#39;亏&#39;,this)">亏损</button>
-    <button class="filter-btn" onclick="filterH(&#39;be&#39;,this)">BE</button>
-    <button class="filter-btn" onclick="filterH(&#39;伦敦&#39;,this)">伦敦KZ</button>
-    <button class="filter-btn" onclick="filterH(&#39;伦敦银弹&#39;,this)">伦敦银弹⭐</button>
-    <button class="filter-btn" onclick="filterH(&#39;纽约&#39;,this)">纽约KZ</button>
-    <button class="filter-btn" onclick="filterH(&#39;纽约银弹&#39;,this)">纽约银弹⭐</button>
-    <button class="btn" onclick="batchEvalAll()" id="batchEvalBtn" style="margin-left:auto;padding:6px 14px;font-size:11px;background:var(--blue);color:#fff;border:none;border-radius:6px;cursor:pointer">🤖 批量AI评价</button>
-    <button class="btn btn-primary" onclick="exportData()" style="padding:6px 14px;font-size:11px;">📤 导出给Claude分析</button>
+    <button class="filter-btn" onclick="filterH(&#39;盈&#39;,this)">盈</button>
+    <button class="filter-btn" onclick="filterH(&#39;亏&#39;,this)">亏</button>
+    <button class="filter-btn" onclick="filterH(&#39;主模型&#39;,this)">主模型</button>
+    <button class="filter-btn" onclick="filterH(&#39;SB&#39;,this)">SB⭐</button>
+    <button class="filter-btn" onclick="filterH(&#39;伦敦&#39;,this)">伦敦</button>
+    <button class="filter-btn" onclick="filterH(&#39;纽约&#39;,this)">纽约</button>
+    <button class="btn" onclick="batchEvalAll()" id="batchEvalBtn" style="margin-left:auto;padding:8px 14px;font-size:12px;background:var(--blue-d);color:var(--blue);border:1px solid var(--blue);border-radius:8px;cursor:pointer;font-weight:600">🤖 批量AI</button>
+    <button class="btn btn-primary" onclick="exportData()" style="padding:8px 14px;font-size:12px">📤 导出</button>
   </div>
-  <div id="histList"><div class="trade-card win" onclick="showDetail(1772448765307)">
-      <div class="trade-card-header">
-        <div class="trade-num">#7</div>
-        <div class="trade-symbol">EURUSD</div>
-        <div class="trade-date">3/2</div>
-        <span class="badge badge-win">盈</span>
-        <span class="badge badge-ny">纽约KZ</span>
-        <span class="badge" style="background:var(--blue-dim);color:var(--blue)">A型</span>
-        <div style="margin-left:auto;font-family:&#39;JetBrains Mono&#39;,monospace;font-size:11px;color:var(--green)">wRR: 3.80x</div>
+  <div id="histList"><div class="trade-card be" onclick="showDetail(1773648675842)">
+      <div class="tc-head">
+        <div class="tc-num">#10</div>
+        <div class="tc-sym">EURUSD</div>
+        <div class="tc-date">2026-03-16</div>
+        <span class="badge b-be">BE保本（小盈）</span>
+        <span class="badge b-ny">纽约KZ</span>
+        <span class="badge b-model">主模型</span>
+        <div style="margin-left:auto;font-family:&#39;JetBrains Mono&#39;,monospace;font-size:12px;color:var(--green)">RR: 6.1x</div>
       </div>
-      <div class="trade-meta">
-        <div class="meta-item">偏见 <span>空</span></div>
-        <div class="meta-item">DOL <span>下方SSL（前低/等</span></div>
-        <div class="meta-item">预判 <span style="color:var(--green)">Y</span></div>
-        <div class="meta-item">逻辑 <span style="color:var(--green)">Y</span></div>
-        <div class="meta-item">质量 <span style="color:var(--green)">Q3</span></div>
-        <div class="meta-item">😌 <span>平静</span></div>
+      <div class="tc-meta">
+        <div>偏见 <span>空</span></div>
+        <div>预判 <span style="color:var(--red)">N</span></div>
+        <div>逻辑 <span style="color:var(--green)">Y</span></div>
+        <div>😌 <span>平静</span></div>
+      </div>
+    </div><div class="trade-card win" onclick="showDetail(1773571648763)">
+      <div class="tc-head">
+        <div class="tc-num">#9</div>
+        <div class="tc-sym">EURUSD</div>
+        <div class="tc-date">2026-3-15</div>
+        <span class="badge b-win">盈</span>
+        <span class="badge b-ldn">伦敦KZ</span>
+        <span class="badge b-model">主模型</span>
+        <div style="margin-left:auto;font-family:&#39;JetBrains Mono&#39;,monospace;font-size:12px;color:var(--green)">RR: 3.6x</div>
+      </div>
+      <div class="tc-meta">
+        <div>偏见 <span>多</span></div>
+        <div>预判 <span style="color:var(--red)">N</span></div>
+        <div>逻辑 <span style="color:var(--green)">Y</span></div>
+        <div>😌 <span>平静</span></div>
+      </div>
+    </div><div class="trade-card loss" onclick="showDetail(1772786456739)">
+      <div class="tc-head">
+        <div class="tc-num">#8</div>
+        <div class="tc-sym">EURUSD</div>
+        <div class="tc-date">3/6</div>
+        <span class="badge b-loss">亏</span>
+        <span class="badge b-ldn">伦敦KZ</span>
+        <span class="badge b-model">主模型</span>
+        <div style="margin-left:auto;font-family:&#39;JetBrains Mono&#39;,monospace;font-size:12px;color:var(--green)">RR: 2.6x</div>
+      </div>
+      <div class="tc-meta">
+        <div>偏见 <span>空</span></div>
+        <div>预判 <span style="color:var(--red)">N</span></div>
+        <div>逻辑 <span style="color:var(--green)">Y</span></div>
+        <div>😤 <span>急躁</span></div>
+      </div>
+    </div><div class="trade-card win" onclick="showDetail(1772448765307)">
+      <div class="tc-head">
+        <div class="tc-num">#7</div>
+        <div class="tc-sym">EURUSD</div>
+        <div class="tc-date">2026/03/02</div>
+        <span class="badge b-win">盈</span>
+        <span class="badge b-ny">纽约KZ</span>
+        <span class="badge b-model">主模型</span>
+        <div style="margin-left:auto;font-family:&#39;JetBrains Mono&#39;,monospace;font-size:12px;color:var(--green)">RR: 3.8x</div>
+      </div>
+      <div class="tc-meta">
+        <div>偏见 <span>空</span></div>
+        <div>预判 <span style="color:var(--green)">Y</span></div>
+        <div>逻辑 <span style="color:var(--green)">Y</span></div>
+        <div>😌 <span>平静</span></div>
       </div>
     </div><div class="trade-card be" onclick="showDetail(1772443149020)">
-      <div class="trade-card-header">
-        <div class="trade-num">#6</div>
-        <div class="trade-symbol">EURUSD</div>
-        <div class="trade-date">3/2</div>
-        <span class="badge badge-be">BE保本（小盈）</span>
-        <span class="badge badge-london">伦敦KZ</span>
-        <span class="badge" style="background:var(--blue-dim);color:var(--blue)">A型</span>
-        <div style="margin-left:auto;font-family:&#39;JetBrains Mono&#39;,monospace;font-size:11px;color:var(--green)">wRR: 2.48x</div>
+      <div class="tc-head">
+        <div class="tc-num">#6</div>
+        <div class="tc-sym">EURUSD</div>
+        <div class="tc-date">2026/03/02</div>
+        <span class="badge b-be">BE保本（小盈）</span>
+        <span class="badge b-ldn">伦敦KZ</span>
+        <span class="badge b-model">主模型</span>
+        <div style="margin-left:auto;font-family:&#39;JetBrains Mono&#39;,monospace;font-size:12px;color:var(--green)">RR: 2.5x</div>
       </div>
-      <div class="trade-meta">
-        <div class="meta-item">偏见 <span>空</span></div>
-        <div class="meta-item">DOL <span>下方SSL（前低/等</span></div>
-        <div class="meta-item">预判 <span style="color:var(--red)">N</span></div>
-        <div class="meta-item">逻辑 <span style="color:var(--green)">Y</span></div>
-        <div class="meta-item">质量 <span style="color:var(--text-dim)">Q2</span></div>
-        <div class="meta-item">😌 <span>平静</span></div>
+      <div class="tc-meta">
+        <div>偏见 <span>空</span></div>
+        <div>预判 <span style="color:var(--red)">N</span></div>
+        <div>逻辑 <span style="color:var(--green)">Y</span></div>
+        <div>😌 <span>平静</span></div>
       </div>
     </div><div class="trade-card win" onclick="showDetail(1772349005506)">
-      <div class="trade-card-header">
-        <div class="trade-num">#5</div>
-        <div class="trade-symbol">EURUSD</div>
-        <div class="trade-date">3/1</div>
-        <span class="badge badge-win">盈</span>
-        <span class="badge badge-ny">纽约KZ</span>
-        <span class="badge" style="background:var(--blue-dim);color:var(--blue)">A型</span>
-        <div style="margin-left:auto;font-family:&#39;JetBrains Mono&#39;,monospace;font-size:11px;color:var(--green)">wRR: 4.56x</div>
+      <div class="tc-head">
+        <div class="tc-num">#5</div>
+        <div class="tc-sym">EURUSD</div>
+        <div class="tc-date">2026/03/01</div>
+        <span class="badge b-win">盈</span>
+        <span class="badge b-ny">纽约KZ</span>
+        <span class="badge b-model">主模型</span>
+        <div style="margin-left:auto;font-family:&#39;JetBrains Mono&#39;,monospace;font-size:12px;color:var(--green)">RR: 4.6x</div>
       </div>
-      <div class="trade-meta">
-        <div class="meta-item">偏见 <span>空</span></div>
-        <div class="meta-item">DOL <span>下方SSL（前低/等</span></div>
-        <div class="meta-item">预判 <span style="color:var(--green)">Y</span></div>
-        <div class="meta-item">逻辑 <span style="color:var(--green)">Y</span></div>
-        <div class="meta-item">质量 <span style="color:var(--text-dim)">Q2</span></div>
-        <div class="meta-item">😌 <span>平静</span></div>
+      <div class="tc-meta">
+        <div>偏见 <span>空</span></div>
+        <div>预判 <span style="color:var(--green)">Y</span></div>
+        <div>逻辑 <span style="color:var(--green)">Y</span></div>
+        <div>😌 <span>平静</span></div>
       </div>
     </div><div class="trade-card win" onclick="showDetail(1772001893909)">
-      <div class="trade-card-header">
-        <div class="trade-num">#4</div>
-        <div class="trade-symbol">EURUSD</div>
-        <div class="trade-date">2026/02/25</div>
-        <span class="badge badge-win">盈</span>
-        <span class="badge badge-ny">纽约</span>
-        
-        <div style="margin-left:auto;font-family:&#39;JetBrains Mono&#39;,monospace;font-size:11px;color:var(--green)">wRR: 6.33x</div>
+      <div class="tc-head">
+        <div class="tc-num">#4</div>
+        <div class="tc-sym">EURUSD</div>
+        <div class="tc-date">2026/02/25</div>
+        <span class="badge b-win">盈</span>
+        <span class="badge b-ny">纽约KZ</span>
+        <span class="badge b-model">主模型</span>
+        <div style="margin-left:auto;font-family:&#39;JetBrains Mono&#39;,monospace;font-size:12px;color:var(--green)">RR: 6.3x</div>
       </div>
-      <div class="trade-meta">
-        <div class="meta-item">偏见 <span>空</span></div>
-        <div class="meta-item">DOL <span>下方未回补4H FV</span></div>
-        <div class="meta-item">预判 <span style="color:var(--green)">Y</span></div>
-        <div class="meta-item">逻辑 <span style="color:var(--green)">Y</span></div>
-        
-        
+      <div class="tc-meta">
+        <div>偏见 <span>空</span></div>
+        <div>预判 <span style="color:var(--green)">Y</span></div>
+        <div>逻辑 <span style="color:var(--green)">Y</span></div>
+        <div>😌 <span>平静</span></div>
       </div>
     </div><div class="trade-card loss" onclick="showDetail(1771999536596)">
-      <div class="trade-card-header">
-        <div class="trade-num">#3</div>
-        <div class="trade-symbol">EURUSD</div>
-        <div class="trade-date">2/25</div>
-        <span class="badge badge-loss">亏</span>
-        <span class="badge badge-london">伦敦</span>
-        
-        <div style="margin-left:auto;font-family:&#39;JetBrains Mono&#39;,monospace;font-size:11px;color:var(--green)">wRR: 5.64x</div>
+      <div class="tc-head">
+        <div class="tc-num">#3</div>
+        <div class="tc-sym">EURUSD</div>
+        <div class="tc-date">2026/02/25</div>
+        <span class="badge b-loss">亏</span>
+        <span class="badge b-ldn">伦敦KZ</span>
+        <span class="badge b-model">主模型</span>
+        <div style="margin-left:auto;font-family:&#39;JetBrains Mono&#39;,monospace;font-size:12px;color:var(--green)">RR: 5.6x</div>
       </div>
-      <div class="trade-meta">
-        <div class="meta-item">偏见 <span>多</span></div>
-        <div class="meta-item">DOL <span>上方未回补4H FV</span></div>
-        <div class="meta-item">预判 <span style="color:var(--red)">N</span></div>
-        <div class="meta-item">逻辑 <span style="color:var(--green)">Y</span></div>
-        
-        
+      <div class="tc-meta">
+        <div>偏见 <span>多</span></div>
+        <div>预判 <span style="color:var(--red)">N</span></div>
+        <div>逻辑 <span style="color:var(--green)">Y</span></div>
+        <div>😤 <span>急躁</span></div>
       </div>
     </div><div class="trade-card win" onclick="showDetail(1771925719569)">
-      <div class="trade-card-header">
-        <div class="trade-num">#2</div>
-        <div class="trade-symbol">EURUSD</div>
-        <div class="trade-date">2/24</div>
-        <span class="badge badge-win">盈</span>
-        <span class="badge badge-london">伦敦</span>
-        
-        <div style="margin-left:auto;font-family:&#39;JetBrains Mono&#39;,monospace;font-size:11px;color:var(--green)">wRR: 3.77x</div>
+      <div class="tc-head">
+        <div class="tc-num">#2</div>
+        <div class="tc-sym">EURUSD</div>
+        <div class="tc-date">2026/02/24</div>
+        <span class="badge b-win">盈</span>
+        <span class="badge b-ldn">伦敦KZ</span>
+        <span class="badge b-model">主模型</span>
+        <div style="margin-left:auto;font-family:&#39;JetBrains Mono&#39;,monospace;font-size:12px;color:var(--green)">RR: 3.8x</div>
       </div>
-      <div class="trade-meta">
-        <div class="meta-item">偏见 <span>多</span></div>
-        <div class="meta-item">DOL <span>下方SSL</span></div>
-        <div class="meta-item">预判 <span style="color:var(--green)">Y</span></div>
-        <div class="meta-item">逻辑 <span style="color:var(--green)">Y</span></div>
-        
-        
+      <div class="tc-meta">
+        <div>偏见 <span>多</span></div>
+        <div>预判 <span style="color:var(--green)">Y</span></div>
+        <div>逻辑 <span style="color:var(--green)">Y</span></div>
+        <div>😌 <span>平静</span></div>
       </div>
     </div><div class="trade-card win" onclick="showDetail(1771839252631)">
-      <div class="trade-card-header">
-        <div class="trade-num">#1</div>
-        <div class="trade-symbol">EURUSD</div>
-        <div class="trade-date">2026/02/23</div>
-        <span class="badge badge-win">盈</span>
-        <span class="badge badge-ny">纽约</span>
-        
-        <div style="margin-left:auto;font-family:&#39;JetBrains Mono&#39;,monospace;font-size:11px;color:var(--green)">wRR: 5.29x</div>
+      <div class="tc-head">
+        <div class="tc-num">#1</div>
+        <div class="tc-sym">EURUSD</div>
+        <div class="tc-date">2026/02/23</div>
+        <span class="badge b-win">盈</span>
+        <span class="badge b-ny">纽约KZ</span>
+        <span class="badge b-model">主模型</span>
+        <div style="margin-left:auto;font-family:&#39;JetBrains Mono&#39;,monospace;font-size:12px;color:var(--green)">RR: 5.3x</div>
       </div>
-      <div class="trade-meta">
-        <div class="meta-item">偏见 <span>多</span></div>
-        <div class="meta-item">DOL <span>下方SSL</span></div>
-        <div class="meta-item">预判 <span style="color:var(--green)">Y</span></div>
-        <div class="meta-item">逻辑 <span style="color:var(--green)">Y</span></div>
-        
-        
+      <div class="tc-meta">
+        <div>偏见 <span>多</span></div>
+        <div>预判 <span style="color:var(--green)">Y</span></div>
+        <div>逻辑 <span style="color:var(--green)">Y</span></div>
+        <div>😌 <span>平静</span></div>
       </div>
     </div></div>
 </div>
 
-<!-- DASHBOARD PAGE -->
+<!-- ═══ DASHBOARD ═══ -->
 <div id="page-dashboard" class="page">
-  <!-- 主要统计 -->
   <div class="stat-grid">
     <div class="stat-card"><span class="stat-val" id="dTotal" style="color:var(--blue)">0</span><div class="stat-label">总笔数</div><div class="prog-wrap"><div class="prog-bar" id="dTotalBar" style="width:0%;background:var(--blue)"></div></div></div>
     <div class="stat-card"><span class="stat-val" id="dWinRate" style="color:var(--green)">—</span><div class="stat-label">胜率</div><div class="prog-wrap"><div class="prog-bar" id="dWinBar" style="width:0%"></div></div></div>
     <div class="stat-card"><span class="stat-val" id="dPredRate" style="color:var(--orange)">—</span><div class="stat-label">预判准确率</div><div class="prog-wrap"><div class="prog-bar" id="dPredBar" style="width:0%;background:var(--orange)"></div></div></div>
-    <div class="stat-card"><span class="stat-val" id="dAvgRR" style="color:var(--purple)">—</span><div class="stat-label">平均 RR1</div></div>
-    <div class="stat-card"><span class="stat-val" id="dLogicRate" style="color:var(--yellow)">—</span><div class="stat-label">逻辑正确率</div><div class="prog-wrap"><div class="prog-bar" id="dLogicBar" style="width:0%;background:var(--yellow)"></div></div></div>
-    <div class="stat-card"><span class="stat-val" id="dWins" style="color:var(--green)">0</span><div class="stat-label">盈 / <span id="dLosses" style="color:var(--red)">0</span> 亏 / <span id="dBE" style="color:var(--yellow)">0</span> BE</div></div>
+    <div class="stat-card"><span class="stat-val" id="dAvgRR" style="color:var(--purple)">—</span><div class="stat-label">平均RR1</div></div>
+    <div class="stat-card"><span class="stat-val" id="dWins" style="color:var(--green)">0</span><div class="stat-label">盈/<span id="dLosses" style="color:var(--red)">0</span>亏/<span id="dBE" style="color:var(--yellow)">0</span>BE</div></div>
+    <div class="stat-card"><span class="stat-val" id="dConsec" style="color:var(--txd)">0</span><div class="stat-label">当前连亏</div></div>
   </div>
 
-  <!-- 100笔目标 -->
-  <div class="sop-section">
-    <div class="section-header"><div class="section-dot"></div><div class="section-title">🎯 100笔目标进度</div></div>
-    <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--text-dim);margin-bottom:6px;"><span>达标条件：平均RR ≥ 2x + 连续30笔无重大SOP违规</span><span id="goalPct">0%</span></div>
-    <div class="prog-wrap" style="height:8px;"><div class="prog-bar" id="goalBar" style="width:0%"></div></div>
-    <div style="margin-top:10px;font-size:13px;color:var(--text-dim);" id="goalStatus"></div>
+  <!-- Win/Loss strip -->
+  <div class="sec"><div class="sec-head"><div class="sec-dot" style="background:var(--green)"></div><div class="sec-title">📊 盈亏走势</div></div>
+    <div id="streakStrip" style="display:flex;gap:3px;flex-wrap:wrap;min-height:24px"></div>
   </div>
 
-  <!-- 时段对比 -->
-  <div class="sop-section">
-    <div class="section-header"><div class="section-dot" style="background:var(--orange)"></div><div class="section-title">⏰ 时段胜率对比</div><span class="info-btn" onclick="showTip(&#39;dashSession&#39;)" style="margin-left:8px">?</span></div>
-    <table class="compare-table" id="sessionTable">
-      <thead><tr><th>时段</th><th>笔数</th><th>胜率</th><th>平均RR</th></tr></thead>
-      <tbody id="sessionBody"><tr><td colspan="4" class="neu" style="padding:12px">暂无数据</td></tr></tbody>
-    </table>
+  <div class="sec"><div class="sec-head"><div class="sec-dot"></div><div class="sec-title">🎯 100笔进度</div></div>
+    <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--txd);margin-bottom:6px"><span>RR≥2x + 连续30笔无违规</span><span id="goalPct">0%</span></div>
+    <div class="prog-wrap" style="height:8px"><div class="prog-bar" id="goalBar" style="width:0%"></div></div>
+    <div style="margin-top:10px;font-size:13px;color:var(--txd)" id="goalStatus"></div>
   </div>
 
-  <!-- 入场模型对比 -->
-  <div class="sop-section">
-    <div class="section-header"><div class="section-dot" style="background:var(--blue)"></div><div class="section-title">⚡ A型 vs B型入场胜率</div><span class="info-btn" onclick="showTip(&#39;dashEntry&#39;)" style="margin-left:8px">?</span></div>
-    <table class="compare-table">
-      <thead><tr><th>入场类型</th><th>笔数</th><th>胜率</th><th>平均RR</th><th>说明</th></tr></thead>
-      <tbody id="entryTypeBody"><tr><td colspan="5" class="neu" style="padding:12px">暂无数据</td></tr></tbody>
-    </table>
-  </div>
+  <!-- Visual bar sections -->
+  <div class="sec"><div class="sec-head"><div class="sec-dot" style="background:var(--blue)"></div><div class="sec-title">📊 主模型 vs Silver Bullet</div></div><div id="modelBars"></div></div>
+  <div class="sec"><div class="sec-head"><div class="sec-dot" style="background:var(--orange)"></div><div class="sec-title">⏰ 时段对比</div></div><div id="sessionBars"></div></div>
+  <div class="sec"><div class="sec-head"><div class="sec-dot" style="background:var(--teal)"></div><div class="sec-title">🎯 质量对比</div></div><div id="qualityBars"></div></div>
+  <div class="sec"><div class="sec-head"><div class="sec-dot" style="background:var(--purple)"></div><div class="sec-title">🧠 情绪对比</div></div><div id="emotionBars"></div></div>
+</div>
 
-  <!-- 入场质量对比 -->
-  <div class="sop-section">
-    <div class="section-header"><div class="section-dot" style="background:var(--teal)"></div><div class="section-title">🎯 入场质量胜率</div><span class="info-btn" onclick="showTip(&#39;dashQuality&#39;)" style="margin-left:8px">?</span></div>
-    <table class="compare-table">
-      <thead><tr><th>质量评分</th><th>笔数</th><th>胜率</th><th>平均RR</th></tr></thead>
-      <tbody id="qualityBody"><tr><td colspan="4" class="neu" style="padding:12px">暂无数据</td></tr></tbody>
-    </table>
-  </div>
-
-  <!-- 情绪状态对比 -->
-  <div class="sop-section">
-    <div class="section-header"><div class="section-dot" style="background:var(--purple)"></div><div class="section-title">🧠 情绪状态胜率</div><span class="info-btn" onclick="showTip(&#39;dashEmotion&#39;)" style="margin-left:8px">?</span></div>
-    <table class="compare-table">
-      <thead><tr><th>情绪状态</th><th>笔数</th><th>胜率</th><th>平均RR</th></tr></thead>
-      <tbody id="emotionBody"><tr><td colspan="4" class="neu" style="padding:12px">暂无数据</td></tr></tbody>
-    </table>
-  </div>
-
-  <!-- 连亏警报 -->
-  <div class="sop-section">
-    <div class="section-header"><div class="section-dot" style="background:var(--red)"></div><div class="section-title">🚨 连亏监控</div></div>
-    <div class="stat-grid" style="grid-template-columns:1fr 1fr 1fr;">
-      <div class="stat-card"><span class="stat-val" id="dLondon" style="color:var(--red);font-size:24px">0</span><div class="stat-label">伦敦KZ</div></div>
-      <div class="stat-card"><span class="stat-val" id="dNY" style="color:var(--green);font-size:24px">0</span><div class="stat-label">纽约KZ</div></div>
-      <div class="stat-card"><span class="stat-val" id="dConsec" style="color:var(--text-dim);font-size:24px">0</span><div class="stat-label">当前连亏笔数</div></div>
+<!-- ═══ AI PAGE ═══ -->
+<div id="page-ai" class="page">
+  <div class="sec">
+    <div class="sec-head"><div class="sec-dot" style="background:var(--yellow)"></div><div class="sec-title">🤖 Gemini AI 设置</div></div>
+    <div class="fg">
+      <div class="fg-full"><label>API Key</label><input type="text" id="geminiApiKey" placeholder="AIza..." oninput="saveGemKey()"></div>
+      <div class="fg-full"><label>模型</label>
+        <select id="geminiModel" onchange="saveGemKey()">
+          <option value="gemini-3-flash-preview" selected="">3 Flash Preview 🆕（推荐·免费）</option>
+          <option value="gemini-3.1-flash-lite-preview">3.1 Flash-Lite Preview（最省·免费）</option>
+          <option value="gemini-2.5-flash">2.5 Flash ⚡（稳定·免费）</option>
+          <option value="gemini-2.5-pro">2.5 Pro 🧠（高精度·免费）</option>
+          <option value="gemini-2.5-flash-lite">2.5 Flash-Lite 🚀（最快·免费）</option>
+          <option value="gemini-3.1-pro-preview">3.1 Pro Preview ⚠️（仅付费）</option>
+        </select>
+      </div>
+      <div class="fg-full"><div id="gemStatus" style="font-size: 13px; color: var(--green);">✅ 已设置</div></div>
     </div>
   </div>
 </div>
 
-<!-- DETAIL MODAL -->
+<!-- MODAL (shows everything: data + screenshots + AI eval) -->
 <div class="modal-overlay" id="modal" onclick="if(event.target===this)this.classList.remove(&#39;show&#39;)">
-  <div class="modal">
-    <div class="modal-header">
-      <div class="modal-title" id="modalTitle">#7 EURUSD — 3/2</div>
-      <button class="modal-close" onclick="document.getElementById(&#39;modal&#39;).classList.remove(&#39;show&#39;)">✕</button>
-    </div>
+  <div class="modal-box">
+    <div class="modal-close" onclick="document.getElementById(&#39;modal&#39;).classList.remove(&#39;show&#39;)">✕</div>
+    <div class="modal-title" id="modalTitle">#1 EURUSD — 2026/02/23</div>
     <div id="modalContent">
     <div class="modal-grid">
-      <div class="detail-item"><div class="detail-label">结果</div><div class="detail-value green">盈</div></div>
-      <div class="detail-item"><div class="detail-label">Killzone</div><div class="detail-value">纽约KZ</div></div>
-      <div class="detail-item"><div class="detail-label">日线偏见</div><div class="detail-value">空</div></div>
-      <div class="detail-item"><div class="detail-label">4H结构</div><div class="detail-value">BOS延续-空</div></div>
-      <div class="detail-item"><div class="detail-label">DOL目标</div><div class="detail-value">下方SSL（前低/等价低点）</div></div>
-      <div class="detail-item"><div class="detail-label">Sweep</div><div class="detail-value">扫伦敦高点BSL（诱多做空）</div></div>
-      <div class="detail-item"><div class="detail-label">入场触发</div><div class="detail-value">A型</div></div>
-      <div class="detail-item"><div class="detail-label">入场质量</div><div class="detail-value">Q3 完美</div></div>
-      <div class="detail-item"><div class="detail-label">情绪状态</div><div class="detail-value">😌 平静</div></div>
-      <div class="detail-item"><div class="detail-label">TP2触及</div><div class="detail-value">Y✅</div></div>
-      <div class="detail-item"><div class="detail-label">持仓时间</div><div class="detail-value">1.5小时</div></div>
-      <div class="detail-item"><div class="detail-label">入场价</div><div class="detail-value">1.15121</div></div>
-      <div class="detail-item"><div class="detail-label">止损价</div><div class="detail-value red">1.15278</div></div>
-      <div class="detail-item"><div class="detail-label">TP1 / RR1</div><div class="detail-value green">1.14605 / 3.29x</div></div>
-      <div class="detail-item"><div class="detail-label">TP2 / RR2</div><div class="detail-value green">1.142 / 5.87x</div></div>
-      <div class="detail-item"><div class="detail-label">预判正确</div><div class="detail-value green">Y</div></div>
-      <div class="detail-item"><div class="detail-label">逻辑正确</div><div class="detail-value green">Y</div></div>
+      <div class="d-item"><div class="d-label">结果</div><div class="d-val green">盈</div></div>
+      <div class="d-item"><div class="d-label">模型</div><div class="d-val">主模型</div></div>
+      <div class="d-item"><div class="d-label">Killzone</div><div class="d-val">纽约KZ</div></div>
+      <div class="d-item"><div class="d-label">日线偏见</div><div class="d-val">多</div></div>
+      <div class="d-item"><div class="d-label">4H结构</div><div class="d-val">BOS延续-多</div></div>
+      <div class="d-item"><div class="d-label">DOL</div><div class="d-val">上方BSL（前高/等价高点）</div></div>
+      <div class="d-item"><div class="d-label">Sweep</div><div class="d-val">扫亚盘低点SSL（诱空做多）</div></div>
+      <div class="d-item"><div class="d-label">质量</div><div class="d-val">Q2 标准</div></div>
+      <div class="d-item"><div class="d-label">情绪</div><div class="d-val">😌 平静</div></div>
+      <div class="d-item"><div class="d-label">入场</div><div class="d-val">1.17386</div></div>
+      <div class="d-item"><div class="d-label">止损</div><div class="d-val red">1.173</div></div>
+      <div class="d-item"><div class="d-label">TP1/RR1</div><div class="d-val green">1.17765 / 4.41x</div></div>
+      <div class="d-item"><div class="d-label">TP2/RR2</div><div class="d-val green">1.18143 / 8.80x</div></div>
+      <div class="d-item"><div class="d-label">预判</div><div class="d-val green">Y</div></div>
+      <div class="d-item"><div class="d-label">逻辑</div><div class="d-val green">Y</div></div>
+      <div class="d-item"><div class="d-label">持仓</div><div class="d-val">—</div></div>
     </div>
-    <div class="sop-section" style="margin-bottom:10px"><div class="detail-label" style="margin-bottom:5px">📖 叙事</div><div style="font-size:13px;color:var(--blue);line-height:1.7;font-style:italic">日线偏向是空头延续，结构是BOS，而且日线留有一个FVG在溢价区。4H是空头BOS结构。留有一个与日线重叠的溢价区FVG，DOL是下方SSL。5m在纽约kz下跌猛烈后反弹回踩FVG-挂单进场，tp1是前低位置1.14605，tp2是另外的1:3，因为底部没有历史的参照的底部了。</div></div>
-    <div class="sop-section" style="margin-bottom:10px"><div class="detail-label" style="margin-bottom:5px">💡 教训</div><div style="font-size:13px;color:var(--yellow);line-height:1.6">这笔回测没什么问题</div></div>
-    </div>
+    
+    
+    <div class="sec" style="margin-bottom:10px"><div class="d-label" style="margin-bottom:5px">💡 教训</div><div style="font-size:14px;color:var(--yellow);line-height:1.6">差点就把我的入场止损给打掉了，不知道是运气还是怎样？但是那是我看见扫前killzone的流动性后choch-fvg进场的。检讨是不是过早入场，要不然错过了就会觉得是在完美setup进场错过机会。</div></div>
+    <div class="sec" style="margin:14px 0;border-color:var(--blue)"><div class="d-label" style="margin-bottom:8px;color:var(--blue)">🤖 AI 审核评价</div><div style="line-height:1.9"><div style="background:var(--sf2);border:1px solid var(--bd2);border-radius:8px;padding:10px 14px;margin-bottom:10px;font-weight:700;font-size:15px">评级：[A- 级] — 逻辑满分，但风控边缘试探说明执行仍欠火候。</div><div style="color:var(--green);font-weight:700;margin:10px 0 4px">✅ 做对</div><div style="padding:2px 0 2px 4px">日线与4H共振顺势，捕捉Judas Swing扫除亚盘流动性的叙事非常标准。</div><div style="padding:2px 0 2px 4px">明确了DOL（上方BSL）且路径无阻挡，这是高胜率交易的核心前提。</div><div style="padding:2px 0 2px 4px">执行了标准的扫流动性+CHoCH+FVG进场模型，交易系统一致性良好。</div><div style="color:var(--yellow);font-weight:700;margin:10px 0 4px">⚠️ 注意</div><div style="padding:2px 0 2px 4px">“差点打掉止损”从来不是运气，而是你对“价格回测深度”的预判不足。</div><div style="padding:2px 0 2px 4px">通常价格会回补FVG的50%（中轴）甚至更深的Order Block，你可能进在了溢价区。</div><div style="padding:2px 0 2px 4px">4.41倍的RR固然诱人，但如果止损位置不符合逻辑，这种RR只是空中楼阁。</div><div style="color:var(--red);font-weight:700;margin:10px 0 4px">❌ 改进</div><div style="padding:2px 0 2px 4px">止损必须放在造成破坏的摆动低点（Swing Low）下方，而非为了凑RR强行收紧。</div><div style="padding:2px 0 2px 4px">检讨入场时是否在小级别出现了二次探底（SMT或二测FVG），不要看到第一个信号就急着成交。</div><div style="padding:2px 0 2px 4px">补全“叙事”部分，记录当时价格在FVG的具体反应，而非只看形态。</div><div style="color:var(--blue);font-weight:700;margin:10px 0 4px">💡 一句话</div><div style="padding:2px 0 2px 4px">**永远不要让你的止损暴露在价格寻找公平价值的必经之路上。**</div></div></div>
+    <div class="btn-row">
+      <button class="btn" style="background:var(--sf2);color:var(--txd);border-color:var(--bd)" onclick="regenAI(1771839252631)">🔄 重新生成</button>
+      <button class="btn btn-danger" onclick="delTrade(1771839252631)">🗑 删除</button>
+    </div></div>
   </div>
 </div>
 
-<!-- AI评价 Modal -->
-<div class="modal-overlay" id="aiModal" onclick="if(event.target===this)this.classList.remove(&#39;show&#39;)">
-  <div class="modal" style="max-width:680px">
-    <div class="modal-header">
-      <div class="modal-title">🤖 Gemini 导师点评</div>
-      <button class="modal-close" onclick="document.getElementById(&#39;aiModal&#39;).classList.remove(&#39;show&#39;)">✕</button>
-    </div>
-    <div id="aiTradeRef" style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:12px;color:var(--text-dim);margin-bottom:12px;line-height:1.8"><b>#7 EURUSD</b> &nbsp;·&nbsp; 3/2 &nbsp;·&nbsp; 纽约KZ &nbsp;·&nbsp; 做空 &nbsp;·&nbsp; <b style="color:var(--green)">盈</b> &nbsp;·&nbsp; wRR: <b>3.80x</b></div>
-    <!-- API Key + 模型选择 -->
-    <div style="margin-bottom:12px">
-      <div style="display:flex;gap:8px;margin-bottom:6px;align-items:center">
-        <input type="text" id="geminiApiKey" placeholder="粘贴 Gemini API Key (AIza...)" style="flex:1;padding:9px 12px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:13px;font-family:monospace;outline:none" oninput="saveGeminiKey()">
-        <button onclick="document.getElementById(&#39;geminiApiKey&#39;).value=&#39;&#39;;localStorage.removeItem(&#39;gemini_api_key&#39;);updateGeminiKeyStatus();" style="padding:8px 14px;background:var(--surface3);border:1px solid var(--border);border-radius:6px;color:var(--text);cursor:pointer;font-size:12px;flex-shrink:0">清除</button>
-      </div>
-      <div style="display:flex;gap:8px;align-items:center">
-        <select id="geminiModel" onchange="saveGeminiKey()" style="padding:7px 10px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:12px;cursor:pointer;max-width:320px">
-          <option value="gemini-3-flash-preview" selected="">3 Flash Preview 🆕 (最新·免费·推荐)</option>
-          <option value="gemini-3.1-flash-lite-preview">3.1 Flash-Lite Preview 🆕 (最新·最省·免费)</option>
-          <option value="gemini-2.5-flash">2.5 Flash ⚡ (稳定·免费)</option>
-          <option value="gemini-2.5-pro">2.5 Pro 🧠 (高精度·免费)</option>
-          <option value="gemini-2.5-flash-lite">2.5 Flash-Lite 🚀 (最快·免费)</option>
-          <option value="gemini-3.1-pro-preview">3.1 Pro Preview ⚠️ (仅付费)</option>
-        </select>
-        <span id="geminiKeyStatus" style="font-size: 12px; color: var(--green);">✅ 已设置</span>
-      </div>
-    </div>
-    <!-- 链接预览区 (无图) -->
-    <div id="aiLinks" style="margin-bottom: 12px; font-size:12px; color:var(--blue); word-break:break-all;"></div>
-    <div id="aiContent" style="font-size:13px;line-height:1.9;min-height:100px;color:var(--text);max-height:440px;overflow-y:auto"></div>
-    <div style="display:flex;gap:8px;margin-top:12px">
-      <button id="aiRetryBtn" onclick="retryAI()" style="flex:1;padding:10px;background:var(--blue);color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer">🔄 重新生成</button>
-      <button onclick="document.getElementById(&#39;aiModal&#39;).classList.remove(&#39;show&#39;)" style="padding:10px 18px;background:var(--surface2);color:var(--text);border:1px solid var(--border);border-radius:8px;font-size:13px;cursor:pointer">关闭</button>
-    </div>
-  </div>
-</div>
-
-<div class="toast" id="toast"></div>
+<div class="toast success" id="toast">全部已有AI评价 ✅</div>
 
 <script>
-// ─── DATA ───────────────────────────────────────────────────────
-const SEED_TRADES=[
-  {id:1771839252631,num:1,date:"2026/02/23",symbol:"EURUSD",killzone:"纽约KZ",direction:"做多",bias:"多",h4structure:"BOS延续-多",dol:"上方BSL（前高/等价高点）",htfFvg:"无阻挡✅",ash:"1.17545",asl:"1.17322",sweepType:"ssl",sweepDescription:"扫亚盘低点SSL（诱空做多）",judas:"Y✅",entryTrigger:"A",entry:1.17386,sl:1.17300,tp1:1.17765,tp2:1.18143,rr1:4.406976744186971,rr2:8.802325581396863,entryQuality:"2",emotion:"平静",result:"盈",tp1Hit:"Y✅",predCorrect:"Y",logicCorrect:"Y",holdingHours:null,lesson:"差点就把我的入场止损给打掉了，不知道是运气还是怎样？但是那是我看见扫前killzone的流动性后choch-fvg进场的。检讨是不是过早入场，要不然错过了就会觉得是在完美setup进场错过机会。",narrative:"",entryChartLink:"",resultChartLink:""},
+// ─── STATE ────────────────────────────────────────────────────
+const defaultTrades=[
+  {id:1771839252631,num:1,date:"2026/02/23",symbol:"EURUSD",killzone:"纽约KZ",direction:"做多",bias:"多",h4structure:"BOS延续-多",dol:"上方BSL（前高/等价高点）",htfFvg:"无阻挡✅",ash:"1.17545",asl:"1.17322",sweepType:"ssl",sweepDescription:"扫亚盘低点SSL（诱空做多）",judas:"Y✅",entryTrigger:"A",entry:1.17386,sl:1.173,tp1:1.17765,tp2:1.18143,rr1:4.406976744186971,rr2:8.802325581396863,entryQuality:"2",emotion:"平静",result:"盈",tp1Hit:"Y✅",predCorrect:"Y",logicCorrect:"Y",holdingHours:null,lesson:"差点就把我的入场止损给打掉了，不知道是运气还是怎样？但是那是我看见扫前killzone的流动性后choch-fvg进场的。检讨是不是过早入场，要不然错过了就会觉得是在完美setup进场错过机会。",narrative:"",entryChartLink:"",resultChartLink:""},
   {id:1771925719569,num:2,date:"2026/02/24",symbol:"EURUSD",killzone:"伦敦KZ",direction:"做多",bias:"多",h4structure:"CHoCH反转-多",dol:"下方SSL（前低/等价低点）",htfFvg:"无阻挡✅",ash:"1.10297",asl:"1.10230",sweepType:"ssl",sweepDescription:"扫亚盘低点SSL（诱空做多）",judas:"Y✅",entryTrigger:"A",entry:1.10204,sl:1.10141,tp1:1.10402,tp2:1.10601,rr1:3.142857142857747,rr2:6.301587301588264,entryQuality:"3",emotion:"平静",result:"盈",tp1Hit:"Y✅",predCorrect:"Y",logicCorrect:"Y",holdingHours:null,lesson:"这笔我等了15天，之前在日线级别的fvg就想做单了，最后看见4H的结构还是向下而且没有反转结构就不做，主要还是盈亏比很差所以没敢冒险。很无聊但是没有符合条件那就不做了，这笔完全符合条件。",narrative:"",entryChartLink:"",resultChartLink:""},
-  {id:1771999536596,num:3,date:"2026/02/25",symbol:"EURUSD",killzone:"伦敦KZ",direction:"做多",bias:"多",h4structure:"BOS延续-多",dol:"上方未回补4H FVG",htfFvg:"无阻挡✅",ash:"1.18402",asl:"1.18303",sweepType:"ssl",sweepDescription:"扫亚盘低点SSL（诱空做多）",judas:"Y✅",entryTrigger:"A",entry:1.18388,sl:1.18270,tp1:1.18943,tp2:1.19495,rr1:4.703389830508591,rr2:9.381355932203643,entryQuality:"1",emotion:"急躁",result:"亏",tp1Hit:"N",predCorrect:"N",logicCorrect:"Y",holdingHours:null,lesson:"逻辑都对了，sop也对了。也许是过早入场还是说止损点位还不够宽吧，预判的DOL 4H FVG也没到。",narrative:"日线choch确认上涨偏见，4H上涨BOS延续上升趋势。价格在前低扫除前低SSL后一度暴力拉升到0.5后回落到0.79附近。DOL是上方未填补的下跌的FVG。小周期5m choch已经确认，有位移FVG在伦敦盘，挂在fvg50%进场。止盈目标4H上方FVG50%，中途一半跑80%仓位后做BE，剩下20%博弈。",entryChartLink:"",resultChartLink:""},
+  {id:1771999536596,num:3,date:"2026/02/25",symbol:"EURUSD",killzone:"伦敦KZ",direction:"做多",bias:"多",h4structure:"BOS延续-多",dol:"上方未回补4H FVG",htfFvg:"无阻挡✅",ash:"1.18402",asl:"1.18303",sweepType:"ssl",sweepDescription:"扫亚盘低点SSL（诱空做多）",judas:"Y✅",entryTrigger:"A",entry:1.18388,sl:1.1827,tp1:1.18943,tp2:1.19495,rr1:4.703389830508591,rr2:9.381355932203643,entryQuality:"1",emotion:"急躁",result:"亏",tp1Hit:"N",predCorrect:"N",logicCorrect:"Y",holdingHours:null,lesson:"逻辑都对了，sop也对了。也许是过早入场还是说止损点位还不够宽吧，预判的DOL 4H FVG也没到。",narrative:"日线choch确认上涨偏见，4H上涨BOS延续上升趋势。价格在前低扫除前低SSL后一度暴力拉升到0.5后回落到0.79附近。DOL是上方未填补的下跌的FVG。小周期5m choch已经确认，有位移FVG在伦敦盘，挂在fvg50%进场。止盈目标4H上方FVG50%，中途一半跑80%仓位后做BE，剩下20%博弈。",entryChartLink:"",resultChartLink:""},
   {id:1772001893909,num:4,date:"2026/02/25",symbol:"EURUSD",killzone:"纽约KZ",direction:"做空",bias:"空",h4structure:"BOS延续-空",dol:"下方未回补4H FVG",htfFvg:"无阻挡✅",ash:"1.12774",asl:"1.12402",sweepType:"bsl",sweepDescription:"扫伦敦高点BSL（诱多做空）",judas:"Y✅",entryTrigger:"A",entry:1.12652,sl:1.12706,tp1:1.12366,tp2:1.12087,rr1:5.296296296296189,rr2:10.46296296296313,entryQuality:"2",emotion:"平静",result:"盈",tp1Hit:"Y✅",predCorrect:"Y",logicCorrect:"Y",holdingHours:null,lesson:"这一笔只做了一半就跑了80%后BE，应该再找机会做空，因为空头趋势未变。",narrative:"日线-4H结构都是下跌BOS的延续空头趋势。4H PD array溢价区有个未回补FVG，预测DOL先到这里把FVG填补，价格来到预测的fvg50%后迅速下跌，预判成功。15m在4H溢价区创建下跌choch后有FVG，伦敦盘确认扫了亚盘高点和扫低点后，NY killzone继续延续空头趋势再次BOS，此时果断挂单在上方FVG50%进场做空，目标位是下方4H折扣区的FVG50%。",entryChartLink:"",resultChartLink:""},
   {id:1772349005506,num:5,date:"2026/03/01",symbol:"EURUSD",killzone:"纽约KZ",direction:"做空",bias:"空",h4structure:"CHoCH反转-空",dol:"下方SSL（前低/等价低点）",htfFvg:"无阻挡✅",ash:"1.13870",asl:"1.13608",sweepType:"bsl",sweepDescription:"扫伦敦高点BSL（诱多做空）",judas:"Y✅",entryTrigger:"A",entry:1.13922,sl:1.13977,tp1:1.13713,tp2:1.13504,rr1:3.7999999999995153,rr2:7.599999999999031,entryQuality:"2",emotion:"平静",result:"盈",tp1Hit:"Y✅",predCorrect:"Y",logicCorrect:"Y",holdingHours:1.5,lesson:"这笔盈利是属于激进进场-当然肯定是前置条件都通过才会有勇气，但是窄的止损给了很高容错空间，方向对的，就算错了，往下还有个更确定的FVG进场，就是RR不怎么好，我预测扫低点的SSL也通过了，这笔质量很高",narrative:"日线是偏空-但是没有poi，fibo溢价区等空。4H价格来到日线溢价区等结构转为下跌做空，DOL是4H的未回补的FVG，小周期choch确认，小位移fvg进场。",entryChartLink:"",resultChartLink:""},
   {id:1772443149020,num:6,date:"2026/03/02",symbol:"EURUSD",killzone:"伦敦KZ",direction:"做空",bias:"空",h4structure:"BOS延续-空",dol:"下方SSL（前低/等价低点）",htfFvg:"无阻挡✅",ash:"1.21588",asl:"1.21315",sweepType:"bsl",sweepDescription:"扫亚盘高点BSL（诱多做空）",judas:"Y✅",entryTrigger:"A",entry:1.21719,sl:1.21835,tp1:1.21479,tp2:1.21238,rr1:2.0689655172412538,rr2:4.146551724137736,entryQuality:"2",emotion:"平静",result:"BE保本（小盈）",tp1Hit:"Y✅",tp2Hit:"N（BE出场）",predCorrect:"N",logicCorrect:"Y",holdingHours:4.4,lesson:"这笔没什么错误，入场条件有系统，止损止盈相对合理，位移吐槽就是5m下跌到我的tp1直接反转，原因撞上的FVG。",narrative:"日线结构是bos空头延续。4H延续空头bos行情，溢价区有FVG，价格碰到FVG收跌证明有效，DOL就是4H的SSL下方流动性。",entryChartLink:"",resultChartLink:""},
-  {id:1772448765307,num:7,date:"2026/03/02",symbol:"EURUSD",killzone:"纽约KZ",direction:"做空",bias:"空",h4structure:"BOS延续-空",dol:"下方SSL（前低/等价低点）",htfFvg:"无阻挡✅",ash:"1.16292",asl:"1.15757",sweepType:"bsl",sweepDescription:"扫伦敦高点BSL（诱多做空）",judas:"Y✅",entryTrigger:"A",entry:1.15121,sl:1.15278,tp1:1.14605,tp2:1.142,rr1:3.2866242038220057,rr2:5.866242038217227,entryQuality:"3",emotion:"平静",result:"盈",tp1Hit:"Y✅",tp2Hit:"Y✅",predCorrect:"Y",logicCorrect:"Y",holdingHours:1.5,lesson:"这笔回测没什么问题",narrative:"日线偏向是空头延续，结构是BOS，而且日线留有一个FVG在溢价区。4H是空头BOS结构。留有一个与日线重叠的溢价区FVG，DOL是下方SSL。5m在纽约kz下跌猛烈后反弹回踩FVG-挂单进场，tp1是前低位置1.14605，tp2是另外的1:3。",entryChartLink:"",resultChartLink:""}
+  {id:1772448765307,num:7,date:"2026/03/02",symbol:"EURUSD",killzone:"纽约KZ",direction:"做空",bias:"空",h4structure:"BOS延续-空",dol:"下方SSL（前低/等价低点）",htfFvg:"无阻挡✅",ash:"1.16292",asl:"1.15757",sweepType:"bsl",sweepDescription:"扫伦敦高点BSL（诱多做空）",judas:"Y✅",entryTrigger:"A",entry:1.15121,sl:1.15278,tp1:1.14605,tp2:1.142,rr1:3.2866242038220057,rr2:5.866242038217227,entryQuality:"3",emotion:"平静",result:"盈",tp1Hit:"Y✅",tp2Hit:"Y✅",predCorrect:"Y",logicCorrect:"Y",holdingHours:1.5,lesson:"这笔回测没什么问题",narrative:"日线偏向是空头延续，结构是BOS，而且日线留有一个FVG在溢价区。4H是空头BOS结构。留有一个与日线重叠的溢价区FVG，DOL是下方SSL。5m在纽约kz下跌猛烈后反弹回踩FVG-挂单进场，tp1是前低位置1.14605，tp2是另外的1:3。",entryChartLink:"",resultChartLink:""},
+  {id:1772786456739,num:8,date:"3/6",symbol:"EURUSD",killzone:"伦敦KZ",direction:"做空",bias:"空",h4structure:"BOS延续-空",dol:"下方SSL（前低/等价低点）",htfFvg:"无阻挡✅",ash:"1.08849",asl:"1.08531",sweepType:"bsl",sweepDescription:"扫亚盘高点BSL（诱多做空）",judas:"Y✅",entryTrigger:"A",entry:1.08904,sl:1.09073,tp1:1.08511,tp2:1.08258,rr1:2.325443786982284,rr2:3.822485207100608,entryQuality:"2",emotion:"急躁",result:"亏",tp1Hit:"N",holdingHours:2,predCorrect:"N",logicCorrect:"Y",lesson:"这笔的教训是骂我看见了空头fvg但是上涨k线还继续进场，我这是因为浮躁，觉得条件都够了fvg就是进场信号，其实就是急着进场，而且我意识进场错了，有结构反转但依然不肯提早离场。",narrative:"在日线和4H的结构空头延续bos下确认偏向空头。DOL是5m的SSL，5m周期已经choch并且fvg，激进进场",entryChartLink:"https://www.tradingview.com/x/nnI3yxWu/",resultChartLink:"https://www.tradingview.com/x/ISbns7sO/"},
+  {id:1773571648763,num:9,date:"2026-3-15",symbol:"EURUSD",killzone:"伦敦KZ",direction:"做多",bias:"多",h4structure:"CHoCH反转-多",dol:"上方未回补4H FVG",htfFvg:"无阻挡✅",ash:"1.30751",asl:"1.30580",sweepType:"ssl",sweepDescription:"扫亚盘低点SSL（诱空做多）",judas:"Y✅",entryTrigger:"A",entry:1.30508,sl:1.30399,tp1:1.30837,tp2:1.31164,rr1:3.018348623853127,rr2:6.018348623852924,entryQuality:"3",emotion:"平静",result:"盈",tp1Hit:"Y✅",tp2Hit:"N（BE出场）",holdingHours:3.2,predCorrect:"N",logicCorrect:"Y",lesson:"4H的反转是无效的，主要是4H太坚定是日线折扣区就是机会买入，虽然BE，但是这是错误的判断。",narrative:"日线方向是涨因为结构是上涨BOS，4H开始空转多。DOL是回补上方未回补FVG。小周期CHoCH确认，位移FVG有效，入场1.30508，止损1.30399，TP1 1.30837，RR1 3.02x。",entryChartLink:"https://www.tradingview.com/x/Rkl67WsG/",resultChartLink:"https://www.tradingview.com/x/TNRcmFSn/"}
 ];
+let trades=JSON.parse(localStorage.getItem('smc_trades_v6')||'null');
+if(!trades){trades=[...defaultTrades];localStorage.setItem('smc_trades_v6',JSON.stringify(trades));}
+let P={kz:'',dir:'',bias:'',h4:'',dol:'',block:'',judas:'',sweep:'',quality:'',emo:'',result:'',tp1h:'',pred:'',logic:''};
+let mc={choch:false,fvg:false,e50:false,slpos:false,narr:false};
+let currentFilter='all';
 
-// Migrate from v4 or seed if empty; also merge missing SEED records
-if(!localStorage.getItem('smc_trades_v5')){
-  const old=localStorage.getItem('smc_trades_v4');
-  if(old){
-    try{
-      let oldTrades = JSON.parse(old);
-      oldTrades = oldTrades.map(t => {
-        const {entryScreen, resultScreen, ...rest } = t;
-        return { ...rest, entryChartLink: t.entryChartLink||'', resultChartLink: t.resultChartLink||'' };
-      });
-      localStorage.setItem('smc_trades_v5', JSON.stringify(oldTrades));
-    }catch(e){
-      localStorage.setItem('smc_trades_v5', JSON.stringify(SEED_TRADES));
-    }
+function gv(id){const el=document.getElementById(id);return el?el.value.trim():'';}
+function gf(id){const v=parseFloat(gv(id));return isNaN(v)?null:v;}
+function isSB(){return P.kz.includes('银弹');}
+function getModel(t){return(t.killzone||'').includes('银弹')?'SB':'主模型';}
+
+// ─── PILL PICKER ──────────────────────────────────────────────
+function pick(key,el){
+  const parent=el.parentElement;
+  parent.querySelectorAll('.pill').forEach(p=>{p.className='pill';});
+  el.classList.add('on');
+  P[key]=el.dataset.v;
+  if(key==='kz'||key==='dir') updateSweep();
+  if(key==='kz') updateSBMode();
+  run();
+}
+
+function updateSBMode(){
+  const sb=isSB();
+  document.getElementById('judasSec').style.display=sb?'none':'';
+  document.getElementById('sbNotice').style.display=sb?'':'none';
+  if(sb){P.judas='';P.sweep='';}
+  run();
+}
+
+function updateSweep(){
+  const c=document.getElementById('sweepPills');
+  if(!P.kz||!P.dir||isSB()){c.innerHTML='<div class="pill" style="color:var(--txm);cursor:default">先选KZ和方向</div>';P.sweep='';return;}
+  const isL=P.kz.includes('伦敦');
+  const ph=isL?'亚盘高点':'伦敦高点';
+  const pl=isL?'亚盘低点':'伦敦低点';
+  if(P.dir==='做多'){
+    c.innerHTML=`<div class="pill" data-v="ssl" onclick="pick('sweep',this)">✅ 扫${pl}SSL</div><div class="pill" data-v="wrong" onclick="pick('sweep',this)">❌ 扫${ph}BSL（矛盾）</div>`;
   } else {
-    localStorage.setItem('smc_trades_v5', JSON.stringify(SEED_TRADES));
+    c.innerHTML=`<div class="pill" data-v="bsl" onclick="pick('sweep',this)">✅ 扫${ph}BSL</div><div class="pill" data-v="wrong" onclick="pick('sweep',this)">❌ 扫${pl}SSL（矛盾）</div>`;
   }
-}
-let trades = JSON.parse(localStorage.getItem('smc_trades_v5')||'[]');
-let mc={}, currentFilter='all';
-
-// ─── TOOLTIP DATA ────────────────────────────────────────────────
-const TIPS = {
-  symbol: {
-    title:'品种 (Symbol)',
-    body:`交易的金融产品。<br><br>
-      <b>EURUSD</b> — 欧元/美元，流动性最高外汇对<br>
-      <b>XAUUSD</b> — 黄金/美元，波动大适合SMC<br>
-      <b>NAS100</b> — 纳斯达克100指数<br>
-      <b>US30</b> — 道琼斯工业指数<br><br>
-      建议初期专注1-2个品种，积累足够数据后再扩展。`
-  },
-  killzone: {
-    title:'Killzone 时段',
-    body:`ICT概念：一天中流动性最高、价格动作最真实的时间窗口。<br><br>
-      <b>伦敦KZ</b>：UTC-5 02:00-05:00 / 马来西亚 15:00-18:00<br>
-      <b>纽约KZ</b>：UTC-5 07:00-10:00 / 马来西亚 20:00-23:00<br><br>
-      <b>⭐ 银弹时段</b>是KZ内的精华窗口，信号质量最高：<br>
-      · 伦敦银弹：UTC-5 03:00-04:00 / MY 16:00-17:00<br>
-      · 纽约银弹：UTC-5 10:00-11:00 / MY 23:00-00:00<br><br>
-      <b>重要：</b>银弹是KZ的子集，不是独立时段。KZ结束后如果还未入场，视为该笔机会作废。`
-  },
-  direction:{
-    title:'交易方向',
-    body:`必须与日线偏见一致。<br><br>
-      <b>做多(Buy)</b>：预测价格上涨，日线偏见必须是"多"<br>
-      <b>做空(Sell)</b>：预测价格下跌，日线偏见必须是"空"<br><br>
-      逆势交易是最常见的亏损原因之一。永远只做与偏见一致的方向。`
-  },
-  bias:{
-    title:'日线偏见 (Daily Bias)',
-    body:`看日线K线图，判断当前市场主要趋势方向。<br><br>
-      <b>多（看涨）</b>：日线出现CHoCH向上，或BOS延续上涨结构<br>
-      <b>空（看跌）</b>：日线出现CHoCH向下，或BOS延续下跌结构<br>
-      <b>震荡</b>：价格在区间内，没有明确方向 → 不做<br><br>
-      日线偏见决定当天只做哪个方向，是所有分析的基础。`
-  },
-  h4structure:{
-    title:'4H结构',
-    body:`看4小时K线图的市场结构，必须与日线偏见方向一致。<br><br>
-      <b>BOS延续</b>：Break of Structure，突破前高/低，趋势继续<br>
-      <b>CHoCH反转</b>：Change of Character，打破此前趋势结构，发生方向改变<br><br>
-      例如：日线偏见多 → 4H也需要是BOS延续多，或CHoCH反转多<br>
-      如果日线多但4H是空结构 → 不做，等4H跟上日线方向。`
-  },
-  dol:{
-    title:'DOL — 流动性目标 (Draw on Liquidity)',
-    body:`价格下一步最可能被"吸引"去的地方，即算法的目标。<br><br>
-      <b>BSL (Buy Side Liquidity)</b>：前高上方聚集的做空止损单，价格上涨去收割<br>
-      <b>SSL (Sell Side Liquidity)</b>：前低下方聚集的做多止损单，价格下跌去收割<br>
-      <b>4H FVG（未回补）</b>：4H级别的价格缺口，算法倾向于回补<br>
-      <b>OB（订单块）</b>：机构大量成交的K线，价格常回测此区域<br><br>
-      DOL不清楚 = 不做。没有明确目标就是在赌。`
-  },
-  htfFvg:{
-    title:'路径FVG阻挡',
-    body:`检查从入场点到你的TP1目标之间，有没有更高时间框架（4H/日线）的FVG未被填补。<br><br>
-      <b>为什么重要？</b>价格在到达你的目标之前，可能先去填补路径中的FVG，导致你的TP1未到达。<br><br>
-      <b>无阻挡✅</b>：路径干净，价格可以顺畅到达DOL目标<br>
-      <b>有阻挡</b>：要么不做，要么把TP1设在阻挡FVG之前`
-  },
-  ash:{
-    title:'前时段高点 (ASH/LOH)',
-    body:`Judas Swing扫除的目标点位。<br><br>
-      <b>伦敦KZ入场</b>：ASH = 亚盘高点 (Asia Session High)<br>
-      <b>纽约KZ入场</b>：LOH = 伦敦盘高点 (London Open High)<br><br>
-      记录这个价位，用于判断价格是否完成了扫除动作。`
-  },
-  asl:{
-    title:'前时段低点 (ASL/LOL)',
-    body:`Judas Swing扫除的目标点位。<br><br>
-      <b>伦敦KZ入场</b>：ASL = 亚盘低点 (Asia Session Low)<br>
-      <b>纽约KZ入场</b>：LOL = 伦敦盘低点 (London Open Low)<br><br>
-      记录这个价位，用于判断价格是否完成了扫除动作。`
-  },
-  sweep:{
-    title:'Judas扫除方向',
-    body:`根据你的交易方向，Judas Swing扫除的对象是固定的：<br><br>
-      <b>做多</b>：必须扫前时段<b>低点SSL</b>（诱使散户做空，然后反转上涨）<br>
-      <b>做空</b>：必须扫前时段<b>高点BSL</b>（诱使散户做多，然后反转下跌）<br><br>
-      <b>逻辑</b>：算法先制造假突破骗散户进场，然后朝真实方向运行，吸收他们的止损单作为流动性。`
-  },
-  judas:{
-    title:'Judas Swing',
-    body:`Killzone开始时的假突破动作，是入场的前提条件。<br><br>
-      <b>做多场景</b>：价格开盘先向下跌破前时段低点SSL（诱空），然后迅速反转向上<br>
-      <b>做空场景</b>：价格开盘先向上突破前时段高点BSL（诱多），然后迅速反转向下<br><br>
-      Judas Swing未发生 = 入场条件不成立，继续等待。<br>
-      名字来源：犹大的背叛，即市场的欺骗性动作。`
-  },
-  entryTrigger:{
-    title:'入场触发类型',
-    body:`两种入场模型，各有优劣：<br><br>
-      <b>A型（积极）</b>：<br>
-      5m CHoCH确认 → 有位移FVG → 直接挂单FVG 50%<br>
-      优点：RR更好，不容易错过机会<br>
-      缺点：可能进早，止损被扫概率稍高<br><br>
-      <b>B型（保守）</b>：<br>
-      5m CHoCH + FVG → 等回测FVG → 再次CHoCH → 新FVG 50%<br>
-      优点：确认更多，成功率理论上更高<br>
-      缺点：容易错过，有时价格不给二次机会<br><br>
-      积累30笔数据后，系统会告诉你哪种更适合你。`
-  },
-  choch:{
-    title:'CHoCH — 特性改变 (Change of Character)',
-    body:`小周期（5m/15m）出现的结构反转信号，是入场的关键确认。<br><br>
-      <b>做多CHoCH</b>：价格原本在下跌，突然打破近期下跌结构，创造更高的高点，确认买方接管<br>
-      <b>做空CHoCH</b>：价格原本在上涨，突然打破近期上涨结构，创造更低的低点，确认卖方接管<br><br>
-      CHoCH必须发生在你预期的DOL附近，才有意义。`
-  },
-  fvg:{
-    title:'FVG — 公允价值缺口 (Fair Value Gap)',
-    body:`三根K线形成的价格不平衡区域，算法会倾向于回补。<br><br>
-      <b>有效FVG判断</b>：<br>
-      · 第1根K线的高点 与 第3根K线的低点之间有空隙（做多FVG）<br>
-      · 必须是位移性的（Displacement）：快速、有力的单向移动<br>
-      · 必须是在CHoCH之后形成的<br><br>
-      <b>FVG失效</b>：价格直接穿透而非回测 → 重新寻找机会`
-  },
-  e50:{
-    title:'FVG 50% 入场',
-    body:`挂单位置应在FVG区域的中点（50%）或以下（更深位置）。<br><br>
-      <b>为什么是50%？</b><br>
-      FVG代表不平衡，算法回测时通常会到达中点附近重新平衡。在50%挂单可以获得最优的入场价格和最大的止盈空间。<br><br>
-      进场过早（FVG顶部）= 止损空间不足<br>
-      等太深（FVG底部穿透）= FVG可能已失效`
-  },
-  slpos:{
-    title:'止损位置',
-    body:`止损必须放在CHoCH结构低点（做多）或高点（做空）的外侧。<br><br>
-      <b>做多止损</b>：放在CHoCH确认K线的低点下方，再留几点空间给价格呼吸<br>
-      <b>做空止损</b>：放在CHoCH确认K线的高点上方，再留几点空间<br><br>
-      <b>不要</b>：把止损放在FVG下方（太紧）或随意设置固定止损点数。<br>
-      止损必须有结构依据，才能区分是正常回测还是方向错误。`
-  },
-  noblock:{
-    title:'无路径阻挡',
-    body:`自动检测：根据你选择的"目标路径有4H FVG阻挡"字段。<br><br>
-      如果路径有阻挡，这个指标会显示失败，保存按钮会锁定。<br><br>
-      路径干净是高胜率交易的重要条件之一。`
-  },
-  narr:{
-    title:'叙事 (Narrative)',
-    body:`能用自己的话完整说出这笔交易的逻辑，是最重要的过滤器。<br><br>
-      标准叙事格式：<br>
-      "<b>日线[方向]偏见</b>，4H [结构类型]，[KZ时段]扫了[前时段]的[高/低点]诱[多/空]，5m CHoCH确认，FVG有效，挂单FVG 50%，DOL目标[目标位]，RR [X]x"<br><br>
-      如果你说不清楚，说明逻辑不完整，不应该入场。`
-  },
-  sl:{
-    title:'止损价格',
-    body:`你愿意在这笔交易上最多亏损的价格点位。<br><br>
-      止损触及 = 交易结束，接受亏损，继续下一笔。<br><br>
-      <b>每笔交易最多亏账户余额的1-2%</b>。如果止损对应的亏损超过这个比例，应该减少仓位，而不是移动止损。`
-  },
-  narrauto:{
-    title:'自动叙事预览',
-    body:`根据你填写的字段自动生成标准叙事模板，帮助你检查逻辑是否完整。<br><br>
-      注意：这只是模板，你还需要在"我的叙事"栏用自己的话重新描述，这个过程本身就是在训练你的分析能力。`
-  },
-  mynarr:{
-    title:'我的叙事',
-    body:`用自己的话说出完整的交易逻辑。这是最重要的训练项目。<br><br>
-      每次入场前都要能流畅说出这段话，如果说不清楚，说明你对这笔交易还没有足够的信心，应该继续等待。<br><br>
-      积累100笔后，回头读这些叙事，你会清楚地看到自己的进步。`
-  },
-  entryQuality:{
-    title:'入场质量评分',
-    body:`诚实评估这笔交易的入场质量，不看结果，只看执行。<br><br>
-      <b>3 — 完美</b>：位置理想，结构清晰，完全按SOP执行，止损合理<br>
-      <b>2 — 标准</b>：符合全部SOP条件，没有特别出彩也没有妥协<br>
-      <b>1 — 勉强</b>：进早了、进晚了、止损太紧、有条件没符合但还是进了<br><br>
-      这个数据会在仪表板统计"完美入场的胜率 vs 勉强入场的胜率"，帮你看清楚耐心的价值。`
-  },
-  emotion:{
-    title:'情绪状态',
-    body:`记录入场时的心理状态，是最重要也最容易被忽视的数据。<br><br>
-      <b>平静</b>：完全按计划，没有情绪影响<br>
-      <b>急躁</b>：想快点入场，觉得等待太浪费时间<br>
-      <b>FOMO</b>：Fear of Missing Out，怕错过这个机会<br>
-      <b>报复</b>：上一笔亏了想快点赚回来<br><br>
-      研究表明，FOMO和报复情绪下的交易，胜率通常低于平均水平30%以上。`
-  },
-  holdingHours:{
-    title:'持仓时间',
-    body:`从入场到平仓的时间（小时）。<br><br>
-      这个数据帮助你分析：持仓时间长短与胜率的关系。<br>
-      例如：是不是持仓超过8小时后反转风险增加？<br>
-      还是快速达到TP1的交易胜率更高？<br><br>
-      数据说话，不靠感觉。`
-  },
-  predCorrect:{
-    title:'预判正确',
-    body:`与结果（盈亏）<b>无关</b>，只判断价格在规定时间内有没有朝DOL方向推进。<br><br>
-      <b>判断截止时间</b>（重要）：<br>
-      · 伦敦KZ入场 → <b>纽约KZ结束前</b>（约当天UTC-5 11:00）<br>
-      · 纽约KZ入场 → <b>下一个伦敦KZ结束前</b>（约次日UTC-5 05:00）<br><br>
-      <b>Y ✅</b>：截止时间前，价格到达TP1方向（至少RR 1:1）<br>
-      <b>N ❌</b>：截止时间前价格没有推进，或结构反转<br><br>
-      <b>注意</b>：<br>
-      · BE ≈ 预判错（大多数情况）<br>
-      · 主动平仓（结构改变）= 预判错<br>
-      · 到了TP1但没到TP2 = 预判正确✅<br>
-      · 一周/一个月后才到DOL = 不算，预判错❌<br><br>
-      这个指标帮你区分：是HTF方向判断错了，还是只是入场时机不对。`
-  },
-  logicCorrect:{
-    title:'逻辑正确',
-    body:`这笔交易的执行过程中，所有SOP条件是否全部符合？<br><br>
-      <b>Y</b>：全部条件符合，这是一笔好的SOP执行，亏损属于正常概率损失<br>
-      <b>N</b>：有条件不符合（记录在教训里），这是执行问题，需要改正<br><br>
-      目标是：大多数交易逻辑正确。逻辑正确但亏损 = 可以接受。逻辑错误但盈利 = 危险信号，会养成坏习惯。`
-  },
-  lesson:{
-    title:'教训',
-    body:`每笔交易最重要的学习点，用一句话写下来。<br><br>
-      <b>关键</b>：写出你"知道但不想承认"的那句话。<br><br>
-      不好的教训：「这笔运气不好」「市场操纵」<br>
-      好的教训：「我在CHoCH前就入场了，因为我怕错过」「止损太紧，没有给结构足够空间」<br><br>
-      诚实的教训才能产生真正的进步。`
-  },
-  dashSession:{
-    title:'时段胜率对比',
-    body:`统计不同Killzone时段的胜率和平均RR。<br><br>
-      这个数据回答：你在哪个时段表现最好？<br><br>
-      积累20笔以上的数据后，这里会显示有意义的统计。可能会发现你在伦敦银弹胜率更高，或者纽约KZ的RR更好。<br><br>
-      用数据决定你应该重点守候哪个时段。`
-  },
-  dashEntry:{
-    title:'A型 vs B型入场对比',
-    body:`这是你最重要的数据之一。<br><br>
-      <b>A型</b>：一次CHoCH + FVG直接进，积极型<br>
-      <b>B型</b>：等二次CHoCH确认后进，保守型<br><br>
-      你一直在问哪种更好，这里会用你自己的真实数据告诉你答案，而不是靠别人的理论。<br><br>
-      30笔数据后开始看这里。`
-  },
-  dashQuality:{
-    title:'入场质量胜率',
-    body:`对比「完美入场(3分)」vs「勉强入场(1分)」的真实胜率差异。<br><br>
-      预期结论（需要数据验证）：质量3分的胜率应该明显高于质量1分。<br><br>
-      如果数据显示差距不大，说明你的SOP整体还需要打磨。<br>
-      如果差距很大，说明你需要更有耐心，等待更好的入场点。`
-  },
-  dashEmotion:{
-    title:'情绪状态胜率',
-    body:`对比不同情绪状态下的真实胜率。<br><br>
-      预期结论：平静状态的胜率应该最高，FOMO和报复情绪下最低。<br><br>
-      当你看到「FOMO情绪下胜率只有20%」这个数字，下次出现FOMO时你会有更强的理由等待。<br><br>
-      数字比意志力更有说服力。`
-  },
-  chartLink:{
-    title:'图表链接',
-    body:`粘贴 TradingView 图表的共享链接（例如 https://www.tradingview.com/x/...）。<br><br>
-      这样既能保留图表证据，又不会占用本地存储空间。点击链接可在新标签页打开完整图表。`
-  }
-};
-
-function showTip(key){
-  const t=TIPS[key]; if(!t)return;
-  document.getElementById('tooltipTitle').textContent=t.title;
-  document.getElementById('tooltipBody').innerHTML=t.body;
-  document.getElementById('tooltipOverlay').classList.add('show');
-}
-function closeTooltip(){document.getElementById('tooltipOverlay').classList.remove('show');}
-
-// ─── CLOCK ────────────────────────────────────────────────────────
-function updateClock(){
-  const now=new Date();
-  // UTC-5
-  const utc5=new Date(now.getTime()-5*3600000);
-  const my=new Date(now.getTime()+8*3600000);
-  document.getElementById('clockUTC5').textContent=utc5.toISOString().substr(11,8);
-  document.getElementById('clockMY').textContent=my.toISOString().substr(11,8);
-
-  const h=utc5.getUTCHours(), m=utc5.getUTCMinutes();
-  const t=h*60+m;
-
-  // Sessions in UTC-5
-  const sessions=[
-    {name:'亚盘',cls:'session-asia',start:20*60,end:24*60},
-    {name:'亚盘',cls:'session-asia',start:0,end:2*60},
-    {name:'伦敦KZ',cls:'session-london',start:2*60,end:5*60},
-    {name:'纽约KZ',cls:'session-ny',start:7*60,end:10*60},
-  ];
-  const silver=[
-    {name:'伦敦银弹',start:3*60,end:4*60},
-    {name:'纽约银弹',start:10*60,end:11*60},
-  ];
-
-  let sess='非交易时段', sessCls='session-closed';
-  for(const s of sessions){
-    if(t>=s.start&&t<s.end){sess=s.name;sessCls=s.cls;break;}
-  }
-  const badge=document.getElementById('sessionBadge');
-  badge.textContent=sess; badge.className='session-badge '+sessCls;
-
-  let isSilver=false;
-  for(const s of silver){if(t>=s.start&&t<s.end){isSilver=true;break;}}
-  document.getElementById('silverBadgeWrap').style.display=isSilver?'flex':'none';
-}
-setInterval(updateClock,1000);updateClock();
-
-// ─── GATE LOGIC ────────────────────────────────────────────────────
-function gv(id){return document.getElementById(id)?.value||'';}
-function gf(id){return parseFloat(document.getElementById(id)?.value)||0;}
-
-function onKillzoneChange(){
-  updateSweepOptions();
-  runGates();
-}
-function onDirectionChange(){
-  updateSweepOptions();
-  runGates();
+  P.sweep='';
 }
 
-function onResultChange(){
-  const r=gv('result');
-  const predSel=document.getElementById('predCorrect');
-  // BE保本或主动平仓 → 自动预设预判为N（可手动覆盖）
-  if((r==='BE保本（小盈）'||r==='BE保本'||r==='主动平仓')&&predSel.value===''){
-    predSel.value='N';
-  }
-  runGates();
+function togCk(el,key){
+  el.classList.toggle('on');
+  mc[key]=el.classList.contains('on');
+  run();
 }
 
-function updateSweepOptions(){
-  const kz=gv('killzone'), dir=gv('direction');
-  const sel=document.getElementById('sweep');
-  sel.innerHTML='';
-
-  if(!kz||!dir){
-    sel.innerHTML='<option value="">请先选择Killzone和交易方向</option>';
-    return;
-  }
-
-  const isLondon=kz.includes('伦敦');
-  const prevHigh=isLondon?'亚盘高点(ASH)':'伦敦高点(LOH)';
-  const prevLow=isLondon?'亚盘低点(ASL)':'伦敦低点(LOL)';
-
-  if(dir==='做多'){
-    sel.innerHTML=`
-      <option value="">选择</option>
-      <option value="ssl">✅ 扫${prevLow}SSL — 诱空做多（符合做多方向）</option>
-      <option value="wrong">❌ 扫${prevHigh}BSL — 诱多做空（与做多方向矛盾）</option>
-    `;
-  } else if(dir==='做空'){
-    sel.innerHTML=`
-      <option value="">选择</option>
-      <option value="bsl">✅ 扫${prevHigh}BSL — 诱多做空（符合做空方向）</option>
-      <option value="wrong">❌ 扫${prevLow}SSL — 诱空做多（与做空方向矛盾）</option>
-    `;
-  }
+function togColl(el){
+  el.classList.toggle('open');
+  const body=el.nextElementSibling;
+  body.classList.toggle('show');
 }
 
-function getSweepText(){
-  const kz=gv('killzone'), dir=gv('direction'), sweep=gv('sweep');
-  if(!kz||!dir||!sweep)return'';
-  const isLondon=kz.includes('伦敦');
-  const prevHigh=isLondon?'亚盘高点BSL':'伦敦高点BSL';
-  const prevLow=isLondon?'亚盘低点SSL':'伦敦低点SSL';
-  if(dir==='做多'&&sweep==='ssl')return`扫${prevLow}（诱空做多）`;
-  if(dir==='做空'&&sweep==='bsl')return`扫${prevHigh}（诱多做空）`;
-  return'';
-}
+// ─── GATES ────────────────────────────────────────────────────
+function run(){
+  const sb=isSB();
+  const sweepOk=sb||((P.sweep==='ssl'||P.sweep==='bsl')&&((P.dir==='做多'&&P.sweep==='ssl')||(P.dir==='做空'&&P.sweep==='bsl')));
+  const judasOk=sb||P.judas==='Y✅';
+  const alignOk=(P.bias==='多'&&P.h4.includes('多'))||(P.bias==='空'&&P.h4.includes('空'));
+  const dirOk=(P.bias==='多'&&P.dir==='做多')||(P.bias==='空'&&P.dir==='做空');
+  const dolOk=P.dol!==''&&P.dol!=='不清楚-不做';
+  const e=gf('entry'),s=gf('sl'),t1=gf('tp1');
+  const dolDirOk=e&&s&&t1&&P.dol?((t1>e&&P.dol.includes('上方'))||(t1<e&&P.dol.includes('下方'))):false;
+  const blockOk=P.block==='无阻挡✅';
+  const rrOk=e&&s&&t1?Math.abs((t1-e)/(e-s))>=2:false;
 
-function runGates(){
-  const kz=gv('killzone'), judas=gv('judas'), bias=gv('bias'), h4=gv('h4structure');
-  const dol=gv('dol'), htfFvg=gv('htfFvg'), dir=gv('direction'), sweep=gv('sweep');
-  const entryTrigger=gv('entryTrigger');
-  const entry=gf('entry'), sl=gf('sl'), tp1=gf('tp1');
+  const G={kz:P.kz!=='',sweep:sweepOk,judas:judasOk,choch:mc.choch,fvg:mc.fvg,align:alignOk&&dirOk,dol:dolOk&&dolDirOk,noblock:blockOk,rr:rrOk};
 
-  const sweepOk=sweep==='ssl'||sweep==='bsl';
-  const sweepDirOk=(dir==='做多'&&sweep==='ssl')||(dir==='做空'&&sweep==='bsl');
+  setG('g-kz',G.kz,'KZ',sb?false:false);
+  setG('g-sweep',G.sweep,'Sweep',sb);
+  setG('g-judas',G.judas,'Judas',sb);
+  setG('g-choch',G.choch,'CHoCH',false);
+  setG('g-fvg',G.fvg,'FVG',false);
+  setG('g-align',G.align,'方向',false);
+  setG('g-dol',G.dol,'DOL',false);
+  setG('g-noblock',G.noblock,'无阻挡',false);
+  setG('g-rr',G.rr,'RR≥2x',false);
 
-  const G={
-    kz: kz!=='',
-    sweep: sweepOk&&sweepDirOk,
-    judas: judas==='Y✅',
-    choch: !!mc.choch,
-    fvg: !!mc.fvg,
-    align: (bias==='多'&&(h4.includes('多')))||(bias==='空'&&(h4.includes('空'))),
-    dir: (bias==='多'&&dir==='做多')||(bias==='空'&&dir==='做空'),
-    dol: dol!==''&&dol!=='不清楚-不做',
-    doldir: entry&&sl&&tp1&&dol?((tp1>entry&&dol.includes('上方'))||(tp1<entry&&dol.includes('下方'))):false,
-    noblock: htfFvg==='无阻挡✅',
-    rr: entry&&sl&&tp1?Math.abs((tp1-entry)/(entry-sl))>=2:false,
-  };
-
-  setG('g-kz',G.kz,'Killzone');
-  setG('g-sweep',G.sweep,'Sweep✓');
-  setG('g-judas',G.judas,'Judas');
-  setG('g-choch',G.choch,'CHoCH');
-  setG('g-fvg',G.fvg,'FVG有效');
-  setG('g-align',G.align,'日线+4H');
-  setG('g-dir',G.dir,'方向一致');
-  setG('g-dol',G.dol,'DOL清晰');
-  setG('g-doldir',G.doldir,'DOL方向');
-  setG('g-noblock',G.noblock,'无阻挡');
-  setG('g-rr',G.rr,'RR≥2x');
-
-  autoCI('ci-noblock','ct-noblock',G.noblock);
-  autoCI('ci-align','ct-align',G.align);
-
-  setSS('s1st',kz&&dir&&gv('symbol')&&gv('tradeDate'));
-  setSS('s2st',bias&&h4&&dol&&htfFvg);
-  setSS('s3st',gv('ash')&&gv('asl')&&sweepOk&&judas);
-  setSS('s5st',entry&&sl&&tp1&&G.rr);
-  setSS('s4st',entryTrigger&&['choch','fvg','e50','slpos','narr'].every(k=>mc[k])&&G.noblock&&G.align);
+  setSS('s1st',P.kz&&P.dir&&gv('symbol')&&gv('tradeDate'));
+  setSS('s2st',P.bias&&P.h4&&P.dol&&P.block);
+  setSS('s3st',sb||(sweepOk&&judasOk));
+  setSS('s4st',['choch','fvg','e50','slpos','narr'].every(k=>mc[k]));
+  setSS('s5st',e&&s&&t1&&rrOk);
 
   const manualOk=['choch','fvg','e50','slpos','narr'].every(k=>mc[k]);
-  const allOk=Object.values(G).every(Boolean)&&manualOk&&gv('symbol')&&gv('tradeDate')&&entryTrigger;
+  const allOk=Object.values(G).every(Boolean)&&manualOk&&gv('symbol')&&gv('tradeDate');
 
   const btn=document.getElementById('saveBtn');
   const sum=document.getElementById('gateSummary');
   if(allOk){
-    btn.className='save-btn ready';
-    btn.textContent='✅ 所有条件通过 — 保存记录';
-    sum.innerHTML='<span class="gtxt-pass">🟢 全部放行！叙事完整，条件达标，可以入场。</span>';
+    btn.className='save-btn ready';btn.textContent='✅ 保存记录';
+    sum.innerHTML='<span class="gtxt-pass">🟢 全部放行！'+(sb?'Silver Bullet':'主模型')+'</span>';
   } else {
-    btn.className='save-btn locked';
-    btn.textContent='🔒 条件未达标，无法保存';
+    btn.className='save-btn locked';btn.textContent='🔒 条件未达标';
     const f=[];
     if(!gv('symbol')||!gv('tradeDate'))f.push('品种/日期');
-    if(!G.kz)f.push('Killzone未选');
-    if(!G.sweep)f.push('Sweep方向矛盾或未选');
-    if(!G.judas)f.push('Judas未发生');
-    if(!mc.choch)f.push('CHoCH未确认');
-    if(!mc.fvg)f.push('FVG未确认');
-    if(!mc.e50)f.push('FVG挂单未确认');
-    if(!mc.slpos)f.push('止损位置未确认');
-    if(!mc.narr)f.push('叙事未说出');
-    if(!G.align)f.push('日线+4H方向不一致');
-    if(!G.dir)f.push('方向与偏见不符');
-    if(!G.dol)f.push('DOL不清楚');
-    if(!G.doldir)f.push('TP1与DOL矛盾');
-    if(!G.noblock)f.push('路径有FVG阻挡');
-    if(!G.rr)f.push('RR不足2倍');
-    if(!entryTrigger)f.push('入场模型未选');
+    if(!G.kz)f.push('KZ');
+    if(!G.sweep&&!sb)f.push('Sweep');
+    if(!G.judas&&!sb)f.push('Judas');
+    if(!mc.choch)f.push('CHoCH');
+    if(!mc.fvg)f.push('FVG');
+    if(!G.align)f.push('方向不一致');
+    if(!G.dol)f.push('DOL');
+    if(!G.noblock)f.push('路径阻挡');
+    if(!G.rr)f.push('RR<2x');
+    if(!mc.e50)f.push('FVG挂单');
+    if(!mc.slpos)f.push('止损位');
+    if(!mc.narr)f.push('叙事');
     sum.innerHTML='🔴 未通过：<span class="gtxt-fail">'+f.join('、')+'</span>';
   }
   buildNarr();
 }
 
-function setG(id,pass,label){
+function buildNarr(){
+  const box=document.getElementById('autoNarr');
+  const hidden=document.getElementById('narrative');
+  if(!P.bias||!P.kz){box.textContent='填写上方信息后自动生成…';if(hidden)hidden.value='';return;}
+  const sb=isSB();
+  const sweepTxt=getSweepText();
+  const e=gv('entry'),s=gv('sl'),t1=gv('tp1');
+  const rr1El=document.getElementById('rr1Disp');
+  const rrTxt=rr1El?rr1El.textContent.split('最')[0].trim():'—';
+  let narr=`${P.kz}，日线偏见${P.bias}，4H ${P.h4||'___'}。`;
+  if(sb){narr+=`Silver Bullet窗口内位移+FVG入场。`;}
+  else if(sweepTxt){narr+=`算法${sweepTxt}，`;}
+  narr+=`DOL目标${P.dol||'___'}。`;
+  if(mc.choch&&mc.fvg)narr+=`小周期CHoCH确认，位移FVG有效。`;
+  if(e)narr+=`入场${e}，`;
+  if(s)narr+=`止损${s}，`;
+  if(t1)narr+=`TP1 ${t1}，`;
+  narr+=`RR1 ${rrTxt}。`;
+  box.textContent=narr;
+  if(hidden)hidden.value=narr;
+}
+
+function setG(id,pass,label,skipped){
   const el=document.getElementById(id);if(!el)return;
-  el.className='gate-item '+(pass?'pass':'fail');
-  el.innerHTML=`<div class="gate-dot"></div>${label}`;
+  if(skipped){el.className='gate-item skip';el.innerHTML=`<div class="gate-dot"></div><s>${label}</s>`;}
+  else{el.className='gate-item '+(pass?'pass':'fail');el.innerHTML=`<div class="gate-dot"></div>${label}`;}
 }
-function setSS(id,ok){
-  const el=document.getElementById(id);if(!el)return;
-  if(!ok){el.className='section-status pending';el.textContent='待填写';}
-  else{el.className='section-status ok';el.textContent='✓';}
-}
-function autoCI(itemId,tagId,pass){
-  const item=document.getElementById(itemId),tag=document.getElementById(tagId);
-  if(!item||!tag)return;
-  if(pass){item.classList.add('checked');tag.className='check-tag tag-auto-pass';tag.textContent='自动✓';}
-  else{item.classList.remove('checked');tag.className='check-tag tag-auto-fail';tag.textContent='自动✗';}
-}
-function toggleCheck(el,key){
-  if(key==='noblock'||key==='align')return;
-  el.classList.toggle('checked');
-  mc[key]=el.classList.contains('checked');
-  const tag=document.getElementById('ct-'+key);
-  if(tag){tag.className='check-tag '+(mc[key]?'tag-auto-pass':'tag-manual');tag.textContent=mc[key]?'✓':'手动';}
-  runGates();
-}
+function setSS(id,ok){const el=document.getElementById(id);if(!el)return;el.className='sec-tag '+(ok?'ok':'wait');el.textContent=ok?'✓':'待填写';}
 
 function calcRR(){
   const e=gf('entry'),s=gf('sl'),t1=gf('tp1'),t2=gf('tp2');
   const d1=document.getElementById('rr1Disp'),d2=document.getElementById('rr2Disp');
-  const dBE=document.getElementById('beDisp'),dWR=document.getElementById('wrrDisp');
-  // RR1
-  let rr1=null;
-  if(e&&s&&t1){rr1=Math.abs((t1-e)/(e-s));d1.className='rr-display '+(rr1>=2?'pass':'fail');d1.innerHTML=rr1.toFixed(2)+'x<span class="rr-min">最低 2.0x</span>';}
-  else{d1.className='rr-display';d1.innerHTML='—<span class="rr-min">最低 2.0x</span>';}
-  // RR2
-  let rr2=null;
-  if(e&&s&&t2){rr2=Math.abs((t2-e)/(e-s));d2.className='rr-display '+(rr2>=2?'pass':'fail');d2.innerHTML=rr2.toFixed(2)+'x';}
-  else{d2.className='rr-display';d2.innerHTML='—';}
-  // BE价格自动计算（入场±5点，多单+5点，空单-5点）
-  if(dBE){
-    if(e&&s){
-      const isLong=t1?t1>e:(s<e);
-      const be=isLong?(e+0.00005):(e-0.00005);
-      dBE.textContent=be.toFixed(5)+'（入场'+(isLong?'+':'-')+'5点cover手续费）';
-    } else {dBE.textContent='—';}
-  }
-  // 加权RR：80%×RR1 + 20%×RR2（若无TP2则20%按BE≈0算）
-  if(dWR){
-    if(rr1){
-      const wRR=rr2?(0.8*rr1+0.2*rr2):(0.8*rr1);
-      dWR.className='rr-display '+(wRR>=2?'pass':'fail');
-      dWR.innerHTML=wRR.toFixed(2)+'x<span class="rr-min"> 加权实际RR</span>';
-    } else {dWR.className='rr-display';dWR.innerHTML='—';}
-  }
+  if(e&&s&&t1){const r=Math.abs((t1-e)/(e-s));d1.className='rr-box '+(r>=2?'pass':'fail');d1.innerHTML=r.toFixed(2)+'x<span class="rr-sub">最低 2.0x</span>';}
+  else{d1.className='rr-box';d1.innerHTML='—<span class="rr-sub">最低 2.0x</span>';}
+  if(e&&s&&t2){const r=Math.abs((t2-e)/(e-s));d2.className='rr-box '+(r>=2?'pass':'fail');d2.innerHTML=r.toFixed(2)+'x';}
+  else{d2.className='rr-box';d2.innerHTML='—';}
 }
 
-function buildNarr(){
-  const kz=gv('killzone'),bias=gv('bias'),dol=gv('dol'),e=gv('entry'),s=gv('sl'),t1=gv('tp1');
-  const sweepTxt=getSweepText();
-  const box=document.getElementById('narrBox');
-  if(!kz||!bias||!sweepTxt){box.textContent='填写基本信息后自动生成...';return;}
-  const rrtxt=document.getElementById('rr1Disp').textContent.split('最')[0].trim();
-  box.innerHTML=`<span class="nh">${kz}</span>，日线偏见<span class="nh">${bias}</span>，算法<span class="nh">${sweepTxt}</span>，DOL目标<span class="nh">${dol||'___'}</span>。小周期CHoCH确认，位移FVG有效，入场<span class="nh">${e||'___'}</span>，止损<span class="nh">${s||'___'}</span>，TP1 <span class="nh">${t1||'___'}</span>，RR1 <span class="nh">${rrtxt}</span>。`;
+// ─── SAVE ─────────────────────────────────────────────────────
+function getSweepText(){
+  if(isSB())return'Silver Bullet（无Judas）';
+  if(!P.kz||!P.dir||!P.sweep)return'';
+  const isL=P.kz.includes('伦敦');
+  const ph=isL?'亚盘高点BSL':'伦敦高点BSL';
+  const pl=isL?'亚盘低点SSL':'伦敦低点SSL';
+  if(P.dir==='做多'&&P.sweep==='ssl')return`扫${pl}（诱空做多）`;
+  if(P.dir==='做空'&&P.sweep==='bsl')return`扫${ph}（诱多做空）`;
+  return'';
 }
 
-function saveTrade(){
-  if(document.getElementById('saveBtn').classList.contains('locked')){showToast('条件未达标','error');return;}
+async function saveTrade(){
+  if(document.getElementById('saveBtn').classList.contains('locked')){toast('条件未达标','error');return;}
   const e=gf('entry'),s=gf('sl'),t1=gf('tp1'),t2=gf('tp2');
-  const sweepTxt=getSweepText();
   const trade={
     id:Date.now(),num:trades.length+1,
     date:gv('tradeDate'),symbol:gv('symbol'),
-    killzone:gv('killzone'),direction:gv('direction'),
-    bias:gv('bias'),h4structure:gv('h4structure'),
-    dol:gv('dol'),htfFvg:gv('htfFvg'),
+    killzone:P.kz,direction:P.dir,
+    bias:P.bias,h4structure:P.h4,
+    dol:P.dol,htfFvg:P.block,
     ash:gv('ash'),asl:gv('asl'),
-    sweepType:gv('sweep'),sweepDescription:sweepTxt,
-    judas:gv('judas'),
-    entryTrigger:gv('entryTrigger'),
+    sweepType:isSB()?'sb':P.sweep,
+    sweepDescription:getSweepText(),
+    judas:isSB()?'SB':P.judas,
+    entryTrigger:isSB()?'SB':'A',
     entry:e,sl:s,tp1:t1,tp2:t2,
     rr1:(e&&s&&t1)?Math.abs((t1-e)/(e-s)):null,
     rr2:(e&&s&&t2)?Math.abs((t2-e)/(e-s)):null,
-    entryQuality:gv('entryQuality')||null,
-    emotion:gv('emotion')||null,
-    result:gv('result'),tp1Hit:gv('tp1Hit'),tp2Hit:gv('tp2Hit'),
+    entryQuality:P.quality||null,
+    emotion:P.emo||null,
+    result:P.result,tp1Hit:P.tp1h,
     holdingHours:gf('holdingHours')||null,
-    predCorrect:gv('predCorrect'),logicCorrect:gv('logicCorrect'),
+    predCorrect:P.pred,logicCorrect:P.logic,
     lesson:gv('lesson'),narrative:gv('narrative'),
-    entryChartLink:gv('entryChartLink'),resultChartLink:gv('resultChartLink'),
+    hasEntryImg:!!formImgs.entry,hasResultImg:!!formImgs.result,
   };
   trades.push(trade);
-  localStorage.setItem('smc_trades_v5',JSON.stringify(trades));
+  localStorage.setItem('smc_trades_v6',JSON.stringify(trades));
+  // Save images to IndexedDB
+  if(formImgs.entry)await saveImg(trade.id,'entry',formImgs.entry.b64,formImgs.entry.mime);
+  if(formImgs.result)await saveImg(trade.id,'result',formImgs.result.b64,formImgs.result.mime);
   updateNav();checkConsec();
-  showToast(`✅ 第${trade.num}笔已保存`,'success');
+  toast(`✅ #${trade.num} 已保存 — AI评价生成中…`,'success');
   clearForm();
-  evalWithAI(trade);
+  // Auto-run AI eval with entry screenshot
+  const evalText=await runAIEval(trade,formImgs.entry?.b64,formImgs.entry?.mime);
+  if(evalText){
+    const ti=trades.findIndex(t=>t.id===trade.id);
+    if(ti!==-1){trades[ti].aiEval=evalText;localStorage.setItem('smc_trades_v6',JSON.stringify(trades));}
+    toast(`🤖 #${trade.num} AI评价完成`,'success');
+    renderHistory();
+  }
 }
 
 function checkConsec(){
-  const recent=[...trades].reverse().slice(0,3);
-  const bad=recent.length>=3&&recent.every(t=>t.result==='亏');
-  document.getElementById('lossAlert').className='alert-banner'+(bad?' show':'');
+  const r=[...trades].reverse().slice(0,3);
+  document.getElementById('lossAlert').className='alert-banner'+(r.length>=3&&r.every(t=>t.result==='亏')?' show':'');
 }
 
 function clearForm(){
-  ['symbol','killzone','direction','bias','h4structure','dol','htfFvg','judas','result','tp1Hit','tp2Hit','predCorrect','logicCorrect','entryTrigger','entryQuality','emotion'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
-  ['tradeDate','ash','asl','entry','sl','tp1','tp2','lesson','narrative','holdingHours','entryChartLink','resultChartLink'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
-  document.getElementById('sweep').innerHTML='<option value="">请先选择Killzone和交易方向</option>';
-  document.querySelectorAll('.check-item.checked').forEach(el=>el.classList.remove('checked'));
-  document.querySelectorAll('.check-tag').forEach(el=>{el.className='check-tag tag-manual';el.textContent='手动';});
-  mc={};
-  document.getElementById('rr1Disp').className='rr-display';
-  document.getElementById('rr1Disp').innerHTML='—<span class="rr-min">最低 2.0x</span>';
-  document.getElementById('rr2Disp').className='rr-display';
-  document.getElementById('rr2Disp').innerHTML='—';
-  document.getElementById('narrBox').textContent='填写上方信息后自动生成...';
-  runGates();
+  P={kz:'',dir:'',bias:'',h4:'',dol:'',block:'',judas:'',sweep:'',quality:'',emo:'',result:'',tp1h:'',pred:'',logic:''};
+  mc={choch:false,fvg:false,e50:false,slpos:false,narr:false};
+  formImgs={entry:null,result:null};
+  document.querySelectorAll('.pill.on,.pill.on-g,.pill.on-r,.pill.on-y').forEach(p=>p.className='pill');
+  document.querySelectorAll('.ck.on').forEach(c=>c.classList.remove('on'));
+  ['ash','asl','entry','sl','tp1','tp2','lesson','narrative','holdingHours'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  document.getElementById('symbol').value='';
+  document.getElementById('sweepPills').innerHTML='<div class="pill" style="color:var(--txm);cursor:default">先选KZ和方向</div>';
+  document.getElementById('judasSec').style.display='';
+  document.getElementById('sbNotice').style.display='none';
+  document.getElementById('rr1Disp').className='rr-box';document.getElementById('rr1Disp').innerHTML='—<span class="rr-sub">最低 2.0x</span>';
+  document.getElementById('rr2Disp').className='rr-box';document.getElementById('rr2Disp').innerHTML='—';
+  clearFormImg('entry');clearFormImg('result');
+  run();setToday();
 }
 
-// ─── HISTORY ──────────────────────────────────────────────────────
+// ─── HISTORY ──────────────────────────────────────────────────
 function filterH(f,btn){
   currentFilter=f;
   document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
@@ -1510,283 +846,481 @@ function filterH(f,btn){
   renderHistory();
 }
 
-function matchKillzone(kz, filter){
-  if(!kz) return false;
-  // 银弹精确包含
-  if(filter==='伦敦银弹') return kz.includes('伦敦银弹');
-  if(filter==='纽约银弹') return kz.includes('纽约银弹');
-  // 伦敦KZ = 包含"伦敦"但不含"银弹"
-  if(filter==='伦敦') return kz.includes('伦敦') && !kz.includes('银弹');
-  // 纽约KZ = 包含"纽约"但不含"银弹"
-  if(filter==='纽约') return kz.includes('纽约') && !kz.includes('银弹');
-  return kz.includes(filter);
-}
-
 function renderHistory(){
   const list=document.getElementById('histList');
-  let filtered=[...trades].reverse();
-  if(currentFilter==='be')filtered=filtered.filter(t=>isBE(t));else if(currentFilter!=='all')filtered=filtered.filter(t=>t.result===currentFilter||matchKillzone(t.killzone,currentFilter));
-  if(!filtered.length){list.innerHTML='<div class="empty-state"><div style="font-size:40px;opacity:0.3;">📭</div><div>暂无记录</div></div>';return;}
-  list.innerHTML=filtered.map(t=>{
+  let arr=[...trades].reverse();
+  if(currentFilter==='主模型')arr=arr.filter(t=>getModel(t)==='主模型');
+  else if(currentFilter==='SB')arr=arr.filter(t=>getModel(t)==='SB');
+  else if(currentFilter==='伦敦')arr=arr.filter(t=>(t.killzone||'').includes('伦敦'));
+  else if(currentFilter==='纽约')arr=arr.filter(t=>(t.killzone||'').includes('纽约'));
+  else if(currentFilter!=='all')arr=arr.filter(t=>t.result===currentFilter);
+
+  if(!arr.length){list.innerHTML='<div class="empty-state"><div style="font-size:40px;opacity:.3">📭</div><div>暂无记录</div></div>';return;}
+
+  list.innerHTML=arr.map(t=>{
     const rc=t.result==='盈'?'win':t.result==='亏'?'loss':'be';
-    const rb=t.result==='盈'?'badge-win':t.result==='亏'?'badge-loss':'badge-be';
-    const isSilver=(t.killzone||'').includes('银弹');
-    const kb=isSilver?'badge-silver':(t.killzone||'').includes('伦敦')?'badge-london':'badge-ny';
-    const qColor=t.entryQuality==='3'?'var(--green)':t.entryQuality==='1'?'var(--red)':'var(--text-dim)';
+    const rb=t.result==='盈'?'b-win':t.result==='亏'?'b-loss':'b-be';
+    const sb=(t.killzone||'').includes('银弹');
+    const kb=sb?'b-sb':(t.killzone||'').includes('伦敦')?'b-ldn':'b-ny';
+    const model=sb?'SB':'主模型';
     const emojis={'平静':'😌','急躁':'😤','FOMO':'😰','报复':'😠'};
-    return `<div class="trade-card ${rc}" onclick="showDetail(${t.id})">
-      <div class="trade-card-header">
-        <div class="trade-num">#${t.num}</div>
-        <div class="trade-symbol">${t.symbol||'—'}</div>
-        <div class="trade-date">${t.date}</div>
+    const wRR=getWRR(t);
+    return`<div class="trade-card ${rc}" onclick="showDetail(${t.id})">
+      <div class="tc-head">
+        <div class="tc-num">#${t.num}</div>
+        <div class="tc-sym">${t.symbol||'—'}</div>
+        <div class="tc-date">${t.date}</div>
         ${t.result?`<span class="badge ${rb}">${t.result}</span>`:''}
-        ${t.killzone?`<span class="badge ${kb}">${t.killzone}</span>`:''}
-        ${t.entryTrigger?`<span class="badge" style="background:var(--blue-dim);color:var(--blue)">${t.entryTrigger}型</span>`:''}
-        <div style="margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:11px;color:${getWRR(t)>=2?'var(--green)':'var(--text-dim)'}">wRR: ${getWRR(t)?getWRR(t).toFixed(2)+'x':'—'}</div>
+        <span class="badge ${kb}">${t.killzone||'—'}</span>
+        <span class="badge b-model">${model}</span>
+        <div style="margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:12px;color:${wRR&&wRR>=2?'var(--green)':'var(--txd)'}">RR: ${wRR?wRR.toFixed(1)+'x':'—'}</div>
       </div>
-      <div class="trade-meta">
-        <div class="meta-item">偏见 <span>${t.bias||'—'}</span></div>
-        <div class="meta-item">DOL <span>${(t.dol||'—').substring(0,10)}</span></div>
-        <div class="meta-item">预判 <span style="color:${t.predCorrect==='Y'?'var(--green)':'var(--red)'}">${t.predCorrect||'—'}</span></div>
-        <div class="meta-item">逻辑 <span style="color:${t.logicCorrect==='Y'?'var(--green)':'var(--red)'}">${t.logicCorrect||'—'}</span></div>
-        ${t.entryQuality?`<div class="meta-item">质量 <span style="color:${qColor}">Q${t.entryQuality}</span></div>`:''}
-        ${t.emotion?`<div class="meta-item">${emojis[t.emotion]||''} <span>${t.emotion}</span></div>`:''}
+      <div class="tc-meta">
+        <div>偏见 <span>${t.bias||'—'}</span></div>
+        <div>预判 <span style="color:${t.predCorrect==='Y'?'var(--green)':'var(--red)'}">${t.predCorrect||'—'}</span></div>
+        <div>逻辑 <span style="color:${t.logicCorrect==='Y'?'var(--green)':'var(--red)'}">${t.logicCorrect||'—'}</span></div>
+        ${t.emotion?`<div>${emojis[t.emotion]||''} <span>${t.emotion}</span></div>`:''}
       </div>
     </div>`;
   }).join('');
 }
 
-function showDetail(id){
+async function showDetail(id){
   const t=trades.find(tr=>tr.id===id);if(!t)return;
   document.getElementById('modalTitle').textContent=`#${t.num} ${t.symbol} — ${t.date}`;
   const rc=t.result==='盈'?'green':t.result==='亏'?'red':'yellow';
   const emojis={'平静':'😌','急躁':'😤','FOMO':'😰','报复':'😠'};
   const qLabel={3:'完美',2:'标准',1:'勉强'};
-  // 构建详情内容，包含链接显示
-  let linksHtml = '';
-  if(t.entryChartLink) linksHtml += `<div style="margin-bottom:10px"><div class="detail-label" style="margin-bottom:6px">📈 入场图表</div><a href="${t.entryChartLink}" target="_blank" style="color:var(--blue);word-break:break-all">${t.entryChartLink}</a></div>`;
-  if(t.resultChartLink) linksHtml += `<div style="margin-bottom:10px"><div class="detail-label" style="margin-bottom:6px">📊 结果图表</div><a href="${t.resultChartLink}" target="_blank" style="color:var(--blue);word-break:break-all">${t.resultChartLink}</a></div>`;
+
+  // Load saved screenshots from IndexedDB
+  const entryImg=await loadImg(t.id,'entry');
+  const resultImg=await loadImg(t.id,'result');
+  // Also support old trades with entryChartLink
+  const oldLink=t.entryChartLink?`<div style="margin:6px 0"><a href="${t.entryChartLink}" target="_blank" style="color:var(--blue);font-size:12px">${t.entryChartLink}</a></div>`:'';
+
+  let imgHtml='';
+  if(entryImg)imgHtml+=`<div style="margin:10px 0"><div class="d-label" style="margin-bottom:6px">📷 入场截图</div><img src="data:${entryImg.mime||'image/jpeg'};base64,${entryImg.b64}" style="max-width:100%;border-radius:8px;border:1px solid var(--bd)"></div>`;
+  if(resultImg)imgHtml+=`<div style="margin:10px 0"><div class="d-label" style="margin-bottom:6px">📷 结果截图</div><img src="data:${resultImg.mime||'image/jpeg'};base64,${resultImg.b64}" style="max-width:100%;border-radius:8px;border:1px solid var(--bd)"></div>`;
+
+  // AI eval — always show if exists
+  let aiHtml='';
+  if(t.aiEval){
+    aiHtml=`<div class="sec" style="margin:14px 0;border-color:var(--blue)"><div class="d-label" style="margin-bottom:8px;color:var(--blue)">🤖 AI 审核评价</div>${formatAIResponse(t.aiEval)}</div>`;
+  } else {
+    aiHtml=`<div style="text-align:center;padding:14px;color:var(--txm);font-size:13px">${localStorage.getItem('gemini_api_key')?'AI评价未生成':'设置Gemini API Key后自动生成'}</div>`;
+  }
 
   document.getElementById('modalContent').innerHTML=`
     <div class="modal-grid">
-      <div class="detail-item"><div class="detail-label">结果</div><div class="detail-value ${rc}">${t.result||'—'}</div></div>
-      <div class="detail-item"><div class="detail-label">Killzone</div><div class="detail-value">${t.killzone||'—'}</div></div>
-      <div class="detail-item"><div class="detail-label">日线偏见</div><div class="detail-value">${t.bias||'—'}</div></div>
-      <div class="detail-item"><div class="detail-label">4H结构</div><div class="detail-value">${t.h4structure||'—'}</div></div>
-      <div class="detail-item"><div class="detail-label">DOL目标</div><div class="detail-value">${t.dol||'—'}</div></div>
-      <div class="detail-item"><div class="detail-label">Sweep</div><div class="detail-value">${t.sweepDescription||'—'}</div></div>
-      <div class="detail-item"><div class="detail-label">入场触发</div><div class="detail-value">${t.entryTrigger?t.entryTrigger+'型':'—'}</div></div>
-      <div class="detail-item"><div class="detail-label">入场质量</div><div class="detail-value">${t.entryQuality?'Q'+t.entryQuality+' '+qLabel[t.entryQuality]:'—'}</div></div>
-      <div class="detail-item"><div class="detail-label">情绪状态</div><div class="detail-value">${t.emotion?(emojis[t.emotion]||'')+' '+t.emotion:'—'}</div></div>
-      <div class="detail-item"><div class="detail-label">TP2触及</div><div class="detail-value">${t.tp2Hit||'—'}</div></div>
-      <div class="detail-item"><div class="detail-label">持仓时间</div><div class="detail-value">${t.holdingHours?t.holdingHours+'小时':'—'}</div></div>
-      <div class="detail-item"><div class="detail-label">入场价</div><div class="detail-value">${t.entry||'—'}</div></div>
-      <div class="detail-item"><div class="detail-label">止损价</div><div class="detail-value red">${t.sl||'—'}</div></div>
-      <div class="detail-item"><div class="detail-label">TP1 / RR1</div><div class="detail-value green">${t.tp1||'—'} / ${t.rr1?t.rr1.toFixed(2)+'x':'—'}</div></div>
-      <div class="detail-item"><div class="detail-label">TP2 / RR2</div><div class="detail-value green">${t.tp2||'—'} / ${t.rr2?t.rr2.toFixed(2)+'x':'—'}</div></div>
-      <div class="detail-item"><div class="detail-label">预判正确</div><div class="detail-value ${t.predCorrect==='Y'?'green':'red'}">${t.predCorrect||'—'}</div></div>
-      <div class="detail-item"><div class="detail-label">逻辑正确</div><div class="detail-value ${t.logicCorrect==='Y'?'green':'red'}">${t.logicCorrect||'—'}</div></div>
+      <div class="d-item"><div class="d-label">结果</div><div class="d-val ${rc}">${t.result||'—'}</div></div>
+      <div class="d-item"><div class="d-label">模型</div><div class="d-val">${getModel(t)}</div></div>
+      <div class="d-item"><div class="d-label">Killzone</div><div class="d-val">${t.killzone||'—'}</div></div>
+      <div class="d-item"><div class="d-label">日线偏见</div><div class="d-val">${t.bias||'—'}</div></div>
+      <div class="d-item"><div class="d-label">4H结构</div><div class="d-val">${t.h4structure||'—'}</div></div>
+      <div class="d-item"><div class="d-label">DOL</div><div class="d-val">${t.dol||'—'}</div></div>
+      <div class="d-item"><div class="d-label">Sweep</div><div class="d-val">${t.sweepDescription||'—'}</div></div>
+      <div class="d-item"><div class="d-label">质量</div><div class="d-val">${t.entryQuality?'Q'+t.entryQuality+' '+qLabel[t.entryQuality]:'—'}</div></div>
+      <div class="d-item"><div class="d-label">情绪</div><div class="d-val">${t.emotion?(emojis[t.emotion]||'')+' '+t.emotion:'—'}</div></div>
+      <div class="d-item"><div class="d-label">入场</div><div class="d-val">${t.entry||'—'}</div></div>
+      <div class="d-item"><div class="d-label">止损</div><div class="d-val red">${t.sl||'—'}</div></div>
+      <div class="d-item"><div class="d-label">TP1/RR1</div><div class="d-val green">${t.tp1||'—'} / ${t.rr1?t.rr1.toFixed(2)+'x':'—'}</div></div>
+      <div class="d-item"><div class="d-label">TP2/RR2</div><div class="d-val green">${t.tp2||'—'} / ${t.rr2?t.rr2.toFixed(2)+'x':'—'}</div></div>
+      <div class="d-item"><div class="d-label">预判</div><div class="d-val ${t.predCorrect==='Y'?'green':'red'}">${t.predCorrect||'—'}</div></div>
+      <div class="d-item"><div class="d-label">逻辑</div><div class="d-val ${t.logicCorrect==='Y'?'green':'red'}">${t.logicCorrect||'—'}</div></div>
+      <div class="d-item"><div class="d-label">持仓</div><div class="d-val">${t.holdingHours?t.holdingHours+'h':'—'}</div></div>
     </div>
-    ${t.narrative?`<div class="sop-section" style="margin-bottom:10px"><div class="detail-label" style="margin-bottom:5px">📖 叙事</div><div style="font-size:13px;color:var(--blue);line-height:1.7;font-style:italic">${t.narrative}</div></div>`:''}
-    ${t.lesson?`<div class="sop-section" style="margin-bottom:10px"><div class="detail-label" style="margin-bottom:5px">💡 教训</div><div style="font-size:13px;color:var(--yellow);line-height:1.6">${t.lesson}</div></div>`:''}
-    ${linksHtml}
+    ${imgHtml}${oldLink}
+    ${t.narrative?`<div class="sec" style="margin-bottom:10px"><div class="d-label" style="margin-bottom:5px">📖 叙事</div><div style="font-size:14px;color:var(--blue);line-height:1.7">${t.narrative}</div></div>`:''}
+    ${t.lesson?`<div class="sec" style="margin-bottom:10px"><div class="d-label" style="margin-bottom:5px">💡 教训</div><div style="font-size:14px;color:var(--yellow);line-height:1.6">${t.lesson}</div></div>`:''}
+    ${aiHtml}
     <div class="btn-row">
-      <button class="btn" style="background:var(--blue-dim);color:var(--blue);border:1px solid var(--blue)" onclick="showSavedAIEval(${t.id})">${t.aiEval?'🤖 查看AI评价':'🤖 生成AI评价'}</button>
-      <button class="btn btn-danger" onclick="delTrade(${t.id})">🗑 删除这笔</button>
+      ${!t.aiEval?`<button class="btn" style="background:var(--blue-d);color:var(--blue);border-color:var(--blue)" onclick="regenAI(${t.id})">🤖 生成AI评价</button>`:`<button class="btn" style="background:var(--sf2);color:var(--txd);border-color:var(--bd)" onclick="regenAI(${t.id})">🔄 重新生成</button>`}
+      <button class="btn btn-danger" onclick="delTrade(${t.id})">🗑 删除</button>
     </div>`;
   document.getElementById('modal').classList.add('show');
+}
+
+async function regenAI(id){
+  const t=trades.find(tr=>tr.id===id);if(!t)return;
+  const ti=trades.findIndex(tr=>tr.id===id);
+  if(ti!==-1)delete trades[ti].aiEval;
+  // Show loading in modal
+  const mc=document.getElementById('modalContent');
+  const aiSec=mc.querySelector('.sec[style*="border-color:var(--blue)"]');
+  if(aiSec)aiSec.innerHTML='<div style="text-align:center;padding:14px;color:var(--txd)">⏳ AI评价生成中…</div>';
+  else{const d=document.createElement('div');d.className='sec';d.style.cssText='margin:14px 0;border-color:var(--blue)';d.innerHTML='<div style="text-align:center;padding:14px;color:var(--txd)">⏳ AI评价生成中…</div>';mc.insertBefore(d,mc.querySelector('.btn-row'));}
+  const entryImg=await loadImg(t.id,'entry');
+  const text=await runAIEval(t,entryImg?.b64,entryImg?.mime);
+  if(text){trades[ti].aiEval=text;localStorage.setItem('smc_trades_v6',JSON.stringify(trades));}
+  showDetail(id); // re-render with new eval
 }
 
 function delTrade(id){
   if(!confirm('确定删除？'))return;
   trades=trades.filter(t=>t.id!==id);
-  localStorage.setItem('smc_trades_v5',JSON.stringify(trades));
+  localStorage.setItem('smc_trades_v6',JSON.stringify(trades));
+  deleteImgs(id);
   document.getElementById('modal').classList.remove('show');
-  updateNav();renderHistory();
-  showToast('已删除','error');
+  updateNav();renderHistory();toast('已删除','error');
 }
 
-// ─── DASHBOARD ────────────────────────────────────────────────────
-function getWRR(t){
-  if(!t.rr1)return null;
-  return t.rr2?(0.8*t.rr1+0.2*t.rr2):(0.8*t.rr1);
-}
-function isWin(t){return t.result==='盈'||t.result==='BE保本（小盈）'||t.result==='BE保本'||t.result==='主动平仓';}
-function isBE(t){return t.result==='BE保本'||t.result==='BE保本（小盈）'||t.result==='主动平仓';}
+// ─── DASHBOARD ────────────────────────────────────────────────
+function getWRR(t){if(!t.rr1)return null;return t.rr2?(0.8*t.rr1+0.2*t.rr2):(0.8*t.rr1);}
+function isWin(t){return t.result==='盈'||t.result==='BE保本（小盈）'||t.result==='BE保本';}
 
 function calcStats(arr){
-  const n=arr.length;
-  if(!n)return null;
-  const wins=arr.filter(t=>t.result==='盈'||t.result==='BE保本（小盈）'||t.result==='BE保本').length;
+  const n=arr.length;if(!n)return null;
+  const wins=arr.filter(t=>isWin(t)).length;
   const wr=arr.filter(t=>t.result).length;
   const winRate=wr?wins/wr*100:0;
-  const rrs=arr.filter(t=>getWRR(t)).map(t=>getWRR(t));
+  const rrs=arr.filter(t=>t.rr1).map(t=>t.rr1);
   const avgRR=rrs.length?rrs.reduce((a,b)=>a+b,0)/rrs.length:0;
   return{n,wins,winRate,avgRR};
 }
 
-function renderCompareTable(bodyId,groups){
-  const body=document.getElementById(bodyId);
-  const rows=groups.map(g=>{
+function renderBarGroup(containerId,groups,color){
+  const el=document.getElementById(containerId);
+  if(!el)return;
+  const maxN=Math.max(...groups.map(g=>g.trades.length),1);
+  el.innerHTML=groups.map(g=>{
     const s=calcStats(g.trades);
-    if(!s||!s.n)return`<tr><td class="neu">${g.label}</td><td class="neu">0</td><td class="neu">—</td><td class="neu">—</td>${g.extra?`<td class="neu">—</td>`:''}</tr>`;
-    const wrColor=s.winRate>=60?'good':s.winRate<40?'bad':'neu';
-    return`<tr>
-      <td>${g.label}</td>
-      <td class="neu">${s.n}</td>
-      <td class="${wrColor}">${s.winRate.toFixed(0)}%</td>
-      <td class="${s.avgRR>=2?'good':'neu'}">${s.avgRR?s.avgRR.toFixed(2)+'x':'—'}</td>
-      ${g.extra?`<td class="neu" style="font-size:10px">${g.extra}</td>`:''}
-    </tr>`;
-  });
-  body.innerHTML=rows.join('')||`<tr><td colspan="5" class="neu" style="padding:12px">暂无数据</td></tr>`;
+    if(!s||!s.n)return`<div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+      <div style="width:90px;font-size:13px;font-weight:600;color:var(--txd);text-align:right;flex-shrink:0">${g.label}</div>
+      <div style="flex:1;height:28px;background:var(--sf2);border-radius:6px;border:1px solid var(--bd);display:flex;align-items:center;padding-left:10px;font-size:12px;color:var(--txm)">无数据</div>
+    </div>`;
+    const barW=Math.max(s.n/maxN*100,8);
+    const wrColor=s.winRate>=60?'var(--green)':s.winRate<40?'var(--red)':'var(--txd)';
+    const rrColor=s.avgRR>=2?'var(--green)':'var(--txd)';
+    return`<div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+      <div style="width:90px;font-size:13px;font-weight:600;color:var(--tx);text-align:right;flex-shrink:0">${g.label}</div>
+      <div style="flex:1;position:relative;height:32px;background:var(--sf2);border-radius:6px;border:1px solid var(--bd);overflow:hidden">
+        <div style="height:100%;width:${barW}%;background:${color};opacity:.2;border-radius:6px;transition:width .5s"></div>
+        <div style="position:absolute;inset:0;display:flex;align-items:center;padding:0 10px;gap:12px;font-family:'JetBrains Mono',monospace;font-size:12px">
+          <span style="color:var(--tx);font-weight:700">${s.n}笔</span>
+          <span style="color:${wrColor};font-weight:700">胜率 ${s.winRate.toFixed(0)}%</span>
+          <span style="color:${rrColor}">RR ${s.avgRR.toFixed(1)}x</span>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
 }
 
 function renderDash(){
   const total=trades.length;
-  const wins=trades.filter(t=>t.result==='盈'||t.result==='BE保本（小盈）'||t.result==='BE保本').length;
+  const wins=trades.filter(t=>isWin(t)).length;
   const losses=trades.filter(t=>t.result==='亏').length;
-  const bes=trades.filter(t=>isBE(t)).length;
+  const bes=total-wins-losses;
   const wr=trades.filter(t=>t.result).length;
   const winRate=wr?wins/wr*100:0;
   const py=trades.filter(t=>t.predCorrect==='Y').length;
   const wp=trades.filter(t=>t.predCorrect).length;
   const predRate=wp?py/wp*100:0;
-  const ly=trades.filter(t=>t.logicCorrect==='Y').length;
-  const wl=trades.filter(t=>t.logicCorrect).length;
-  const logicRate=wl?ly/wl*100:0;
-  const rrs=trades.filter(t=>getWRR(t)).map(t=>getWRR(t));
+  const rrs=trades.filter(t=>t.rr1).map(t=>t.rr1);
   const avgRR=rrs.length?rrs.reduce((a,b)=>a+b,0)/rrs.length:0;
 
   document.getElementById('dTotal').textContent=total;
   document.getElementById('dWinRate').textContent=wr?winRate.toFixed(1)+'%':'—';
   document.getElementById('dPredRate').textContent=wp?predRate.toFixed(1)+'%':'—';
   document.getElementById('dAvgRR').textContent=avgRR?avgRR.toFixed(2)+'x':'—';
-  document.getElementById('dLogicRate').textContent=wl?logicRate.toFixed(1)+'%':'—';
   document.getElementById('dWins').textContent=wins;
   document.getElementById('dLosses').textContent=losses;
   document.getElementById('dBE').textContent=bes;
-
   document.getElementById('dTotalBar').style.width=Math.min(total,100)+'%';
   document.getElementById('dWinBar').style.width=winRate+'%';
   document.getElementById('dPredBar').style.width=predRate+'%';
-  document.getElementById('dLogicBar').style.width=logicRate+'%';
 
   const pct=Math.min(Math.round(total/100*100),100);
   document.getElementById('goalPct').textContent=pct+'%';
   document.getElementById('goalBar').style.width=pct+'%';
   const last30=trades.slice(-30);
   const last30Clean=last30.length>=30&&last30.every(t=>t.logicCorrect!=='N');
-  const ready=total>=100&&avgRR>=2&&last30Clean;
-  document.getElementById('goalStatus').innerHTML=ready
-    ?'<span style="color:var(--green);font-weight:700">🎉 全部条件达标！可以进入第二阶段！</span>'
-    :`完成 <b style="color:var(--blue)">${total}/100</b> 笔 &nbsp;|&nbsp;
-     平均RR <b style="color:${avgRR>=2?'var(--green)':'var(--red)'}">${avgRR?avgRR.toFixed(2)+'x':'—'}</b>/2x &nbsp;|&nbsp;
-     连续30笔无违规 <b style="color:${last30Clean?'var(--green)':'var(--red)'}">${last30Clean?'✓ 达标':last30.length<30?`(${last30.length}/30笔)`:'✗ 有违规'}</b>`;
+  document.getElementById('goalStatus').innerHTML=`完成 <b style="color:var(--blue)">${total}/100</b> ｜ 平均RR <b style="color:${avgRR>=2?'var(--green)':'var(--red)'}">${avgRR?avgRR.toFixed(2)+'x':'—'}</b>/2x ｜ 连续30笔无违规 <b style="color:${last30Clean?'var(--green)':'var(--red)'}">${last30Clean?'✓':last30.length<30?`(${last30.length}/30)`:'✗'}</b>`;
 
-  // Session breakdown — includes()兼容旧版"伦敦"/"纽约"短名称
-  const sessionGroups=[
-    {label:'伦敦KZ',  trades:trades.filter(t=>(t.killzone||'').includes('伦敦')&&!(t.killzone||'').includes('银弹'))},
-    {label:'伦敦银弹',trades:trades.filter(t=>(t.killzone||'').includes('伦敦银弹'))},
-    {label:'纽约KZ',  trades:trades.filter(t=>(t.killzone||'').includes('纽约')&&!(t.killzone||'').includes('银弹'))},
-    {label:'纽约银弹',trades:trades.filter(t=>(t.killzone||'').includes('纽约银弹'))},
-  ];
-  document.getElementById('dLondon').textContent=trades.filter(t=>(t.killzone||'').includes('伦敦')).length;
-  document.getElementById('dNY').textContent=trades.filter(t=>(t.killzone||'').includes('纽约')).length;
-  renderCompareTable('sessionBody',sessionGroups);
+  // Win/loss streak strip
+  const strip=document.getElementById('streakStrip');
+  strip.innerHTML=trades.map((t,i)=>{
+    const c=t.result==='盈'?'var(--green)':t.result==='亏'?'var(--red)':'var(--yellow)';
+    return`<div title="#${t.num} ${t.result||'?'}" style="width:20px;height:24px;border-radius:4px;background:${c};opacity:.8;cursor:default;transition:transform .1s" onmouseenter="this.style.transform='scaleY(1.3)'" onmouseleave="this.style.transform=''"></div>`;
+  }).join('')||'<span style="color:var(--txm);font-size:13px">完成交易后显示</span>';
 
-  // Entry type
-  const entryGroups=[
-    {label:'A型（积极）',trades:trades.filter(t=>t.entryTrigger==='A'),extra:'CHoCH+FVG直接进'},
-    {label:'B型（保守）',trades:trades.filter(t=>t.entryTrigger==='B'),extra:'等二次CHoCH'},
-  ];
-  renderCompareTable('entryTypeBody',entryGroups);
+  // Bar charts
+  renderBarGroup('modelBars',[
+    {label:'主模型',trades:trades.filter(t=>getModel(t)==='主模型')},
+    {label:'⭐ SB',trades:trades.filter(t=>getModel(t)==='SB')},
+  ],'var(--blue)');
 
-  // Quality
-  const qualityGroups=[
+  renderBarGroup('sessionBars',[
+    {label:'伦敦KZ',trades:trades.filter(t=>(t.killzone||'').includes('伦敦')&&!(t.killzone||'').includes('银弹'))},
+    {label:'伦敦SB',trades:trades.filter(t=>(t.killzone||'')==='伦敦银弹')},
+    {label:'纽约KZ',trades:trades.filter(t=>(t.killzone||'').includes('纽约')&&!(t.killzone||'').includes('银弹'))},
+    {label:'纽约SB',trades:trades.filter(t=>(t.killzone||'')==='纽约银弹')},
+  ],'var(--orange)');
+
+  renderBarGroup('qualityBars',[
     {label:'Q3 完美',trades:trades.filter(t=>t.entryQuality==='3')},
     {label:'Q2 标准',trades:trades.filter(t=>t.entryQuality==='2')},
     {label:'Q1 勉强',trades:trades.filter(t=>t.entryQuality==='1')},
-  ];
-  renderCompareTable('qualityBody',qualityGroups);
+  ],'var(--teal)');
 
-  // Emotion
-  const emotionGroups=[
+  renderBarGroup('emotionBars',[
     {label:'😌 平静',trades:trades.filter(t=>t.emotion==='平静')},
     {label:'😤 急躁',trades:trades.filter(t=>t.emotion==='急躁')},
     {label:'😰 FOMO',trades:trades.filter(t=>t.emotion==='FOMO')},
     {label:'😠 报复',trades:trades.filter(t=>t.emotion==='报复')},
-  ];
-  renderCompareTable('emotionBody',emotionGroups);
+  ],'var(--purple)');
 
   // Consec
   let consec=0;
-  for(let i=trades.length-1;i>=0;i--){if(trades[i].result==='亏')consec++;else if(isWin(trades[i]))break;}
+  for(let i=trades.length-1;i>=0;i--){if(trades[i].result==='亏')consec++;else break;}
   document.getElementById('dConsec').textContent=consec;
-  document.getElementById('dConsec').style.color=consec>=3?'var(--red)':'var(--text-dim)';
+  document.getElementById('dConsec').style.color=consec>=3?'var(--red)':'var(--txd)';
 }
 
 function updateNav(){
   const total=trades.length;
-  const wins=trades.filter(t=>t.result==='盈'||t.result==='BE保本（小盈）'||t.result==='BE保本').length;
+  const wins=trades.filter(t=>isWin(t)).length;
   const wr=trades.filter(t=>t.result).length;
   const winRate=wr?wins/wr*100:null;
-  const rrs=trades.filter(t=>getWRR(t)).map(t=>getWRR(t));
+  const rrs=trades.filter(t=>t.rr1).map(t=>t.rr1);
   const avgRR=rrs.length?rrs.reduce((a,b)=>a+b,0)/rrs.length:null;
   document.getElementById('navTotal').textContent=total;
   document.getElementById('navWin').textContent=winRate!==null?winRate.toFixed(0)+'%':'—';
   document.getElementById('navRR').textContent=avgRR?avgRR.toFixed(2)+'x':'—';
-
-  // Phase banner progress
   const pct=Math.min(total/100*100,100);
   document.getElementById('phaseProg').style.width=pct+'%';
   document.getElementById('phaseCount').textContent=total;
-
-  // Check phase completion
-  const sopViolations=trades.filter(t=>t.logicCorrect==='N').length;
-  const last30=trades.slice(-30);
-  const last30Clean=last30.length>=30&&last30.every(t=>t.logicCorrect!=='N');
-  const phaseComplete=total>=100&&avgRR>=2&&last30Clean;
-  const banner=document.querySelector('.phase-banner');
-  const tag=document.querySelector('.phase-tag');
-  if(phaseComplete){
-    banner.style.borderBottomColor='var(--green)';
-    tag.style.background='var(--green-dim)';
-    tag.style.borderColor='var(--green)';
-    tag.style.color='var(--green)';
-    tag.textContent='🎉 BACKTEST 阶段一 — 达标！';
-  }
 }
 
 function exportData(){
-  if(!trades.length){showToast('没有记录','error');return;}
-  const exp=trades.map(({aiEval, ...r})=>r); // 不导出aiEval以免太长
-  const total=trades.length,wins=trades.filter(t=>t.result==='盈').length;
+  if(!trades.length){toast('没有记录','error');return;}
+  const exp=trades.map(({aiEval,...r})=>r);
+  const total=trades.length,wins=trades.filter(t=>isWin(t)).length;
   const wr=trades.filter(t=>t.result).length;
   const py=trades.filter(t=>t.predCorrect==='Y').length,wp=trades.filter(t=>t.predCorrect).length;
   const rrs=trades.filter(t=>t.rr1).map(t=>t.rr1);
+  const mainTrades=trades.filter(t=>getModel(t)==='主模型');
+  const sbTrades=trades.filter(t=>getModel(t)==='SB');
+  const mainStats=calcStats(mainTrades);
+  const sbStats=calcStats(sbTrades);
   const out=JSON.stringify({
-    统计摘要:{
-      导出时间:new Date().toLocaleString('zh'),
-      总笔数:total,盈:wins,
-      亏:trades.filter(t=>t.result==='亏').length,
-      BE:trades.filter(t=>t.result==='BE保本').length,
-      胜率:wr?(wins/wr*100).toFixed(1)+'%':'—',
-      预判准确率:wp?(py/wp*100).toFixed(1)+'%':'—',
-      平均RR1:rrs.length?(rrs.reduce((a,b)=>a+b,0)/rrs.length).toFixed(2)+'x':'—',
-      进度:`${total}/100笔`
-    },
+    统计摘要:{导出时间:new Date().toLocaleString('zh'),总笔数:total,盈:wins,亏:trades.filter(t=>t.result==='亏').length,胜率:wr?(wins/wr*100).toFixed(1)+'%':'—',预判准确率:wp?(py/wp*100).toFixed(1)+'%':'—',平均RR1:rrs.length?(rrs.reduce((a,b)=>a+b,0)/rrs.length).toFixed(2)+'x':'—',进度:`${total}/100笔`,主模型笔数:mainTrades.length,SB笔数:sbTrades.length,主模型胜率:mainStats?mainStats.winRate.toFixed(1)+'%':'—',SB胜率:sbStats?sbStats.winRate.toFixed(1)+'%':'—'},
     交易记录:exp
   },null,2);
-  navigator.clipboard.writeText(out).then(()=>showToast('✅ 已复制！粘贴给Claude分析','success')).catch(()=>{
-    const ta=document.createElement('textarea');
-    ta.value=out;ta.style.cssText='position:fixed;top:10%;left:5%;width:90%;height:75vh;z-index:9999;background:#111;color:#eee;padding:16px;border:2px solid var(--blue);border-radius:8px;font-size:11px;font-family:monospace';
+  navigator.clipboard.writeText(out).then(()=>toast('✅ 已复制！','success')).catch(()=>{
+    const ta=document.createElement('textarea');ta.value=out;ta.style.cssText='position:fixed;top:10%;left:5%;width:90%;height:75vh;z-index:9999;background:#111;color:#eee;padding:16px;border:2px solid var(--blue);border-radius:8px;font-size:11px;font-family:monospace';
     document.body.appendChild(ta);ta.select();
-    const b=document.createElement('button');b.textContent='✕ 关闭';
-    b.style.cssText='position:fixed;top:8%;left:50%;transform:translateX(-50%);padding:8px 20px;background:var(--blue);color:#fff;border:none;border-radius:6px;cursor:pointer;z-index:9999';
-    b.onclick=()=>{document.body.removeChild(ta);document.body.removeChild(b);};
-    document.body.appendChild(b);
+    const b=document.createElement('button');b.textContent='✕ 关闭';b.style.cssText='position:fixed;top:8%;left:50%;transform:translateX(-50%);padding:8px 20px;background:var(--blue);color:#fff;border:none;border-radius:6px;cursor:pointer;z-index:9999';
+    b.onclick=()=>{document.body.removeChild(ta);document.body.removeChild(b);};document.body.appendChild(b);
   });
+}
+
+// ─── AI ───────────────────────────────────────────────────────
+function saveGemKey(){
+  const k=gv('geminiApiKey'),m=gv('geminiModel');
+  if(k)localStorage.setItem('gemini_api_key',k);
+  if(m)localStorage.setItem('gemini_model',m);
+  updateGemStatus();
+}
+function updateGemStatus(){
+  const k=localStorage.getItem('gemini_api_key')||'';
+  const m=localStorage.getItem('gemini_model')||'gemini-3-flash-preview';
+  const inp=document.getElementById('geminiApiKey');
+  const sel=document.getElementById('geminiModel');
+  const sta=document.getElementById('gemStatus');
+  if(inp&&k)inp.value=k;
+  if(sel&&m)sel.value=m;
+  if(k&&k.startsWith('AIza')){sta.textContent='✅ 已设置';sta.style.color='var(--green)';}
+  else{sta.textContent='未设置';sta.style.color='var(--txm)';}
+}
+
+
+// ─── INDEXEDDB FOR IMAGES ─────────────────────────────────────
+function openImgDB(){
+  return new Promise((resolve,reject)=>{
+    const req=indexedDB.open('smc_images_v6',1);
+    req.onupgradeneeded=e=>{e.target.result.createObjectStore('screenshots');};
+    req.onsuccess=e=>resolve(e.target.result);
+    req.onerror=e=>reject(e.target.error);
+  });
+}
+async function saveImg(tradeId,key,b64,mime){
+  try{const db=await openImgDB();const tx=db.transaction('screenshots','readwrite');tx.objectStore('screenshots').put({b64,mime},key+'_'+tradeId);await new Promise((r,j)=>{tx.oncomplete=r;tx.onerror=j;});}catch(e){console.error('saveImg',e);}
+}
+async function loadImg(tradeId,key){
+  try{const db=await openImgDB();const tx=db.transaction('screenshots','readonly');return new Promise((resolve)=>{const req=tx.objectStore('screenshots').get(key+'_'+tradeId);req.onsuccess=()=>resolve(req.result||null);req.onerror=()=>resolve(null);});}catch(e){return null;}
+}
+async function deleteImgs(tradeId){
+  try{const db=await openImgDB();const tx=db.transaction('screenshots','readwrite');const s=tx.objectStore('screenshots');s.delete('entry_'+tradeId);s.delete('result_'+tradeId);}catch(e){}
+}
+
+// ─── FORM IMAGE HANDLING ──────────────────────────────────────
+let formImgs={entry:null,result:null}; // {b64,mime}
+
+function clearFormImg(which){
+  formImgs[which]=null;
+  const prev=document.getElementById(which+'ImgPrev');
+  const cl=document.getElementById(which+'ImgClear');
+  const ph=document.getElementById(which+'ImgPh');
+  const drop=document.getElementById(which+'ImgDrop');
+  if(prev)prev.style.display='none';
+  if(cl)cl.style.display='none';
+  if(ph)ph.style.display='';
+  if(drop)drop.classList.remove('has-img');
+}
+
+function setFormImg(which,dataUrl){
+  const parts=dataUrl.split(',');
+  const mimeMatch=parts[0].match(/data:(.*?);/);
+  formImgs[which]={b64:parts[1],mime:mimeMatch?mimeMatch[1]:'image/jpeg'};
+  const prev=document.getElementById(which+'ImgPrev');
+  if(prev){prev.src=dataUrl;prev.style.display='block';}
+  const cl=document.getElementById(which+'ImgClear');if(cl)cl.style.display='';
+  const ph=document.getElementById(which+'ImgPh');if(ph)ph.style.display='none';
+  const drop=document.getElementById(which+'ImgDrop');if(drop)drop.classList.add('has-img');
+}
+
+function compressImg(file,maxKB=300){
+  return new Promise((resolve)=>{
+    const img=new Image();
+    img.onload=()=>{
+      const canvas=document.createElement('canvas');
+      let w=img.width,h=img.height;
+      const maxW=1400;
+      if(w>maxW){h=Math.round(h*(maxW/w));w=maxW;}
+      canvas.width=w;canvas.height=h;
+      canvas.getContext('2d').drawImage(img,0,0,w,h);
+      let quality=0.8;
+      let dataUrl=canvas.toDataURL('image/jpeg',quality);
+      while(dataUrl.length>maxKB*1370&&quality>0.3){quality-=0.1;dataUrl=canvas.toDataURL('image/jpeg',quality);}
+      resolve(dataUrl);
+    };
+    img.src=URL.createObjectURL(file);
+  });
+}
+
+async function handleFormImg(which,file){
+  if(!file||!file.type.startsWith('image/'))return;
+  if(file.size/1024>300){setFormImg(which,await compressImg(file));}
+  else{const reader=new FileReader();reader.onload=e=>setFormImg(which,e.target.result);reader.readAsDataURL(file);}
+}
+
+// Paste → entry form (if entry has img, goes to result)
+document.addEventListener('paste',e=>{
+  if(!document.getElementById('page-entry').classList.contains('active'))return;
+  const items=e.clipboardData?.items;if(!items)return;
+  for(const item of items){
+    if(item.type.startsWith('image/')){
+      handleFormImg(formImgs.entry?'result':'entry',item.getAsFile());
+      e.preventDefault();break;
+    }
+  }
+});
+document.addEventListener('DOMContentLoaded',()=>{
+  ['entry','result'].forEach(which=>{
+    const drop=document.getElementById(which+'ImgDrop');
+    if(!drop)return;
+    drop.addEventListener('dragover',e=>{e.preventDefault();drop.style.borderColor='var(--blue)';});
+    drop.addEventListener('dragleave',()=>{drop.style.borderColor='';});
+    drop.addEventListener('drop',e=>{e.preventDefault();drop.style.borderColor='';if(e.dataTransfer.files.length)handleFormImg(which,e.dataTransfer.files[0]);});
+  });
+});
+
+// ─── PROMPT ───────────────────────────────────────────────────
+function buildPrompt(trade,hasImg){
+  const wRR=getWRR(trade);const stats=calcStats(trades);const model=getModel(trade);
+  const recent=trades.slice(-6).filter(t=>t.id!==trade.id).slice(-5).map(t=>`#${t.num} ${t.direction} ${t.result||'?'} 逻${t.logicCorrect==='Y'?'Y':'N'} 预${t.predCorrect==='Y'?'Y':'N'} ${t.emotion||''}`).join(' | ');
+  return `你是这位交易员训练团队的AI审核员。你是团队的一员，不是外部评论员。帮他变好，同时**抓出自欺欺人的行为**。只用中文。
+
+═══ 背景 ═══
+【回测】用TradingView Replay在历史数据练习。截图日期是历史，记录日期是今天。不要说"时间不符"。
+【DOL = 最近一站】路径上有未回补4H FVG → DOL就是那个FVG。路径干净 → DOL是SSL/BSL。
+【逻辑正确】= 入场时SOP 10条全满足。跟结果无关。
+【预判正确】= 价格最终到了DOL位置。跟赚不赚无关。
+矛盾要指出（如TP1到了但预判标N）。
+
+═══ SOP ═══
+主模型10条：1.日线偏见 2.4H一致 3.PD区域 4.DOL清晰 5.KZ时段 6.Judas在KZ内 7.CHoCH确认 8.FVG有效 9.路径无阻 10.RR≥2x
+Silver Bullet：前置1-4，SB窗口内位移+FVG，不需Judas/CHoCH。
+管理：TP1平80%→20%移BE。每笔1-2%，连亏3笔停。
+
+═══ 常见错误 ═══
+#1 KZ外信号 #3 忘4H区域 #4 没CHoCH就入 #8 日线4H矛盾 #11 以结果判逻辑 #14"差不多"心态
+
+═══ 审核 ═══
+1.SOP逐条查 2.叙事/教训一致 3.情绪诚实 4.逻辑/预判合理 ${hasImg?'5.图表标注准确':''}  6.不因盈利给高分
+
+═══ #${trade.num} ═══
+${model}|${trade.direction}|${trade.killzone}|${trade.date}
+日线:${trade.bias||'—'}|4H:${trade.h4structure||'—'}|DOL:${trade.dol||'—'}|阻挡:${trade.htfFvg||'—'}
+Judas:${trade.sweepDescription||'—'}|确认:${trade.judas||'—'}
+入:${trade.entry||'—'}|损:${trade.sl||'—'}|TP1:${trade.tp1||'—'}|TP2:${trade.tp2||'—'}
+RR1:${trade.rr1?trade.rr1.toFixed(2)+'x':'—'}|wRR:${wRR?wRR.toFixed(2)+'x':'—'}
+结果:${trade.result||'—'}|TP1:${trade.tp1Hit||'—'}|逻辑:${trade.logicCorrect||'—'}|预判:${trade.predCorrect||'—'}
+情绪:${trade.emotion||'—'}|质量:${trade.entryQuality||'—'}/3
+叙事:${trade.narrative||'（未填）'}
+教训:${trade.lesson||'（未填）'}
+${hasImg?'【已附截图】':'【无截图】'}
+进度:${trades.length}/100|胜率${stats?stats.winRate.toFixed(0):'—'}%|RR${stats?stats.avgRR.toFixed(2):'—'}x
+最近:${recent||'—'}
+
+═══ 输出（简短，每项≤3句）═══
+评级：[A/B/C级] — [一句话]
+✅ 做对：
+⚠️ SOP检查：
+❌ 抓到的问题：[无则写"无"]
+${hasImg?'📷 图表审查：':''}
+💡 一句话：`;
+}
+
+// ─── AI EVAL (headless) ───────────────────────────────────────
+async function runAIEval(trade,imgB64,imgMime){
+  const apiKey=localStorage.getItem('gemini_api_key')||'';
+  if(!apiKey||!apiKey.startsWith('AIza'))return null;
+  const m=localStorage.getItem('gemini_model')||'gemini-3-flash-preview';
+  const url=`https://generativelanguage.googleapis.com/v1beta/models/${m}:generateContent?key=${apiKey}`;
+  const parts=[{text:buildPrompt(trade,!!imgB64)}];
+  if(imgB64)parts.push({inline_data:{mime_type:imgMime||'image/jpeg',data:imgB64}});
+  try{
+    const resp=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({contents:[{role:'user',parts}],generationConfig:{maxOutputTokens:2048,temperature:0.7}})});
+    if(!resp.ok)return null;
+    const j=await resp.json();
+    return j.candidates?.[0]?.content?.parts?.[0]?.text||null;
+  }catch(e){console.error('AI eval',e);return null;}
+}
+
+async function batchEvalAll(){
+  const apiKey=localStorage.getItem('gemini_api_key')||'';
+  if(!apiKey||!apiKey.startsWith('AIza')){toast('先设置API Key','error');return;}
+  const pending=trades.filter(t=>!t.aiEval);
+  if(!pending.length){toast('全部已有AI评价 ✅','success');return;}
+  const btn=document.getElementById('batchEvalBtn');btn.disabled=true;
+  for(let i=0;i<pending.length;i++){
+    const trade=pending[i];btn.textContent=`⏳ ${i+1}/${pending.length}`;
+    const saved=await loadImg(trade.id,'entry');
+    const text=await runAIEval(trade,saved?.b64,saved?.mime);
+    if(text){const ti=trades.findIndex(x=>x.id===trade.id);if(ti!==-1){trades[ti].aiEval=text;localStorage.setItem('smc_trades_v6',JSON.stringify(trades));}}
+    if(i<pending.length-1)await new Promise(r=>setTimeout(r,1500));
+  }
+  btn.disabled=false;btn.textContent='🤖 批量AI';renderHistory();toast(`✅ 完成 ${pending.length} 笔`,'success');
+}
+
+
+function formatAIResponse(text){
+  if(!text)return'';
+  let out='<div style="line-height:1.9">';
+  for(const line of text.split('\n')){
+    const t=line.trim();if(!t)continue;
+    if(t.startsWith('评级')){out+=`<div style="background:var(--sf2);border:1px solid var(--bd2);border-radius:8px;padding:10px 14px;margin-bottom:10px;font-weight:700;font-size:15px">${t}</div>`;}
+    else if(t.includes('做对')){out+=`<div style="color:var(--green);font-weight:700;margin:10px 0 4px">✅ 做对</div>`;}
+    else if(t.includes('SOP检查')||t.includes('SOP')){out+=`<div style="color:var(--orange);font-weight:700;margin:10px 0 4px">⚠️ SOP检查</div>`;}
+    else if(t.includes('抓到')||t.includes('问题')){out+=`<div style="color:var(--red);font-weight:700;margin:10px 0 4px">❌ 抓到的问题</div>`;}
+    else if(t.includes('图表审查')||t.includes('📷')){out+=`<div style="color:var(--purple);font-weight:700;margin:10px 0 4px">📷 图表审查</div>`;}
+    else if(t.includes('注意')){out+=`<div style="color:var(--yellow);font-weight:700;margin:10px 0 4px">⚠️ 注意</div>`;}
+    else if(t.includes('改进')){out+=`<div style="color:var(--red);font-weight:700;margin:10px 0 4px">❌ 改进</div>`;}
+    else if(t.includes('一句话')||t.includes('提醒')){out+=`<div style="color:var(--blue);font-weight:700;margin:10px 0 4px">💡 一句话</div>`;}
+    else{out+=`<div style="padding:2px 0 2px 4px">${t}</div>`;}
+  }
+  return out+'</div>';
 }
 
 function showPage(n,el){
@@ -1796,265 +1330,14 @@ function showPage(n,el){
   if(el)el.classList.add('active');
   if(n==='history')renderHistory();
   if(n==='dashboard')renderDash();
+  if(n==='ai')updateGemStatus();
 }
 
-function saveGeminiKey(){
-  const k=document.getElementById('geminiApiKey').value.trim();
-  const m=document.getElementById('geminiModel').value;
-  if(k)localStorage.setItem('gemini_api_key',k);
-  if(m)localStorage.setItem('gemini_model',m);
-  updateGeminiKeyStatus();
-}
+function toast(msg,type='success'){const t=document.getElementById('toast');t.textContent=msg;t.className=`toast ${type} show`;setTimeout(()=>t.classList.remove('show'),2500);}
 
-function updateGeminiKeyStatus(){
-  const k=localStorage.getItem('gemini_api_key')||'';
-  const m=localStorage.getItem('gemini_model')||'gemini-3-flash-preview';
-  const inp=document.getElementById('geminiApiKey');
-  const sta=document.getElementById('geminiKeyStatus');
-  const sel=document.getElementById('geminiModel');
-  if(!inp||!sta)return;
-  if(sel&&m)sel.value=m;
-  if(k&&k.startsWith('AIza')){
-    inp.value=k;
-    sta.textContent='✅ 已设置';
-    sta.style.color='var(--green)';
-  }else if(k){
-    inp.value=k;
-    sta.textContent='⚠️ 格式异常';
-    sta.style.color='var(--yellow)';
-  }else{
-    sta.textContent='未设置';
-    sta.style.color='var(--text-muted)';
-  }
-}
-
-let currentAITrade=null;
-
-function retryAI(){
-  if(!currentAITrade)return;
-  const ti=trades.findIndex(t=>t.id===currentAITrade.id);
-  if(ti!==-1)delete trades[ti].aiEval;
-  evalWithAI(currentAITrade);
-}
-
-function buildPrompt(trade){
-  const wRR=getWRR(trade);
-  const stats=calcStats(trades);
-  const recentList=trades.slice(-6).filter(t=>t.id!==trade.id).slice(-5)
-    .map(t=>`#${t.num} ${t.direction} ${t.result||'?'} 逻辑${t.logicCorrect==='Y'?'Y':'N'} 预判${t.predCorrect==='Y'?'Y':'N'}`).join(' | ');
-  return `你是严格的SMC/ICT外汇交易导师，只用中文回复。用户提供了交易数据，但未包含图表，你需要根据以下数据进行分析。
-
-【交易数据 #${trade.num}】
-方向:${trade.direction} | 时段:${trade.killzone} | 日期:${trade.date}
-日线偏见:${trade.bias||'—'} | 4H结构:${trade.h4structure||'—'}
-DOL目标:${trade.dol||'—'} | 路径阻挡:${trade.htfFvg||'—'}
-Judas扫除:${trade.sweepDescription||trade.sweep||'—'} | Judas确认:${trade.judas||'—'}
-入场:${trade.entry||'—'} | 止损:${trade.sl||'—'} | TP1:${trade.tp1||'—'} | TP2:${trade.tp2||'—'}
-RR1:${trade.rr1?trade.rr1.toFixed(2)+'x':'—'} | 加权RR:${wRR?wRR.toFixed(2)+'x':'—'}
-结果:${trade.result||'—'} | TP1触及:${trade.tp1Hit||'—'} | TP2触及:${trade.tp2Hit||'—'}
-SOP全绿:${trade.logicCorrect||'—'} | 预判正确:${trade.predCorrect||'—'}
-情绪:${trade.emotion||'—'} | 入场质量:${trade.entryQuality||'—'}/3
-叙事: ${trade.narrative||'（未填）'}
-教训: ${trade.lesson||'（未填）'}
-${trade.entryChartLink ? `入场图表链接（用户可自行查看）：${trade.entryChartLink}` : ''}
-${trade.resultChartLink ? `结果图表链接：${trade.resultChartLink}` : ''}
-
-【整体进度】
-完成${trades.length}/100笔 | 胜率${stats?stats.winRate.toFixed(0):'—'}% | 平均加权RR ${stats?stats.avgRR.toFixed(2):'—'}x
-最近5笔: ${recentList||'—'}
-
-请按格式点评（简短直接，每项最多3句）：
-
-评级：[A/B/C级] — [一句话总结]
-
-✅ 做对的地方：
-- [具体点]
-
-⚠️ 需要注意：
-- [具体点，没有可省略]
-
-❌ 需要改进：
-- [具体点，没有可省略]
-
-💡 关键提醒：
-[最重要一句话]`;
-}
-
-async function evalWithAI(trade){
-  currentAITrade=trade;
-  const modal=document.getElementById('aiModal');
-  const contentEl=document.getElementById('aiContent');
-  const ref=document.getElementById('aiTradeRef');
-  const linksDiv=document.getElementById('aiLinks');
-
-  updateGeminiKeyStatus();
-
-  const wRR=getWRR(trade);
-  const col=trade.result==='盈'?'var(--green)':trade.result==='亏'?'var(--red)':'var(--yellow)';
-  ref.innerHTML=`<b>#${trade.num} ${trade.symbol||'EURUSD'}</b> &nbsp;·&nbsp; ${trade.date} &nbsp;·&nbsp; ${trade.killzone} &nbsp;·&nbsp; ${trade.direction} &nbsp;·&nbsp; <b style="color:${col}">${trade.result||'—'}</b> &nbsp;·&nbsp; wRR: <b>${wRR?wRR.toFixed(2)+'x':'—'}</b>`;
-
-  // 显示链接
-  let linksHtml = '';
-  if(trade.entryChartLink) linksHtml += `🔗 入场图表：<a href="${trade.entryChartLink}" target="_blank" style="color:var(--blue)">${trade.entryChartLink}</a><br>`;
-  if(trade.resultChartLink) linksHtml += `🔗 结果图表：<a href="${trade.resultChartLink}" target="_blank" style="color:var(--blue)">${trade.resultChartLink}</a>`;
-  linksDiv.innerHTML = linksHtml || '无图表链接';
-
-  modal.classList.add('show');
-
-  const savedKey=localStorage.getItem('gemini_api_key')||'';
-  const savedModel=localStorage.getItem('gemini_model')||'gemini-3-flash-preview';
-  const keyInp=document.getElementById('geminiApiKey');
-  const modelSel=document.getElementById('geminiModel');
-  if(keyInp&&savedKey)keyInp.value=savedKey;
-  if(modelSel)modelSel.value=savedModel;
-  updateGeminiKeyStatus();
-
-  const apiKey=localStorage.getItem('gemini_api_key')||'';
-  if(!apiKey||!apiKey.startsWith('AIza')){
-    contentEl.innerHTML=`<div style="text-align:center;padding:28px"><div style="font-size:32px;margin-bottom:12px">🔑</div><div style="font-weight:600;margin-bottom:8px">需要 Gemini API Key</div><div style="color:var(--text-muted);font-size:12px;line-height:1.7">在上方输入 Key（AIza...）<br>免费获取：<b>aistudio.google.com</b><br>填完后点"重新生成"</div></div>`;
-    return;
-  }
-
-  if(trade.aiEval){
-    contentEl.innerHTML=formatAIResponse(trade.aiEval);
-    return;
-  }
-
-  contentEl.innerHTML=`<div style="text-align:center;padding:24px;color:var(--text-muted)"><div style="font-size:24px;margin-bottom:8px">⏳</div>Gemini 分析中...</div>`;
-
-  const model=localStorage.getItem('gemini_model')||'gemini-3-flash-preview';
-
-  const parts=[{text:buildPrompt(trade)}];
-
-  const body={
-    contents:[{role:'user',parts}],
-    generationConfig:{maxOutputTokens:2048,temperature:0.7} // 提高至2048
-  };
-
-  const url=`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
-
-  const retryBtn=document.getElementById('aiRetryBtn');
-  if(retryBtn){retryBtn.textContent='⏳ 生成中...';retryBtn.disabled=true;}
-
-  try{
-    const resp=await fetch(url,{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify(body)
-    });
-
-    const respText=await resp.text();
-    let fullText='';
-
-    if(!resp.ok){
-      let msg=respText;
-      try{const j=JSON.parse(respText);msg=j.error?.message||respText;}catch(e){}
-      contentEl.innerHTML=`<div style="color:var(--red);padding:16px">API错误 ${resp.status}：${msg.substring(0,300)}</div>`;
-      if(retryBtn){retryBtn.textContent='🔄 重新生成';retryBtn.disabled=false;}
-      return;
-    }
-
-    try{
-      const j=JSON.parse(respText);
-      fullText=j.candidates?.[0]?.content?.parts?.[0]?.text||'';
-    }catch(e){
-      contentEl.innerHTML=`<div style="color:var(--red);padding:16px">解析错误：${e.message}</div>`;
-      if(retryBtn){retryBtn.textContent='🔄 重新生成';retryBtn.disabled=false;}
-      return;
-    }
-
-    contentEl.innerHTML=formatAIResponse(fullText);
-    contentEl.scrollTop=0;
-    if(retryBtn){retryBtn.textContent='🔄 重新生成';retryBtn.disabled=false;}
-
-    if(fullText){
-      const ti=trades.findIndex(t=>t.id===trade.id);
-      if(ti!==-1){
-        trades[ti].aiEval=fullText;
-        localStorage.setItem('smc_trades_v5',JSON.stringify(trades));
-      }
-    }
-
-  }catch(e){
-    contentEl.innerHTML=`<div style="color:var(--red);padding:16px">网络错误：${e.message}<br><small>请检查网络和API Key</small></div>`;
-  }
-}
-
-async function batchEvalAll(){
-  const apiKey=localStorage.getItem('gemini_api_key')||'';
-  if(!apiKey||!apiKey.startsWith('AIza')){
-    const t=trades[trades.length-1];
-    if(t)evalWithAI(t);
-    return;
-  }
-  const pending=trades.filter(t=>!t.aiEval);
-  if(pending.length===0){showToast('所有交易已有AI评价 ✅','success');return;}
-  const btn=document.getElementById('batchEvalBtn');
-  btn.disabled=true;
-  const model=localStorage.getItem('gemini_model')||'gemini-3-flash-preview';
-  for(let i=0;i<pending.length;i++){
-    const trade=pending[i];
-    btn.textContent=`⏳ ${i+1}/${pending.length} - #${trade.num}`;
-    const parts=[{text:buildPrompt(trade)}];
-    const body={contents:[{role:'user',parts}],generationConfig:{maxOutputTokens:2048,temperature:0.7}};
-    const url=`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
-    try{
-      const resp=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
-      if(resp.ok){
-        const data=await resp.json();
-        const text=data.candidates?.[0]?.content?.parts?.[0]?.text||'';
-        const ti=trades.findIndex(t=>t.id===trade.id);
-        if(ti!==-1&&text){trades[ti].aiEval=text;localStorage.setItem('smc_trades_v5',JSON.stringify(trades));}
-      }
-    }catch(e){console.error('#'+trade.num,e);}
-    if(i<pending.length-1)await new Promise(r=>setTimeout(r,1500));
-  }
-  btn.disabled=false;
-  btn.textContent='🤖 批量AI评价';
-  renderHistory();
-  showToast(`✅ 已完成 ${pending.length} 笔AI评价`,'success');
-}
-
-function showSavedAIEval(id){
-  const t=trades.find(t=>t.id===id);
-  if(t)evalWithAI(t);
-}
-
-function formatAIResponse(text){
-  if(!text)return'';
-  const lines=text.split('\n');
-  let out='<div style="line-height:1.9">';
-  for(const line of lines){
-    const t=line.trim();
-    if(!t)continue;
-    if(t.startsWith('评级：')||t.startsWith('评级:')){
-      out+=`<div style="background:var(--surface2);border:1px solid var(--border2);border-radius:8px;padding:10px 14px;margin-bottom:10px;font-weight:700;font-size:14px">${t}</div>`;
-    }else if(t.indexOf('做对的地方')!==-1){
-      out+=`<div style="color:var(--green);font-weight:700;margin:10px 0 4px">✅ 做对的地方</div>`;
-    }else if(t.indexOf('需要注意')!==-1){
-      out+=`<div style="color:var(--yellow);font-weight:700;margin:10px 0 4px">⚠️ 需要注意</div>`;
-    }else if(t.indexOf('需要改进')!==-1){
-      out+=`<div style="color:var(--red);font-weight:700;margin:10px 0 4px">❌ 需要改进</div>`;
-    }else if(t.indexOf('关键提醒')!==-1){
-      out+=`<div style="color:var(--blue);font-weight:700;margin:10px 0 4px">💡 关键提醒</div>`;
-    }else{
-      out+=`<div style="padding:2px 0 2px 4px">${t}</div>`;
-    }
-  }
-  return out+'</div>';
-}
-
-
-function showToast(msg,type='success'){
-  const t=document.getElementById('toast');t.textContent=msg;t.className=`toast ${type} show`;
-  setTimeout(()=>t.classList.remove('show'),2500);
-}
-
-updateNav();checkConsec();runGates();
-// 页面加载时恢复已保存的Gemini Key和模型设置
-window.addEventListener('DOMContentLoaded', function(){
-  updateGeminiKeyStatus();
-});
+// INIT
+function setToday(){const d=new Date();const s=d.getFullYear()+'-'+(d.getMonth()+1).toString().padStart(2,'0')+'-'+d.getDate().toString().padStart(2,'0');document.getElementById('tradeDate').value=s;}
+updateNav();checkConsec();run();updateGemStatus();setToday();
 </script>
 
 </body></html>
