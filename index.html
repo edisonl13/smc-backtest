@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0088)file:///C:/Users/ediso/Downloads/SMC_ICT_%E5%9B%9E%E6%B5%8B%E7%B3%BB%E7%BB%9F_V6_10.html -->
+<!-- saved from url=(0087)file:///C:/Users/ediso/Downloads/SMC_ICT_%E5%9B%9E%E6%B5%8B%E7%B3%BB%E7%BB%9F_V7_3.html -->
 <html lang="zh"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -164,21 +164,21 @@ textarea{resize:vertical;min-height:80px;font-size:15px}
 
 <div class="nav">
   <div class="nav-brand">SMC V7</div>
-  <div class="nav-tab" onclick="showPage(&#39;entry&#39;,this)">记录</div>
+  <div class="nav-tab active" onclick="showPage(&#39;entry&#39;,this)">记录</div>
   <div class="nav-tab" onclick="showPage(&#39;history&#39;,this)">历史</div>
-  <div class="nav-tab active" onclick="showPage(&#39;dashboard&#39;,this)">统计</div>
+  <div class="nav-tab" onclick="showPage(&#39;dashboard&#39;,this)">统计</div>
   <div class="nav-tab" onclick="showPage(&#39;ai&#39;,this)">AI</div>
   <div class="nav-right">
-    <div class="nav-stat"><span class="nav-stat-val" id="navTotal">10</span><span class="nav-stat-label">笔</span></div>
-    <div class="nav-stat"><span class="nav-stat-val" id="navWin">80%</span><span class="nav-stat-label">胜率</span></div>
-    <div class="nav-stat"><span class="nav-stat-val" id="navRR">3.71x</span><span class="nav-stat-label">RR</span></div>
+    <div class="nav-stat"><span class="nav-stat-val" id="navTotal">11</span><span class="nav-stat-label">笔</span></div>
+    <div class="nav-stat"><span class="nav-stat-val" id="navWin">82%</span><span class="nav-stat-label">胜率</span></div>
+    <div class="nav-stat"><span class="nav-stat-val" id="navRR">3.69x</span><span class="nav-stat-label">RR</span></div>
   </div>
 </div>
 <div class="phase-banner">
   <div class="phase-tag" id="phaseTag">BACKTEST 阶段一</div>
   <div class="phase-progress">
-    <div class="phase-prog-wrap"><div class="phase-prog-bar" id="phaseProg" style="width: 10%;"></div></div>
-    <div class="phase-prog-label"><b id="phaseCount">10</b>/100</div>
+    <div class="phase-prog-wrap"><div class="phase-prog-bar" id="phaseProg" style="width: 11%;"></div></div>
+    <div class="phase-prog-label"><b id="phaseCount">11</b>/100</div>
   </div>
 </div>
 <div class="gate-bar" id="gateBar">
@@ -194,7 +194,7 @@ textarea{resize:vertical;min-height:80px;font-size:15px}
 </div>
 
 <!-- ═══ ENTRY ═══ -->
-<div id="page-entry" class="page">
+<div id="page-entry" class="page active">
   <div class="alert-banner" id="lossAlert">⚠️ 连续亏损3笔！停下来复盘。</div>
 
   <div class="sec">
@@ -204,11 +204,11 @@ textarea{resize:vertical;min-height:80px;font-size:15px}
       <div><label>回测日期（自动填今天）</label><input type="text" id="tradeDate" placeholder="2026-03-16" oninput="run()"></div>
       <div class="fg-full"><label>Killzone / Silver Bullet窗口</label>
         <div class="pills" id="kzPills">
-          <div class="pill" data-v="伦敦KZ" onclick="pick('kz',this)">伦敦KZ</div>
-          <div class="pill" data-v="伦敦SB 03:00-04:00" onclick="pick('kz',this)">⭐伦敦SB <span style="font-size:11px;opacity:.7">3-4am</span></div>
-          <div class="pill" data-v="纽约KZ" onclick="pick('kz',this)">纽约KZ</div>
-          <div class="pill" data-v="纽约AM SB 10:00-11:00" onclick="pick('kz',this)">⭐纽约AM SB <span style="font-size:11px;opacity:.7">10-11am</span></div>
-          <div class="pill" data-v="纽约PM SB 14:00-15:00" onclick="pick('kz',this)">⭐纽约PM SB <span style="font-size:11px;opacity:.7">2-3pm</span></div>
+          <div class="pill" data-v="伦敦KZ" onclick="pick(&#39;kz&#39;,this)">伦敦KZ</div>
+          <div class="pill" data-v="伦敦SB 03:00-04:00" onclick="pick(&#39;kz&#39;,this)">⭐伦敦SB <span style="font-size:11px;opacity:.7">3-4am</span></div>
+          <div class="pill" data-v="纽约KZ" onclick="pick(&#39;kz&#39;,this)">纽约KZ</div>
+          <div class="pill" data-v="纽约AM SB 10:00-11:00" onclick="pick(&#39;kz&#39;,this)">⭐纽约AM SB <span style="font-size:11px;opacity:.7">10-11am</span></div>
+          <div class="pill" data-v="纽约PM SB 14:00-15:00" onclick="pick(&#39;kz&#39;,this)">⭐纽约PM SB <span style="font-size:11px;opacity:.7">2-3pm</span></div>
         </div>
       </div>
       <div class="fg-full"><label>方向</label>
@@ -341,11 +341,11 @@ textarea{resize:vertical;min-height:80px;font-size:15px}
     <div class="fg">
       <div class="fg-full"><label>TP1触及？ <span class="tip-btn" onclick="togTip(this)">?</span></label>
         <div class="tip-text">选了TP1触及后，结果、预判、逻辑会自动填写。你只需要选这一个。</div>
-        <div class="pills"><div class="pill" data-v="Y✅" onclick="pick('tp1h',this)">✅ 到了</div><div class="pill" data-v="N" onclick="pick('tp1h',this)">❌ 没到</div></div>
+        <div class="pills"><div class="pill" data-v="Y✅" onclick="pick(&#39;tp1h&#39;,this)">✅ 到了</div><div class="pill" data-v="N" onclick="pick(&#39;tp1h&#39;,this)">❌ 没到</div></div>
       </div>
       <div class="fg-full"><label>TP2触及？ <span class="tip-btn" onclick="togTip(this)">?</span></label>
         <div class="tip-text">TP1到了后剩余20%仓位是否到达TP2目标。TP1没到则填N/A。BE=移止损到保本后被触出。</div>
-        <div class="pills" id="tp2hPills"><div class="pill" data-v="Y✅" onclick="pick('tp2h',this)">✅ 到了</div><div class="pill" data-v="N（BE出场）" onclick="pick('tp2h',this)">⚡ BE出场</div><div class="pill" data-v="N（止损）" onclick="pick('tp2h',this)">❌ 止损</div><div class="pill" data-v="N/A" onclick="pick('tp2h',this)">— N/A</div></div>
+        <div class="pills" id="tp2hPills"><div class="pill" data-v="Y✅" onclick="pick(&#39;tp2h&#39;,this)">✅ 到了</div><div class="pill" data-v="N（BE出场）" onclick="pick(&#39;tp2h&#39;,this)">⚡ BE出场</div><div class="pill" data-v="N（止损）" onclick="pick(&#39;tp2h&#39;,this)">❌ 止损</div><div class="pill" data-v="N/A" onclick="pick(&#39;tp2h&#39;,this)">— N/A</div></div>
       </div>
       <div class="fg-full"><label>结果 <span class="auto-tag" id="resultAutoTag">自动</span> <span class="tip-btn" onclick="togTip(this)">?</span></label>
         <div class="tip-text">TP1到了→盈，没到→亏。BE需要手动选。</div>
@@ -385,41 +385,415 @@ textarea{resize:vertical;min-height:80px;font-size:15px}
     <button class="btn" onclick="batchEvalAll()" id="batchEvalBtn" style="margin-left:auto;padding:8px 14px;font-size:12px;background:var(--blue-d);color:var(--blue);border:1px solid var(--blue);border-radius:8px;cursor:pointer;font-weight:600">🤖 批量AI</button>
     <button class="btn btn-primary" onclick="exportData()" style="padding:8px 14px;font-size:12px">📤 导出</button>
   </div>
-  <div id="histList"></div>
+  <div id="histList"><div class="trade-card win" onclick="showDetail(1773744372394)">
+      <div class="tc-head">
+        <div class="tc-num">#11</div>
+        <div class="tc-sym">EURUSD</div>
+        <div class="tc-date">2026-03-17</div>
+        <span class="badge b-win">盈</span>
+        <span class="badge b-ldn">伦敦KZ</span>
+        <span class="badge b-model">主模型</span>
+        <div style="margin-left:auto;font-family:&#39;JetBrains Mono&#39;,monospace;font-size:12px;color:var(--green)">RR: 3.4x</div>
+      </div>
+      <div class="tc-meta">
+        <div>偏见 <span>多</span></div>
+        <div>预判 <span style="color:var(--green)">Y</span></div>
+        <div>逻辑 <span style="color:var(--green)">Y</span></div>
+        <div>😌 <span>平静</span></div>
+      </div>
+    </div><div class="trade-card be" onclick="showDetail(1773648675842)">
+      <div class="tc-head">
+        <div class="tc-num">#10</div>
+        <div class="tc-sym">EURUSD</div>
+        <div class="tc-date">2026-03-16</div>
+        <span class="badge b-be">BE保本（小盈）</span>
+        <span class="badge b-ny">纽约KZ</span>
+        <span class="badge b-model">主模型</span>
+        <div style="margin-left:auto;font-family:&#39;JetBrains Mono&#39;,monospace;font-size:12px;color:var(--green)">RR: 6.1x</div>
+      </div>
+      <div class="tc-meta">
+        <div>偏见 <span>空</span></div>
+        <div>预判 <span style="color:var(--red)">N</span></div>
+        <div>逻辑 <span style="color:var(--green)">Y</span></div>
+        <div>😌 <span>平静</span></div>
+      </div>
+    </div><div class="trade-card win" onclick="showDetail(1773571648763)">
+      <div class="tc-head">
+        <div class="tc-num">#9</div>
+        <div class="tc-sym">EURUSD</div>
+        <div class="tc-date">2026-3-15</div>
+        <span class="badge b-win">盈</span>
+        <span class="badge b-ldn">伦敦KZ</span>
+        <span class="badge b-model">主模型</span>
+        <div style="margin-left:auto;font-family:&#39;JetBrains Mono&#39;,monospace;font-size:12px;color:var(--green)">RR: 3.6x</div>
+      </div>
+      <div class="tc-meta">
+        <div>偏见 <span>多</span></div>
+        <div>预判 <span style="color:var(--red)">N</span></div>
+        <div>逻辑 <span style="color:var(--green)">Y</span></div>
+        <div>😌 <span>平静</span></div>
+      </div>
+    </div><div class="trade-card loss" onclick="showDetail(1772786456739)">
+      <div class="tc-head">
+        <div class="tc-num">#8</div>
+        <div class="tc-sym">EURUSD</div>
+        <div class="tc-date">3/6</div>
+        <span class="badge b-loss">亏</span>
+        <span class="badge b-ldn">伦敦KZ</span>
+        <span class="badge b-model">主模型</span>
+        <div style="margin-left:auto;font-family:&#39;JetBrains Mono&#39;,monospace;font-size:12px;color:var(--green)">RR: 2.6x</div>
+      </div>
+      <div class="tc-meta">
+        <div>偏见 <span>空</span></div>
+        <div>预判 <span style="color:var(--red)">N</span></div>
+        <div>逻辑 <span style="color:var(--green)">Y</span></div>
+        <div>😤 <span>急躁</span></div>
+      </div>
+    </div><div class="trade-card win" onclick="showDetail(1772448765307)">
+      <div class="tc-head">
+        <div class="tc-num">#7</div>
+        <div class="tc-sym">EURUSD</div>
+        <div class="tc-date">2026/03/02</div>
+        <span class="badge b-win">盈</span>
+        <span class="badge b-ny">纽约KZ</span>
+        <span class="badge b-model">主模型</span>
+        <div style="margin-left:auto;font-family:&#39;JetBrains Mono&#39;,monospace;font-size:12px;color:var(--green)">RR: 3.8x</div>
+      </div>
+      <div class="tc-meta">
+        <div>偏见 <span>空</span></div>
+        <div>预判 <span style="color:var(--green)">Y</span></div>
+        <div>逻辑 <span style="color:var(--green)">Y</span></div>
+        <div>😌 <span>平静</span></div>
+      </div>
+    </div><div class="trade-card be" onclick="showDetail(1772443149020)">
+      <div class="tc-head">
+        <div class="tc-num">#6</div>
+        <div class="tc-sym">EURUSD</div>
+        <div class="tc-date">2026/03/02</div>
+        <span class="badge b-be">BE保本（小盈）</span>
+        <span class="badge b-ldn">伦敦KZ</span>
+        <span class="badge b-model">主模型</span>
+        <div style="margin-left:auto;font-family:&#39;JetBrains Mono&#39;,monospace;font-size:12px;color:var(--green)">RR: 2.5x</div>
+      </div>
+      <div class="tc-meta">
+        <div>偏见 <span>空</span></div>
+        <div>预判 <span style="color:var(--red)">N</span></div>
+        <div>逻辑 <span style="color:var(--green)">Y</span></div>
+        <div>😌 <span>平静</span></div>
+      </div>
+    </div><div class="trade-card win" onclick="showDetail(1772349005506)">
+      <div class="tc-head">
+        <div class="tc-num">#5</div>
+        <div class="tc-sym">EURUSD</div>
+        <div class="tc-date">2026/03/01</div>
+        <span class="badge b-win">盈</span>
+        <span class="badge b-ny">纽约KZ</span>
+        <span class="badge b-model">主模型</span>
+        <div style="margin-left:auto;font-family:&#39;JetBrains Mono&#39;,monospace;font-size:12px;color:var(--green)">RR: 4.6x</div>
+      </div>
+      <div class="tc-meta">
+        <div>偏见 <span>空</span></div>
+        <div>预判 <span style="color:var(--green)">Y</span></div>
+        <div>逻辑 <span style="color:var(--green)">Y</span></div>
+        <div>😌 <span>平静</span></div>
+      </div>
+    </div><div class="trade-card win" onclick="showDetail(1772001893909)">
+      <div class="tc-head">
+        <div class="tc-num">#4</div>
+        <div class="tc-sym">EURUSD</div>
+        <div class="tc-date">2026/02/25</div>
+        <span class="badge b-win">盈</span>
+        <span class="badge b-ny">纽约KZ</span>
+        <span class="badge b-model">主模型</span>
+        <div style="margin-left:auto;font-family:&#39;JetBrains Mono&#39;,monospace;font-size:12px;color:var(--green)">RR: 6.3x</div>
+      </div>
+      <div class="tc-meta">
+        <div>偏见 <span>空</span></div>
+        <div>预判 <span style="color:var(--green)">Y</span></div>
+        <div>逻辑 <span style="color:var(--green)">Y</span></div>
+        <div>😌 <span>平静</span></div>
+      </div>
+    </div><div class="trade-card loss" onclick="showDetail(1771999536596)">
+      <div class="tc-head">
+        <div class="tc-num">#3</div>
+        <div class="tc-sym">EURUSD</div>
+        <div class="tc-date">2026/02/25</div>
+        <span class="badge b-loss">亏</span>
+        <span class="badge b-ldn">伦敦KZ</span>
+        <span class="badge b-model">主模型</span>
+        <div style="margin-left:auto;font-family:&#39;JetBrains Mono&#39;,monospace;font-size:12px;color:var(--green)">RR: 5.6x</div>
+      </div>
+      <div class="tc-meta">
+        <div>偏见 <span>多</span></div>
+        <div>预判 <span style="color:var(--red)">N</span></div>
+        <div>逻辑 <span style="color:var(--green)">Y</span></div>
+        <div>😤 <span>急躁</span></div>
+      </div>
+    </div><div class="trade-card win" onclick="showDetail(1771925719569)">
+      <div class="tc-head">
+        <div class="tc-num">#2</div>
+        <div class="tc-sym">EURUSD</div>
+        <div class="tc-date">2026/02/24</div>
+        <span class="badge b-win">盈</span>
+        <span class="badge b-ldn">伦敦KZ</span>
+        <span class="badge b-model">主模型</span>
+        <div style="margin-left:auto;font-family:&#39;JetBrains Mono&#39;,monospace;font-size:12px;color:var(--green)">RR: 3.8x</div>
+      </div>
+      <div class="tc-meta">
+        <div>偏见 <span>多</span></div>
+        <div>预判 <span style="color:var(--green)">Y</span></div>
+        <div>逻辑 <span style="color:var(--green)">Y</span></div>
+        <div>😌 <span>平静</span></div>
+      </div>
+    </div><div class="trade-card win" onclick="showDetail(1771839252631)">
+      <div class="tc-head">
+        <div class="tc-num">#1</div>
+        <div class="tc-sym">EURUSD</div>
+        <div class="tc-date">2026/02/23</div>
+        <span class="badge b-win">盈</span>
+        <span class="badge b-ny">纽约KZ</span>
+        <span class="badge b-model">主模型</span>
+        <div style="margin-left:auto;font-family:&#39;JetBrains Mono&#39;,monospace;font-size:12px;color:var(--green)">RR: 5.3x</div>
+      </div>
+      <div class="tc-meta">
+        <div>偏见 <span>多</span></div>
+        <div>预判 <span style="color:var(--green)">Y</span></div>
+        <div>逻辑 <span style="color:var(--green)">Y</span></div>
+        <div>😌 <span>平静</span></div>
+      </div>
+    </div></div>
 </div>
 
 <!-- ═══ DASHBOARD ═══ -->
-<div id="page-dashboard" class="page active">
+<div id="page-dashboard" class="page">
   <div class="stat-grid">
-    <div class="stat-card"><span class="stat-val" id="dTotal" style="color:var(--blue)">10</span><div class="stat-label">总笔数</div><div class="prog-wrap"><div class="prog-bar" id="dTotalBar" style="width: 10%; background: var(--blue);"></div></div></div>
-    <div class="stat-card"><span class="stat-val" id="dWinRate" style="color:var(--green)">80.0%</span><div class="stat-label">胜率</div><div class="prog-wrap"><div class="prog-bar" id="dWinBar" style="width: 80%;"></div></div></div>
-    <div class="stat-card"><span class="stat-val" id="dPredRate" style="color:var(--orange)">50.0%</span><div class="stat-label">预判准确率(TP1)</div><div class="prog-wrap"><div class="prog-bar" id="dPredBar" style="width: 50%; background: var(--orange);"></div></div></div>
-    <div class="stat-card"><span class="stat-val" id="dAvgRR" style="color:var(--purple)">3.71x</span><div class="stat-label">平均RR1</div></div>
-    <div class="stat-card"><span class="stat-val" id="dTP2Rate" style="color:var(--teal)">—</span><div class="stat-label">TP2命中率(20%仓)</div></div>
-    <div class="stat-card"><span class="stat-val" id="dWins" style="color:var(--green)">8</span><div class="stat-label">盈/<span id="dLosses" style="color:var(--red)">2</span>亏/<span id="dBE" style="color:var(--yellow)">0</span>BE</div></div>
+    <div class="stat-card"><span class="stat-val" id="dTotal" style="color:var(--blue)">11</span><div class="stat-label">总笔数</div><div class="prog-wrap"><div class="prog-bar" id="dTotalBar" style="width: 11%; background: var(--blue);"></div></div></div>
+    <div class="stat-card"><span class="stat-val" id="dWinRate" style="color:var(--green)">81.8%</span><div class="stat-label">胜率</div><div class="prog-wrap"><div class="prog-bar" id="dWinBar" style="width: 81.8182%;"></div></div></div>
+    <div class="stat-card"><span class="stat-val" id="dPredRate" style="color:var(--orange)">54.5%</span><div class="stat-label">预判准确率(TP1)</div><div class="prog-wrap"><div class="prog-bar" id="dPredBar" style="width: 54.5455%; background: var(--orange);"></div></div></div>
+    <div class="stat-card"><span class="stat-val" id="dAvgRR" style="color:var(--purple)">3.69x</span><div class="stat-label">平均RR1</div></div>
+    <div class="stat-card"><span class="stat-val" id="dTP2Rate" style="color: var(--orange);">11.1%</span><div class="stat-label">TP2命中率(20%仓)</div></div>
+    <div class="stat-card"><span class="stat-val" id="dWins" style="color:var(--green)">9</span><div class="stat-label">盈/<span id="dLosses" style="color:var(--red)">2</span>亏/<span id="dBE" style="color:var(--yellow)">0</span>BE</div></div>
     <div class="stat-card"><span class="stat-val" id="dConsec" style="color:var(--txd)">0</span><div class="stat-label">当前连亏</div></div>
   </div>
 
   <!-- Win/Loss strip -->
   <div class="sec"><div class="sec-head"><div class="sec-dot" style="background:var(--green)"></div><div class="sec-title">📊 盈亏走势</div></div>
-    <div id="streakStrip" style="display:flex;gap:3px;flex-wrap:wrap;min-height:24px"><div title="#1 盈" style="width:20px;height:24px;border-radius:4px;background:var(--green);opacity:.8;cursor:default;transition:transform .1s" onmouseenter="this.style.transform=&#39;scaleY(1.3)&#39;" onmouseleave="this.style.transform=&#39;&#39;"></div><div title="#2 盈" style="width:20px;height:24px;border-radius:4px;background:var(--green);opacity:.8;cursor:default;transition:transform .1s" onmouseenter="this.style.transform=&#39;scaleY(1.3)&#39;" onmouseleave="this.style.transform=&#39;&#39;"></div><div title="#3 亏" style="width:20px;height:24px;border-radius:4px;background:var(--red);opacity:.8;cursor:default;transition:transform .1s" onmouseenter="this.style.transform=&#39;scaleY(1.3)&#39;" onmouseleave="this.style.transform=&#39;&#39;"></div><div title="#4 盈" style="width:20px;height:24px;border-radius:4px;background:var(--green);opacity:.8;cursor:default;transition:transform .1s" onmouseenter="this.style.transform=&#39;scaleY(1.3)&#39;" onmouseleave="this.style.transform=&#39;&#39;"></div><div title="#5 盈" style="width:20px;height:24px;border-radius:4px;background:var(--green);opacity:.8;cursor:default;transition:transform .1s" onmouseenter="this.style.transform=&#39;scaleY(1.3)&#39;" onmouseleave="this.style.transform=&#39;&#39;"></div><div title="#6 BE保本（小盈）" style="width:20px;height:24px;border-radius:4px;background:var(--yellow);opacity:.8;cursor:default;transition:transform .1s" onmouseenter="this.style.transform=&#39;scaleY(1.3)&#39;" onmouseleave="this.style.transform=&#39;&#39;"></div><div title="#7 盈" style="width:20px;height:24px;border-radius:4px;background:var(--green);opacity:.8;cursor:default;transition:transform .1s" onmouseenter="this.style.transform=&#39;scaleY(1.3)&#39;" onmouseleave="this.style.transform=&#39;&#39;"></div><div title="#8 亏" style="width:20px;height:24px;border-radius:4px;background:var(--red);opacity:.8;cursor:default;transition:transform .1s" onmouseenter="this.style.transform=&#39;scaleY(1.3)&#39;" onmouseleave="this.style.transform=&#39;&#39;"></div><div title="#9 盈" style="width:20px;height:24px;border-radius:4px;background:var(--green);opacity:.8;cursor:default;transition:transform .1s" onmouseenter="this.style.transform=&#39;scaleY(1.3)&#39;" onmouseleave="this.style.transform=&#39;&#39;"></div><div title="#10 BE保本（小盈）" style="width:20px;height:24px;border-radius:4px;background:var(--yellow);opacity:.8;cursor:default;transition:transform .1s" onmouseenter="this.style.transform=&#39;scaleY(1.3)&#39;" onmouseleave="this.style.transform=&#39;&#39;"></div></div>
+    <div id="streakStrip" style="display:flex;gap:3px;flex-wrap:wrap;min-height:24px"><div title="#1 盈" style="width:20px;height:24px;border-radius:4px;background:var(--green);opacity:.8;cursor:default;transition:transform .1s" onmouseenter="this.style.transform=&#39;scaleY(1.3)&#39;" onmouseleave="this.style.transform=&#39;&#39;"></div><div title="#2 盈" style="width:20px;height:24px;border-radius:4px;background:var(--green);opacity:.8;cursor:default;transition:transform .1s" onmouseenter="this.style.transform=&#39;scaleY(1.3)&#39;" onmouseleave="this.style.transform=&#39;&#39;"></div><div title="#3 亏" style="width:20px;height:24px;border-radius:4px;background:var(--red);opacity:.8;cursor:default;transition:transform .1s" onmouseenter="this.style.transform=&#39;scaleY(1.3)&#39;" onmouseleave="this.style.transform=&#39;&#39;"></div><div title="#4 盈" style="width:20px;height:24px;border-radius:4px;background:var(--green);opacity:.8;cursor:default;transition:transform .1s" onmouseenter="this.style.transform=&#39;scaleY(1.3)&#39;" onmouseleave="this.style.transform=&#39;&#39;"></div><div title="#5 盈" style="width:20px;height:24px;border-radius:4px;background:var(--green);opacity:.8;cursor:default;transition:transform .1s" onmouseenter="this.style.transform=&#39;scaleY(1.3)&#39;" onmouseleave="this.style.transform=&#39;&#39;"></div><div title="#6 BE保本（小盈）" style="width:20px;height:24px;border-radius:4px;background:var(--yellow);opacity:.8;cursor:default;transition:transform .1s" onmouseenter="this.style.transform=&#39;scaleY(1.3)&#39;" onmouseleave="this.style.transform=&#39;&#39;"></div><div title="#7 盈" style="width:20px;height:24px;border-radius:4px;background:var(--green);opacity:.8;cursor:default;transition:transform .1s" onmouseenter="this.style.transform=&#39;scaleY(1.3)&#39;" onmouseleave="this.style.transform=&#39;&#39;"></div><div title="#8 亏" style="width:20px;height:24px;border-radius:4px;background:var(--red);opacity:.8;cursor:default;transition:transform .1s" onmouseenter="this.style.transform=&#39;scaleY(1.3)&#39;" onmouseleave="this.style.transform=&#39;&#39;"></div><div title="#9 盈" style="width:20px;height:24px;border-radius:4px;background:var(--green);opacity:.8;cursor:default;transition:transform .1s" onmouseenter="this.style.transform=&#39;scaleY(1.3)&#39;" onmouseleave="this.style.transform=&#39;&#39;"></div><div title="#10 BE保本（小盈）" style="width:20px;height:24px;border-radius:4px;background:var(--yellow);opacity:.8;cursor:default;transition:transform .1s" onmouseenter="this.style.transform=&#39;scaleY(1.3)&#39;" onmouseleave="this.style.transform=&#39;&#39;"></div><div title="#11 盈" style="width:20px;height:24px;border-radius:4px;background:var(--green);opacity:.8;cursor:default;transition:transform .1s" onmouseenter="this.style.transform=&#39;scaleY(1.3)&#39;" onmouseleave="this.style.transform=&#39;&#39;"></div></div>
   </div>
 
   <div class="sec"><div class="sec-head"><div class="sec-dot"></div><div class="sec-title">🎯 100笔进度</div></div>
-    <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--txd);margin-bottom:6px"><span>RR≥2x + 连续30笔无违规</span><span id="goalPct">10%</span></div>
-    <div class="prog-wrap" style="height:8px"><div class="prog-bar" id="goalBar" style="width: 10%;"></div></div>
-    <div style="margin-top:10px;font-size:13px;color:var(--txd)" id="goalStatus">完成 <b style="color:var(--blue)">10/100</b> ｜ 平均RR <b style="color:var(--green)">3.71x</b>/2x ｜ 连续30笔无违规 <b style="color:var(--red)">(10/30)</b></div>
+    <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--txd);margin-bottom:6px"><span>RR≥2x + 连续30笔无违规</span><span id="goalPct">11%</span></div>
+    <div class="prog-wrap" style="height:8px"><div class="prog-bar" id="goalBar" style="width: 11%;"></div></div>
+    <div style="margin-top:10px;font-size:13px;color:var(--txd)" id="goalStatus">完成 <b style="color:var(--blue)">11/100</b> ｜ 平均RR <b style="color:var(--green)">3.69x</b>/2x ｜ 连续30笔无违规 <b style="color:var(--red)">(11/30)</b></div>
   </div>
 
   <!-- Visual bar sections -->
-  <div class="sec"><div class="sec-head"><div class="sec-dot" style="background:var(--green)"></div><div class="sec-title">📈 多 vs 空</div></div><div id="dirBars"></div></div></div>
-  <div class="sec"><div class="sec-head"><div class="sec-dot" style="background:var(--purple)"></div><div class="sec-title">🏗️ BOS vs CHoCH</div></div><div id="structBars"></div></div></div>
-  <div class="sec"><div class="sec-head"><div class="sec-dot" style="background:var(--yellow)"></div><div class="sec-title">🎯 DOL类型</div></div><div id="dolBars"></div></div></div>
-  <div class="sec"><div class="sec-head"><div class="sec-dot" style="background:var(--blue)"></div><div class="sec-title">📊 主模型 vs Silver Bullet</div></div><div id="modelBars"></div></div></div>
-  <div class="sec"><div class="sec-head"><div class="sec-dot" style="background:var(--orange)"></div><div class="sec-title">⏰ 时段对比</div></div><div id="sessionBars"></div></div>
-  <div class="sec"><div class="sec-head"><div class="sec-dot" style="background:var(--teal)"></div><div class="sec-title">🎯 质量对比</div></div><div id="qualityBars"></div></div></div>
-  <div class="sec"><div class="sec-head"><div class="sec-dot" style="background:var(--purple)"></div><div class="sec-title">🧠 情绪对比</div></div><div id="emotionBars"></div></div></div>
-</div>
+  <div class="sec"><div class="sec-head"><div class="sec-dot" style="background:var(--green)"></div><div class="sec-title">📈 多 vs 空</div></div><div id="dirBars"><div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+      <div style="width:90px;font-size:13px;font-weight:600;color:var(--tx);text-align:right;flex-shrink:0">📈 做多</div>
+      <div style="flex:1;position:relative;height:32px;background:var(--sf2);border-radius:6px;border:1px solid var(--bd);overflow:hidden">
+        <div style="height:100%;width:83.33333333333334%;background:var(--green);opacity:.2;border-radius:6px;transition:width .5s"></div>
+        <div style="position:absolute;inset:0;display:flex;align-items:center;padding:0 10px;gap:12px;font-family:&#39;JetBrains Mono&#39;,monospace;font-size:12px">
+          <span style="color:var(--tx);font-weight:700">5笔</span>
+          <span style="color:var(--green);font-weight:700">胜率 80%</span>
+          <span style="color:var(--green)">RR 3.7x</span>
+        </div>
+      </div>
+    </div><div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+      <div style="width:90px;font-size:13px;font-weight:600;color:var(--tx);text-align:right;flex-shrink:0">📉 做空</div>
+      <div style="flex:1;position:relative;height:32px;background:var(--sf2);border-radius:6px;border:1px solid var(--bd);overflow:hidden">
+        <div style="height:100%;width:100%;background:var(--green);opacity:.2;border-radius:6px;transition:width .5s"></div>
+        <div style="position:absolute;inset:0;display:flex;align-items:center;padding:0 10px;gap:12px;font-family:&#39;JetBrains Mono&#39;,monospace;font-size:12px">
+          <span style="color:var(--tx);font-weight:700">6笔</span>
+          <span style="color:var(--green);font-weight:700">胜率 83%</span>
+          <span style="color:var(--green)">RR 3.6x</span>
+        </div>
+      </div>
+    </div></div></div></div>
+  <div class="sec"><div class="sec-head"><div class="sec-dot" style="background:var(--purple)"></div><div class="sec-title">🏗️ BOS vs CHoCH</div></div><div id="structBars"><div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+      <div style="width:90px;font-size:13px;font-weight:600;color:var(--tx);text-align:right;flex-shrink:0">BOS多</div>
+      <div style="flex:1;position:relative;height:32px;background:var(--sf2);border-radius:6px;border:1px solid var(--bd);overflow:hidden">
+        <div style="height:100%;width:40%;background:var(--purple);opacity:.2;border-radius:6px;transition:width .5s"></div>
+        <div style="position:absolute;inset:0;display:flex;align-items:center;padding:0 10px;gap:12px;font-family:&#39;JetBrains Mono&#39;,monospace;font-size:12px">
+          <span style="color:var(--tx);font-weight:700">2笔</span>
+          <span style="color:var(--txd);font-weight:700">胜率 50%</span>
+          <span style="color:var(--green)">RR 4.6x</span>
+        </div>
+      </div>
+    </div><div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+      <div style="width:90px;font-size:13px;font-weight:600;color:var(--tx);text-align:right;flex-shrink:0">CHoCH多</div>
+      <div style="flex:1;position:relative;height:32px;background:var(--sf2);border-radius:6px;border:1px solid var(--bd);overflow:hidden">
+        <div style="height:100%;width:60%;background:var(--purple);opacity:.2;border-radius:6px;transition:width .5s"></div>
+        <div style="position:absolute;inset:0;display:flex;align-items:center;padding:0 10px;gap:12px;font-family:&#39;JetBrains Mono&#39;,monospace;font-size:12px">
+          <span style="color:var(--tx);font-weight:700">3笔</span>
+          <span style="color:var(--green);font-weight:700">胜率 100%</span>
+          <span style="color:var(--green)">RR 3.2x</span>
+        </div>
+      </div>
+    </div><div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+      <div style="width:90px;font-size:13px;font-weight:600;color:var(--tx);text-align:right;flex-shrink:0">BOS空</div>
+      <div style="flex:1;position:relative;height:32px;background:var(--sf2);border-radius:6px;border:1px solid var(--bd);overflow:hidden">
+        <div style="height:100%;width:100%;background:var(--purple);opacity:.2;border-radius:6px;transition:width .5s"></div>
+        <div style="position:absolute;inset:0;display:flex;align-items:center;padding:0 10px;gap:12px;font-family:&#39;JetBrains Mono&#39;,monospace;font-size:12px">
+          <span style="color:var(--tx);font-weight:700">5笔</span>
+          <span style="color:var(--green);font-weight:700">胜率 80%</span>
+          <span style="color:var(--green)">RR 3.6x</span>
+        </div>
+      </div>
+    </div><div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+      <div style="width:90px;font-size:13px;font-weight:600;color:var(--tx);text-align:right;flex-shrink:0">CHoCH空</div>
+      <div style="flex:1;position:relative;height:32px;background:var(--sf2);border-radius:6px;border:1px solid var(--bd);overflow:hidden">
+        <div style="height:100%;width:20%;background:var(--purple);opacity:.2;border-radius:6px;transition:width .5s"></div>
+        <div style="position:absolute;inset:0;display:flex;align-items:center;padding:0 10px;gap:12px;font-family:&#39;JetBrains Mono&#39;,monospace;font-size:12px">
+          <span style="color:var(--tx);font-weight:700">1笔</span>
+          <span style="color:var(--green);font-weight:700">胜率 100%</span>
+          <span style="color:var(--green)">RR 3.8x</span>
+        </div>
+      </div>
+    </div></div></div>
+  <div class="sec"><div class="sec-head"><div class="sec-dot" style="background:var(--yellow)"></div><div class="sec-title">🎯 DOL类型</div></div><div id="dolBars"><div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+      <div style="width:90px;font-size:13px;font-weight:600;color:var(--tx);text-align:right;flex-shrink:0">↑BSL前高</div>
+      <div style="flex:1;position:relative;height:32px;background:var(--sf2);border-radius:6px;border:1px solid var(--bd);overflow:hidden">
+        <div style="height:100%;width:40%;background:var(--yellow);opacity:.2;border-radius:6px;transition:width .5s"></div>
+        <div style="position:absolute;inset:0;display:flex;align-items:center;padding:0 10px;gap:12px;font-family:&#39;JetBrains Mono&#39;,monospace;font-size:12px">
+          <span style="color:var(--tx);font-weight:700">2笔</span>
+          <span style="color:var(--green);font-weight:700">胜率 100%</span>
+          <span style="color:var(--green)">RR 3.9x</span>
+        </div>
+      </div>
+    </div><div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+      <div style="width:90px;font-size:13px;font-weight:600;color:var(--tx);text-align:right;flex-shrink:0">↓SSL前低</div>
+      <div style="flex:1;position:relative;height:32px;background:var(--sf2);border-radius:6px;border:1px solid var(--bd);overflow:hidden">
+        <div style="height:100%;width:100%;background:var(--yellow);opacity:.2;border-radius:6px;transition:width .5s"></div>
+        <div style="position:absolute;inset:0;display:flex;align-items:center;padding:0 10px;gap:12px;font-family:&#39;JetBrains Mono&#39;,monospace;font-size:12px">
+          <span style="color:var(--tx);font-weight:700">5笔</span>
+          <span style="color:var(--green);font-weight:700">胜率 80%</span>
+          <span style="color:var(--green)">RR 2.9x</span>
+        </div>
+      </div>
+    </div><div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+      <div style="width:90px;font-size:13px;font-weight:600;color:var(--tx);text-align:right;flex-shrink:0">↑4H FVG</div>
+      <div style="flex:1;position:relative;height:32px;background:var(--sf2);border-radius:6px;border:1px solid var(--bd);overflow:hidden">
+        <div style="height:100%;width:40%;background:var(--yellow);opacity:.2;border-radius:6px;transition:width .5s"></div>
+        <div style="position:absolute;inset:0;display:flex;align-items:center;padding:0 10px;gap:12px;font-family:&#39;JetBrains Mono&#39;,monospace;font-size:12px">
+          <span style="color:var(--tx);font-weight:700">2笔</span>
+          <span style="color:var(--txd);font-weight:700">胜率 50%</span>
+          <span style="color:var(--green)">RR 3.9x</span>
+        </div>
+      </div>
+    </div><div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+      <div style="width:90px;font-size:13px;font-weight:600;color:var(--tx);text-align:right;flex-shrink:0">↓4H FVG</div>
+      <div style="flex:1;position:relative;height:32px;background:var(--sf2);border-radius:6px;border:1px solid var(--bd);overflow:hidden">
+        <div style="height:100%;width:40%;background:var(--yellow);opacity:.2;border-radius:6px;transition:width .5s"></div>
+        <div style="position:absolute;inset:0;display:flex;align-items:center;padding:0 10px;gap:12px;font-family:&#39;JetBrains Mono&#39;,monospace;font-size:12px">
+          <span style="color:var(--tx);font-weight:700">2笔</span>
+          <span style="color:var(--green);font-weight:700">胜率 100%</span>
+          <span style="color:var(--green)">RR 5.2x</span>
+        </div>
+      </div>
+    </div></div></div>
+  <div class="sec"><div class="sec-head"><div class="sec-dot" style="background:var(--blue)"></div><div class="sec-title">📊 主模型 vs Silver Bullet</div></div><div id="modelBars"><div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+      <div style="width:90px;font-size:13px;font-weight:600;color:var(--tx);text-align:right;flex-shrink:0">主模型</div>
+      <div style="flex:1;position:relative;height:32px;background:var(--sf2);border-radius:6px;border:1px solid var(--bd);overflow:hidden">
+        <div style="height:100%;width:100%;background:var(--blue);opacity:.2;border-radius:6px;transition:width .5s"></div>
+        <div style="position:absolute;inset:0;display:flex;align-items:center;padding:0 10px;gap:12px;font-family:&#39;JetBrains Mono&#39;,monospace;font-size:12px">
+          <span style="color:var(--tx);font-weight:700">11笔</span>
+          <span style="color:var(--green);font-weight:700">胜率 82%</span>
+          <span style="color:var(--green)">RR 3.7x</span>
+        </div>
+      </div>
+    </div><div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+      <div style="width:90px;font-size:13px;font-weight:600;color:var(--txd);text-align:right;flex-shrink:0">⭐ SB</div>
+      <div style="flex:1;height:28px;background:var(--sf2);border-radius:6px;border:1px solid var(--bd);display:flex;align-items:center;padding-left:10px;font-size:12px;color:var(--txm)">无数据</div>
+    </div></div></div>
+  <div class="sec"><div class="sec-head"><div class="sec-dot" style="background:var(--orange)"></div><div class="sec-title">⏰ 时段对比</div></div><div id="sessionBars"><div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+      <div style="width:90px;font-size:13px;font-weight:600;color:var(--tx);text-align:right;flex-shrink:0">伦敦KZ</div>
+      <div style="flex:1;position:relative;height:32px;background:var(--sf2);border-radius:6px;border:1px solid var(--bd);overflow:hidden">
+        <div style="height:100%;width:100%;background:var(--orange);opacity:.2;border-radius:6px;transition:width .5s"></div>
+        <div style="position:absolute;inset:0;display:flex;align-items:center;padding:0 10px;gap:12px;font-family:&#39;JetBrains Mono&#39;,monospace;font-size:12px">
+          <span style="color:var(--tx);font-weight:700">6笔</span>
+          <span style="color:var(--green);font-weight:700">胜率 67%</span>
+          <span style="color:var(--green)">RR 3.1x</span>
+        </div>
+      </div>
+    </div><div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+      <div style="width:90px;font-size:13px;font-weight:600;color:var(--txd);text-align:right;flex-shrink:0">伦敦SB</div>
+      <div style="flex:1;height:28px;background:var(--sf2);border-radius:6px;border:1px solid var(--bd);display:flex;align-items:center;padding-left:10px;font-size:12px;color:var(--txm)">无数据</div>
+    </div><div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+      <div style="width:90px;font-size:13px;font-weight:600;color:var(--tx);text-align:right;flex-shrink:0">纽约KZ</div>
+      <div style="flex:1;position:relative;height:32px;background:var(--sf2);border-radius:6px;border:1px solid var(--bd);overflow:hidden">
+        <div style="height:100%;width:83.33333333333334%;background:var(--orange);opacity:.2;border-radius:6px;transition:width .5s"></div>
+        <div style="position:absolute;inset:0;display:flex;align-items:center;padding:0 10px;gap:12px;font-family:&#39;JetBrains Mono&#39;,monospace;font-size:12px">
+          <span style="color:var(--tx);font-weight:700">5笔</span>
+          <span style="color:var(--green);font-weight:700">胜率 100%</span>
+          <span style="color:var(--green)">RR 4.4x</span>
+        </div>
+      </div>
+    </div><div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+      <div style="width:90px;font-size:13px;font-weight:600;color:var(--txd);text-align:right;flex-shrink:0">纽约AM SB</div>
+      <div style="flex:1;height:28px;background:var(--sf2);border-radius:6px;border:1px solid var(--bd);display:flex;align-items:center;padding-left:10px;font-size:12px;color:var(--txm)">无数据</div>
+    </div><div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+      <div style="width:90px;font-size:13px;font-weight:600;color:var(--txd);text-align:right;flex-shrink:0">纽约PM SB</div>
+      <div style="flex:1;height:28px;background:var(--sf2);border-radius:6px;border:1px solid var(--bd);display:flex;align-items:center;padding-left:10px;font-size:12px;color:var(--txm)">无数据</div>
+    </div></div></div>
+  <div class="sec"><div class="sec-head"><div class="sec-dot" style="background:var(--teal)"></div><div class="sec-title">🎯 质量对比</div></div><div id="qualityBars"><div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+      <div style="width:90px;font-size:13px;font-weight:600;color:var(--tx);text-align:right;flex-shrink:0">Q3 完美</div>
+      <div style="flex:1;position:relative;height:32px;background:var(--sf2);border-radius:6px;border:1px solid var(--bd);overflow:hidden">
+        <div style="height:100%;width:42.857142857142854%;background:var(--teal);opacity:.2;border-radius:6px;transition:width .5s"></div>
+        <div style="position:absolute;inset:0;display:flex;align-items:center;padding:0 10px;gap:12px;font-family:&#39;JetBrains Mono&#39;,monospace;font-size:12px">
+          <span style="color:var(--tx);font-weight:700">3笔</span>
+          <span style="color:var(--green);font-weight:700">胜率 100%</span>
+          <span style="color:var(--green)">RR 3.1x</span>
+        </div>
+      </div>
+    </div><div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+      <div style="width:90px;font-size:13px;font-weight:600;color:var(--tx);text-align:right;flex-shrink:0">Q2 标准</div>
+      <div style="flex:1;position:relative;height:32px;background:var(--sf2);border-radius:6px;border:1px solid var(--bd);overflow:hidden">
+        <div style="height:100%;width:100%;background:var(--teal);opacity:.2;border-radius:6px;transition:width .5s"></div>
+        <div style="position:absolute;inset:0;display:flex;align-items:center;padding:0 10px;gap:12px;font-family:&#39;JetBrains Mono&#39;,monospace;font-size:12px">
+          <span style="color:var(--tx);font-weight:700">7笔</span>
+          <span style="color:var(--green);font-weight:700">胜率 86%</span>
+          <span style="color:var(--green)">RR 3.8x</span>
+        </div>
+      </div>
+    </div><div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+      <div style="width:90px;font-size:13px;font-weight:600;color:var(--tx);text-align:right;flex-shrink:0">Q1 勉强</div>
+      <div style="flex:1;position:relative;height:32px;background:var(--sf2);border-radius:6px;border:1px solid var(--bd);overflow:hidden">
+        <div style="height:100%;width:14.285714285714285%;background:var(--teal);opacity:.2;border-radius:6px;transition:width .5s"></div>
+        <div style="position:absolute;inset:0;display:flex;align-items:center;padding:0 10px;gap:12px;font-family:&#39;JetBrains Mono&#39;,monospace;font-size:12px">
+          <span style="color:var(--tx);font-weight:700">1笔</span>
+          <span style="color:var(--red);font-weight:700">胜率 0%</span>
+          <span style="color:var(--green)">RR 4.7x</span>
+        </div>
+      </div>
+    </div></div></div>
+  <div class="sec"><div class="sec-head"><div class="sec-dot" style="background:var(--purple)"></div><div class="sec-title">🧠 情绪对比</div></div><div id="emotionBars"><div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+      <div style="width:90px;font-size:13px;font-weight:600;color:var(--tx);text-align:right;flex-shrink:0">😌 平静</div>
+      <div style="flex:1;position:relative;height:32px;background:var(--sf2);border-radius:6px;border:1px solid var(--bd);overflow:hidden">
+        <div style="height:100%;width:100%;background:var(--purple);opacity:.2;border-radius:6px;transition:width .5s"></div>
+        <div style="position:absolute;inset:0;display:flex;align-items:center;padding:0 10px;gap:12px;font-family:&#39;JetBrains Mono&#39;,monospace;font-size:12px">
+          <span style="color:var(--tx);font-weight:700">9笔</span>
+          <span style="color:var(--green);font-weight:700">胜率 100%</span>
+          <span style="color:var(--green)">RR 3.7x</span>
+        </div>
+      </div>
+    </div><div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+      <div style="width:90px;font-size:13px;font-weight:600;color:var(--tx);text-align:right;flex-shrink:0">😤 急躁</div>
+      <div style="flex:1;position:relative;height:32px;background:var(--sf2);border-radius:6px;border:1px solid var(--bd);overflow:hidden">
+        <div style="height:100%;width:22.22222222222222%;background:var(--purple);opacity:.2;border-radius:6px;transition:width .5s"></div>
+        <div style="position:absolute;inset:0;display:flex;align-items:center;padding:0 10px;gap:12px;font-family:&#39;JetBrains Mono&#39;,monospace;font-size:12px">
+          <span style="color:var(--tx);font-weight:700">2笔</span>
+          <span style="color:var(--red);font-weight:700">胜率 0%</span>
+          <span style="color:var(--green)">RR 3.5x</span>
+        </div>
+      </div>
+    </div><div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+      <div style="width:90px;font-size:13px;font-weight:600;color:var(--txd);text-align:right;flex-shrink:0">😰 FOMO</div>
+      <div style="flex:1;height:28px;background:var(--sf2);border-radius:6px;border:1px solid var(--bd);display:flex;align-items:center;padding-left:10px;font-size:12px;color:var(--txm)">无数据</div>
+    </div><div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+      <div style="width:90px;font-size:13px;font-weight:600;color:var(--txd);text-align:right;flex-shrink:0">😠 报复</div>
+      <div style="flex:1;height:28px;background:var(--sf2);border-radius:6px;border:1px solid var(--bd);display:flex;align-items:center;padding-left:10px;font-size:12px;color:var(--txm)">无数据</div>
+    </div></div></div>
+
 
 <!-- ═══ AI PAGE ═══ -->
 <div id="page-ai" class="page">
@@ -465,7 +839,8 @@ const defaultTrades=[
   {id:1772448765307,num:7,date:"2026/03/02",symbol:"EURUSD",killzone:"纽约KZ",direction:"做空",bias:"空",h4structure:"BOS延续-空",dol:"下方SSL（前低/等价低点）",htfFvg:"无阻挡✅",ash:"1.16292",asl:"1.15757",sweepType:"bsl",sweepDescription:"扫伦敦高点BSL（诱多做空）",judas:"Y✅",entryTrigger:"A",entry:1.15121,sl:1.15278,tp1:1.14605,tp2:1.142,rr1:3.2866242038220057,rr2:5.866242038217227,entryQuality:"3",emotion:"平静",result:"盈",tp1Hit:"Y✅",tp2Hit:"Y✅",predCorrect:"Y",logicCorrect:"Y",holdingHours:1.5,lesson:"这笔回测没什么问题",narrative:"日线偏向是空头延续，结构是BOS，而且日线留有一个FVG在溢价区。4H是空头BOS结构。留有一个与日线重叠的溢价区FVG，DOL是下方SSL。5m在纽约kz下跌猛烈后反弹回踩FVG-挂单进场，tp1是前低位置1.14605，tp2是另外的1:3。",entryChartLink:"",resultChartLink:""},
   {id:1772786456739,num:8,date:"3/6",symbol:"EURUSD",killzone:"伦敦KZ",direction:"做空",bias:"空",h4structure:"BOS延续-空",dol:"下方SSL（前低/等价低点）",htfFvg:"无阻挡✅",ash:"1.08849",asl:"1.08531",sweepType:"bsl",sweepDescription:"扫亚盘高点BSL（诱多做空）",judas:"Y✅",entryTrigger:"A",entry:1.08904,sl:1.09073,tp1:1.08511,tp2:1.08258,rr1:2.325443786982284,rr2:3.822485207100608,entryQuality:"2",emotion:"急躁",result:"亏",tp1Hit:"N",holdingHours:2,predCorrect:"N",logicCorrect:"Y",lesson:"这笔的教训是骂我看见了空头fvg但是上涨k线还继续进场，我这是因为浮躁，觉得条件都够了fvg就是进场信号，其实就是急着进场，而且我意识进场错了，有结构反转但依然不肯提早离场。",narrative:"在日线和4H的结构空头延续bos下确认偏向空头。DOL是5m的SSL，5m周期已经choch并且fvg，激进进场",entryChartLink:"https://www.tradingview.com/x/nnI3yxWu/",resultChartLink:"https://www.tradingview.com/x/ISbns7sO/"},
   {id:1773571648763,num:9,date:"2026-3-15",symbol:"EURUSD",killzone:"伦敦KZ",direction:"做多",bias:"多",h4structure:"CHoCH反转-多",dol:"上方未回补4H FVG",htfFvg:"无阻挡✅",ash:"1.30751",asl:"1.30580",sweepType:"ssl",sweepDescription:"扫亚盘低点SSL（诱空做多）",judas:"Y✅",entryTrigger:"A",entry:1.30508,sl:1.30399,tp1:1.30837,tp2:1.31164,rr1:3.018348623853127,rr2:6.018348623852924,entryQuality:"3",emotion:"平静",result:"盈",tp1Hit:"Y✅",tp2Hit:"N（BE出场）",holdingHours:3.2,predCorrect:"N",logicCorrect:"Y",lesson:"4H的反转是无效的，主要是4H太坚定是日线折扣区就是机会买入，虽然BE，但是这是错误的判断。",narrative:"日线方向是涨因为结构是上涨BOS，4H开始空转多。DOL是回补上方未回补FVG。小周期CHoCH确认，位移FVG有效，入场1.30508，止损1.30399，TP1 1.30837，RR1 3.02x。",entryChartLink:"https://www.tradingview.com/x/Rkl67WsG/",resultChartLink:"https://www.tradingview.com/x/TNRcmFSn/"},
-  {id:1773648675842,num:10,date:"2026-03-16",symbol:"EURUSD",killzone:"纽约KZ",direction:"做空",bias:"空",h4structure:"BOS延续-空",dol:"下方未回补4H FVG",htfFvg:"无阻挡✅",ash:"",asl:"",sweepType:"bsl",sweepDescription:"扫伦敦高点BSL（诱多做空）",judas:"Y✅",entryTrigger:"A",entry:1.12703,sl:1.12741,tp1:1.1251,tp2:1.12318,rr1:5.078947368420391,rr2:10.131578947366929,entryQuality:"2",emotion:"平静",result:"BE保本（小盈）",tp1Hit:"Y✅",holdingHours:14.5,predCorrect:"N",logicCorrect:"Y",lesson:"没毛病-纪律操作",narrative:"纽约KZ，日线偏见空，4H BOS延续-空。算法扫伦敦高点BSL（诱多做空），DOL目标下方未回补4H FVG。小周期CHoCH确认，位移FVG有效。入场1.12703，止损1.12741，TP1 1.12510，RR1 5.08x。",entryChartLink:"https://www.tradingview.com/x/XdF9pU7s/",resultChartLink:"https://www.tradingview.com/x/i9tiP5HC/"}
+  {id:1773648675842,num:10,date:"2026-03-16",symbol:"EURUSD",killzone:"纽约KZ",direction:"做空",bias:"空",h4structure:"BOS延续-空",dol:"下方未回补4H FVG",htfFvg:"无阻挡✅",ash:"",asl:"",sweepType:"bsl",sweepDescription:"扫伦敦高点BSL（诱多做空）",judas:"Y✅",entryTrigger:"A",entry:1.12703,sl:1.12741,tp1:1.1251,tp2:1.12318,rr1:5.078947368420391,rr2:10.131578947366929,entryQuality:"2",emotion:"平静",result:"BE保本（小盈）",tp1Hit:"Y✅",holdingHours:14.5,predCorrect:"N",logicCorrect:"Y",lesson:"没毛病-纪律操作",narrative:"纽约KZ，日线偏见空，4H BOS延续-空。算法扫伦敦高点BSL（诱多做空），DOL目标下方未回补4H FVG。小周期CHoCH确认，位移FVG有效。入场1.12703，止损1.12741，TP1 1.12510，RR1 5.08x。",entryChartLink:"https://www.tradingview.com/x/XdF9pU7s/",resultChartLink:"https://www.tradingview.com/x/i9tiP5HC/"},
+  {id:1773744372394,num:11,date:"2026-03-17",symbol:"EURUSD",killzone:"伦敦KZ",direction:"做多",bias:"多",h4structure:"CHoCH反转-多",dol:"上方BSL（前高/等价高点）",htfFvg:"无阻挡✅",ash:"",asl:"",sweepType:"ssl",sweepDescription:"扫亚盘低点SSL（诱空做多）",judas:"Y✅",entryTrigger:"A",entry:1.2129,sl:1.21139,tp1:1.21807,tp2:null,rr1:3.4238410596023034,rr2:null,entryQuality:"2",emotion:"平静",intent:null,result:"盈",tp1Hit:"Y✅",tp2Hit:null,holdingHours:23,predCorrect:"Y",logicCorrect:"Y",lesson:"这笔没有违规",narrative:"伦敦KZ，日线偏见多，4H CHoCH反转-多。算法扫亚盘低点SSL（诱空做多），DOL目标上方BSL（前高/等价高点）。小周期CHoCH确认，位移FVG有效。入场1.21290，止损1.21139，TP1 1.21807，RR1 3.42x。",hasEntryImg:true,hasResultImg:true,aiEval:"评级：[B+] — 逻辑执行完美，但记录态度存在复盘倦怠。\n\n✅ 做对：\n日线与4H共振方向明确，精准捕捉亚盘低点扫货（Judas Swing）后的反转。严格遵守了TP1平仓80%的规则。\n\n⚠️ SOP检查：\nPD区域在叙事中描述模糊，未明确入场是否在4H贴现区。未在记录中体现TP2的博弈过程。\n\n❌ 抓到的问题：\n进场意图空缺是重大扣分项。不写意图意味着你在用结果反推逻辑，这是典型的复盘偷懒。评分矛盾：既然没有违规且逻辑预判全Y，为何质量只给2/3？\n\n📌 意图vs结果：\n意图缺失导致无法验证执行力。TP1命中证明DOL选择正确，但没有TP2后续计划，说明对长线趋势拿单信心不足。\n\n💡 一句话：\n别让复盘变成填表，不写进场意图的复盘只是在对着答案改作业。"}
 ];
 let trades=JSON.parse(localStorage.getItem('smc_trades_v6')||'null');
 if(!trades){trades=[...defaultTrades];localStorage.setItem('smc_trades_v6',JSON.stringify(trades));}
@@ -862,7 +1237,11 @@ function delTrade(id){
 }
 
 // ─── DASHBOARD ────────────────────────────────────────────────
-function getWRR(t){if(!t.rr1)return null;return t.rr2?(0.8*t.rr1+0.2*t.rr2):(0.8*t.rr1);}
+function getWRR(t){
+  if(!t.rr1)return null;
+  // 有TP2才加权：80%@TP1 + 20%@TP2；无TP2则全仓TP1，返回rr1本身
+  return t.rr2?(0.8*t.rr1+0.2*t.rr2):t.rr1;
+}
 function isWin(t){return t.result==='盈'||t.result==='BE保本（小盈）'||t.result==='BE保本';}
 
 function calcStats(arr){
@@ -1271,7 +1650,7 @@ function toast(msg,type='success'){const t=document.getElementById('toast');t.te
 
 // INIT
 function setToday(){const d=new Date();const s=d.getFullYear()+'-'+(d.getMonth()+1).toString().padStart(2,'0')+'-'+d.getDate().toString().padStart(2,'0');document.getElementById('tradeDate').value=s;}
-updateNav();checkConsec();run();updateGemStatus();setToday();
+updateNav();checkConsec();run();updateGemStatus();setToday();renderDash();
 </script>
 
 </body></html>
