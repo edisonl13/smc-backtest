@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<!-- saved from url=(0087)file:///C:/Users/ediso/Downloads/SMC_ICT_%E5%9B%9E%E6%B5%8B%E7%B3%BB%E7%BB%9F_V8_6.html -->
+<!-- saved from url=(0087)file:///C:/Users/ediso/Downloads/SMC_ICT_%E5%9B%9E%E6%B5%8B%E7%B3%BB%E7%BB%9F_V8_7.html -->
 <html lang="zh"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SMC/ICT 回测系统 V8</title>
-<script src="./SMC_ICT 回测系统 V8.1_files/client" async=""></script>
+<script src="./SMC_ICT 回测系统 V8.2_files/client" async=""></script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
 :root{
@@ -166,9 +166,9 @@ textarea{resize:vertical;min-height:80px;font-size:15px}
 <div class="nav">
   <div class="nav-brand">SMC V8</div>
   <div class="nav-tab" onclick="showPage(&#39;entry&#39;,this)">记录</div>
-  <div class="nav-tab active" onclick="showPage(&#39;history&#39;,this)">历史</div>
+  <div class="nav-tab" onclick="showPage(&#39;history&#39;,this)">历史</div>
   <div class="nav-tab" onclick="showPage(&#39;dashboard&#39;,this)">统计</div>
-  <div class="nav-tab" onclick="showPage(&#39;ai&#39;,this)">AI</div>
+  <div class="nav-tab active" onclick="showPage(&#39;ai&#39;,this)">AI</div>
   <div class="nav-right">
     <div class="nav-stat"><span class="nav-stat-val" id="navTotal">11</span><span class="nav-stat-label">笔</span></div>
     <div class="nav-stat"><span class="nav-stat-val" id="navWin">82%</span><span class="nav-stat-label">胜率</span></div>
@@ -297,18 +297,14 @@ textarea{resize:vertical;min-height:80px;font-size:15px}
   <div class="sec">
     <div class="sec-head"><div class="sec-dot" style="background:var(--teal)"></div><div class="sec-title">叙事 &amp; 质量</div></div>
     <div class="fg">
-      <div class="fg-full">
-        <label>📌 进场意图（进场前说出来）<span class="tip-btn" onclick="togTip(this)">?</span></label>
-        <div class="tip-text">进场前必须能说清楚：「算法先去__（扫流动性），然后__（CHoCH/位移），目标是__（DOL），我预期价格会__」。回测时写你当时的预判，不是事后解释。</div>
-        <textarea id="intent" placeholder="例：算法先扫亚盘低点SSL，然后伦敦KZ出现CHoCH+FVG，我预期价格先回补上方4H FVG（TP1），再测试日线BSL前高（TP2）。"></textarea>
-      </div>
       <div class="fg-full"><label>自动叙事（根据填写生成）</label>
         <div id="autoNarr" style="background:var(--sf2);border:1px solid var(--bd);border-radius:8px;padding:12px 14px;font-size:15px;color:var(--blue);line-height:1.7;min-height:50px">填写上方信息后自动生成…</div>
         <input type="hidden" id="narrative" value="">
+        <input type="hidden" id="intent" value="">
       </div>
       <!-- 入场质量由AI评价，不再手动填写 -->
       <div class="fg-full"><label>情绪 <span class="tip-btn" onclick="togTip(this)">?</span></label>
-        <div class="tip-text">😌平静=按计划执行。😤急躁=想快点入场。😰FOMO=怕错过机会。😠报复=上笔亏了想捞回。诚实选，Gemini会对照你的教训检查。</div>
+        <div class="tip-text">😌平静=按计划执行。😤急躁=想快点入场。😰FOMO=怕错过机会。😠报复=上笔亏了想捞回。诚实选，Gemini会检查。</div>
         <div class="pills"><div class="pill" data-v="平静" onclick="pick(&#39;emo&#39;,this)">😌 平静</div><div class="pill" data-v="急躁" onclick="pick(&#39;emo&#39;,this)">😤 急躁</div><div class="pill" data-v="FOMO" onclick="pick(&#39;emo&#39;,this)">😰 FOMO</div><div class="pill" data-v="报复" onclick="pick(&#39;emo&#39;,this)">😠 报复</div></div>
       </div>
     </div>
@@ -371,7 +367,7 @@ textarea{resize:vertical;min-height:80px;font-size:15px}
 </div>
 
 <!-- ═══ HISTORY ═══ -->
-<div id="page-history" class="page active">
+<div id="page-history" class="page">
   <div class="history-filters">
     <button class="filter-btn active" onclick="filterH(&#39;all&#39;,this)">全部</button>
     <button class="filter-btn" onclick="filterH(&#39;盈&#39;,this)">盈</button>
@@ -794,7 +790,7 @@ textarea{resize:vertical;min-height:80px;font-size:15px}
 
 
 <!-- ═══ AI PAGE ═══ -->
-<div id="page-ai" class="page">
+<div id="page-ai" class="page active">
   <div class="sec">
     <div class="sec-head"><div class="sec-dot" style="background:var(--yellow)"></div><div class="sec-title">🤖 Gemini AI 设置</div></div>
     <div class="fg">
@@ -835,12 +831,63 @@ textarea{resize:vertical;min-height:80px;font-size:15px}
 <div class="modal-overlay" id="modal" onclick="if(event.target===this)this.classList.remove(&#39;show&#39;)">
   <div class="modal-box">
     <div class="modal-close" onclick="document.getElementById(&#39;modal&#39;).classList.remove(&#39;show&#39;)">✕</div>
-    <div class="modal-title" id="modalTitle"></div>
-    <div id="modalContent"></div>
+    <div class="modal-title" id="modalTitle">#11 EURUSD — 2026-03-17</div>
+    <div id="modalContent">
+    <div class="modal-grid">
+      <div class="d-item"><div class="d-label">结果</div><div class="d-val green">盈</div></div>
+      <div class="d-item"><div class="d-label">模型</div><div class="d-val">主模型</div></div>
+      <div class="d-item"><div class="d-label">Killzone</div><div class="d-val">伦敦KZ</div></div>
+      <div class="d-item"><div class="d-label">日线偏见</div><div class="d-val">多</div></div>
+      <div class="d-item"><div class="d-label">4H结构</div><div class="d-val">CHoCH反转-多</div></div>
+      <div class="d-item"><div class="d-label">DOL</div><div class="d-val">上方BSL（前高/等价高点）</div></div>
+      <div class="d-item"><div class="d-label">Sweep</div><div class="d-val">扫亚盘低点SSL（诱空做多）</div></div>
+      <div class="d-item"><div class="d-label">质量</div><div class="d-val">Q2 标准</div></div>
+      <div class="d-item"><div class="d-label">情绪</div><div class="d-val">😌 平静</div></div>
+      <div class="d-item"><div class="d-label">入场</div><div class="d-val">1.2129</div></div>
+      <div class="d-item"><div class="d-label">止损</div><div class="d-val red">1.21139</div></div>
+      <div class="d-item"><div class="d-label">TP1/RR1</div><div class="d-val green">1.21807 / 3.42x</div></div>
+      <div class="d-item"><div class="d-label">TP2/RR2</div><div class="d-val green">— / —</div></div>
+      <div class="d-item"><div class="d-label">TP1命中</div><div class="d-val green">Y✅</div></div>
+      <div class="d-item"><div class="d-label">TP2命中</div><div class="d-val red">—</div></div>
+      <div class="d-item"><div class="d-label">预判</div><div class="d-val green">Y</div></div>
+      <div class="d-item"><div class="d-label">逻辑</div><div class="d-val green">Y</div></div>
+      <div class="d-item"><div class="d-label">持仓</div><div class="d-val">23h</div></div>
+    </div>
+    
+    <div style="margin:10px 0" id="modal_entry_wrap">
+      <div class="d-label" style="margin-bottom:6px">📷 入场截图 <span style="color:var(--txm);font-weight:400;text-transform:none;font-size:11px">（无截图）</span></div>
+      
+      <div id="modal_entry_drop" class="img-drop" style="flex-direction:column;min-height:80px;gap:4px" onclick="document.getElementById(&#39;modal_entry_file&#39;).click()" ondragover="event.preventDefault();this.style.borderColor=&#39;var(--blue)&#39;" ondragleave="this.style.borderColor=&#39;&#39;" ondrop="event.preventDefault();this.style.borderColor=&#39;&#39;;handleModalImg(&#39;entry&#39;,event.dataTransfer.files[0])">
+        <div style="font-size:22px;opacity:.4">📷</div>
+        <div style="font-size:13px;color:var(--txd)">粘贴 / 拖拽 / 点击上传截图</div>
+        <div style="font-size:11px;color:var(--txm)">
+          ⚠️ 未登录Drive — 仅存本机（换设备会消失）
+        </div>
+      </div>
+      <input type="file" id="modal_entry_file" accept="image/*" style="display:none" onchange="handleModalImg(&#39;entry&#39;,this.files[0])">
+    </div><div style="margin:10px 0" id="modal_result_wrap">
+      <div class="d-label" style="margin-bottom:6px">📷 结果截图 <span style="color:var(--txm);font-weight:400;text-transform:none;font-size:11px">（无截图）</span></div>
+      
+      <div id="modal_result_drop" class="img-drop" style="flex-direction:column;min-height:80px;gap:4px" onclick="document.getElementById(&#39;modal_result_file&#39;).click()" ondragover="event.preventDefault();this.style.borderColor=&#39;var(--blue)&#39;" ondragleave="this.style.borderColor=&#39;&#39;" ondrop="event.preventDefault();this.style.borderColor=&#39;&#39;;handleModalImg(&#39;result&#39;,event.dataTransfer.files[0])">
+        <div style="font-size:22px;opacity:.4">📷</div>
+        <div style="font-size:13px;color:var(--txd)">粘贴 / 拖拽 / 点击上传截图</div>
+        <div style="font-size:11px;color:var(--txm)">
+          ⚠️ 未登录Drive — 仅存本机（换设备会消失）
+        </div>
+      </div>
+      <input type="file" id="modal_result_file" accept="image/*" style="display:none" onchange="handleModalImg(&#39;result&#39;,this.files[0])">
+    </div>
+    <div class="sec" style="margin-bottom:10px"><div class="d-label" style="margin-bottom:5px">📖 叙事</div><div style="font-size:14px;color:var(--blue);line-height:1.7">伦敦KZ，日线偏见多，4H CHoCH反转-多。算法扫亚盘低点SSL（诱空做多），DOL目标上方BSL（前高/等价高点）。小周期CHoCH确认，位移FVG有效。入场1.21290，止损1.21139，TP1 1.21807，RR1 3.42x。</div></div>
+    <div class="sec" style="margin-bottom:10px"><div class="d-label" style="margin-bottom:5px">💡 教训</div><div style="font-size:14px;color:var(--yellow);line-height:1.6">这笔没有违规</div></div>
+    <div class="sec" style="margin: 14px 0px; border-color: var(--blue);" id="modal_ai_sec"><div class="d-label" style="margin-bottom:8px;color:var(--blue)">🤖 AI 审核评价</div><div style="line-height:1.9"><div style="background:var(--sf2);border:1px solid var(--bd2);border-radius:8px;padding:10px 14px;margin-bottom:10px;font-weight:700;font-size:15px">评级：A — 严格执行SOP，教科书级的KZ内扫流动性入场。</div><div style="color:var(--yellow);font-weight:700;margin:10px 0 4px">⭐ 入场质量</div><div style="padding:2px 0 2px 4px">Q3完美 — 在伦敦KZ利用Judas Swing精准扫掉亚盘低点（SSL），随后5m CHoCH与位移FVG共振，入场位置符合系统核心逻辑。</div><div style="color:var(--green);font-weight:700;margin:10px 0 4px">✅ 做对</div><div style="padding:2px 0 2px 4px">识别出亚盘低点的诱空陷阱，并耐心等待5m级别的结构确认，没有在扫流动性时盲目左侧入场。</div><div style="color:var(--orange);font-weight:700;margin:10px 0 4px">⚠️ SOP检查</div><div style="padding:2px 0 2px 4px">全部通过</div><div style="color:var(--red);font-weight:700;margin:10px 0 4px">❌ 抓到的问题</div><div style="padding:2px 0 2px 4px">无</div><div style="color:var(--blue);font-weight:700;margin:10px 0 4px">💡 一句话</div><div style="padding:2px 0 2px 4px">保持这种“扫亚盘高/低点+KZ时段+5m确认”的组合，这是你系统中胜率最高的模版。</div></div></div>
+    <div class="btn-row">
+      <button class="btn" style="background:var(--sf2);color:var(--txd);border-color:var(--bd)" id="modal_regen_btn" onclick="regenAI(1773744372394)">🔄 重新生成</button>
+      <button class="btn btn-danger" onclick="delTrade(1773744372394)">🗑 删除</button>
+    </div></div>
   </div>
 </div>
 
-<div class="toast" id="toast"></div>
+<div class="toast success" id="toast">🤖 #11 AI评价完成</div>
 
 <script>
 // ─── STATE ────────────────────────────────────────────────────
@@ -1842,32 +1889,46 @@ async function regenAI(id){
 function buildPrompt(trade,hasImg){
   const wRR=getWRR(trade);const stats=calcStats(trades);const model=getModel(trade);
   const recent=trades.slice(-6).filter(t=>t.id!==trade.id).slice(-5).map(t=>`#${t.num} ${t.direction} ${t.result||'?'} 逻${t.logicCorrect==='Y'?'Y':'N'} 预${t.predCorrect==='Y'?'Y':'N'} ${t.emotion||''}`).join(' | ');
-  return `你是这位交易员训练团队的AI审核员。你是团队的一员，不是外部评论员。帮他变好，同时**抓出自欺欺人的行为**。只用中文。
+  return `你是这位交易员的AI审核员，你们是同一个团队。你完全理解他的交易系统，不要用外部标准评判。只用中文。
 
-═══ 背景 ═══
-【回测】用TradingView Replay在历史数据练习。截图日期是历史，记录日期是今天。不要说"时间不符"。
-【DOL = TP1的目标位】DOL是最近的现实目标（路径上的FVG、结构点、半路支撑阻力），TP1设在DOL上（80%仓位锁利）。TP2是更远的4H目标（SSL/BSL），20%仓位博弈。
-【逻辑正确】= 入场时SOP 10条全满足。跟结果无关。
-【预判正确】= TP1到了（即DOL到了）= Y。TP1没到 = N。跟TP2和赚不赚无关。
-矛盾要指出（如TP1到了但预判标N，说明DOL可能选错了）。
+═══ 这套系统的完整逻辑 ═══
+【日线】定大方向偏见（多/空）。外部高低点没被突破前，内部所有CHoCH/BOS都是内部结构，不改变日线偏向。
 
-═══ SOP ═══
-主模型10条：1.日线偏见 2.4H一致 3.PD区域 4.DOL清晰 5.KZ时段 6.Judas在KZ内 7.CHoCH确认 8.FVG有效 9.路径无阻 10.RR≥2x
-Silver Bullet：前置1-4，SB窗口内（伦敦3-4am/纽约AM10-11am/纽约PM2-3pm ET）扫流动性+位移+FVG，不需Judas/CHoCH。SB止盈=对面session流动性/当日高低/前一交易日高低（约20-30pips目标）。
-管理：TP1=4H FVG（近目标，平80%仓位）→20%移BE→等TP2=日线SSL/BSL流动性（远目标）或KZ结束手动平。每笔1-2%，连亏3笔停。
-【DOL定义】DOL有两层：TP1=最近的4H FVG（算法第一目标），TP2=更远的日线流动性（SSL/BSL）。TP1设在4H FVG是正确的，不要用小周期结构点当TP1。
+【4H】只做一件事：找POI（感兴趣区域）。
+- 价格在4H折扣区 + 有未回补FVG → 这是POI，等价格到达
+- 4H不用来找入场，不需要4H有CHoCH才交易
+- 日线偏见和4H区域一致才考虑交易，否则等待
 
-═══ 空字段处理 ═══
-【进场意图/教训为空】→ 不扣分，不评论"文档缺失"。这些字段是可选的，空着说明交易员专注执行，不是偷懒。只根据有记录的数据评审。
-【叙事为空】→ 根据其他字段推断逻辑，不批评叙事缺失。
+【5m入场触发】价格进入4H POI后切5m：
+1. 等KZ内扫流动性（Judas Swing）
+2. 等5m CHoCH确认
+3. 等位移FVG出现
+4. 挂限价单在5m FVG 50%
+5. 止损在5m CHoCH低/高点外侧
 
-═══ 常见错误 ═══
-#1 KZ外信号 #3 忘4H区域 #4 没CHoCH就入 #8 日线4H矛盾 #11 以结果判逻辑 #14"差不多"心态
+【止盈规则】
+- TP1（80%仓位）= 4H未回补FVG → 这是算法第一目标，设在4H FVG是100%正确的，绝对不质疑
+- TP2（20%仓位）= 日线SSL/BSL流动性 → 更远的目标
+- TP1后移止损至BE，等TP2或BE出场
 
-═══ 审核方式 ═══
-${hasImg?
-'【有截图模式】根据文字记录＋图表截图综合评价。1.SOP逐条查 2.叙事/教训一致 3.情绪诚实 4.逻辑/预判合理 5.图表标注准确（标注是否清晰？入场点/止损/目标是否合理？）6.不因盈利给高分':
-'【纯文字模式】没有截图，只根据文字记录评价。不要提"没有截图"或"无法看图"，直接根据叙事/教训/数据评审。1.SOP逐条查 2.情绪诚实 3.逻辑/预判合理 4.不因盈利给高分'}
+【DOL说明】当记录里DOL填"未回补4H FVG"，TP1设在该FVG完全正确。不要拿小周期高低点当TP1标准。
+
+【KZ时段】只在伦敦KZ或纽约KZ内交易。KZ外的信号无效。
+
+═══ 回测背景 ═══
+这是用TradingView Replay做的历史数据回测。截图是历史价格，不是实时。系统自动生成叙事，意图/教训字段已移除，不要评论这些字段缺失。
+
+═══ 审核重点（只有这三点）═══
+1. SOP10条有没有全部满足 — 逐条核对，有问题才指出
+2. 图表和文字记录是否一致 — 有没有作弊（标注和实际价格不符）
+3. 情绪和结果是否诚实 — 急躁情绪和亏损是否对应
+
+═══ 不要做的事 ═══
+- 不质疑TP1设在4H FVG
+- 不批评意图/教训/叙事空着
+- 不用"教科书标准"覆盖这套系统的逻辑
+- 不因为盈利就打高分
+- 不重复说同样的问题
 
 ═══ #${trade.num} ═══
 ${model}|${trade.direction}|${trade.killzone}|${trade.date}
@@ -1877,22 +1938,20 @@ Judas:${trade.sweepDescription||'—'}|确认:${trade.judas||'—'}
 RR1:${trade.rr1?trade.rr1.toFixed(2)+'x':'—'}|wRR:${wRR?wRR.toFixed(2)+'x':'—'}
 结果:${trade.result||'—'}|TP1命中:${trade.tp1Hit||'—'}|TP2命中:${trade.tp2Hit||'—'}
 逻辑:${trade.logicCorrect||'—'}|预判:${trade.predCorrect||'—'}
-情绪:${trade.emotion||'—'}|质量:${trade.entryQuality||'—'}/3
-进场意图:${trade.intent||'（未填-不扣分）'}
-叙事:${trade.narrative||'（未填-不扣分）'}
-教训:${trade.lesson||'（未填-不扣分）'}
+情绪:${trade.emotion||'—'}
+叙事:${trade.narrative||'（自动生成）'}
+教训:${trade.lesson||'—'}
 进度:${trades.length}/100|胜率${stats?stats.winRate.toFixed(0):'—'}%|RR${stats?stats.avgRR.toFixed(2):'—'}x
-最近:${recent||'—'}
+最近5笔:${recent||'—'}
 
-═══ 输出（简短，每项≤3句）═══
-评级：[A/B/C级] — [一句话]
-⭐ 入场质量：[Q3完美/Q2标准/Q1勉强] — [理由一句话]
-✅ 做对：
-⚠️ SOP检查：
-❌ 抓到的问题：[无则写"无"]
-📌 意图vs结果：[只根据有填的字段评，没填的跳过]
-${hasImg?'📷 图表审查：':''}
-💡 一句话：`;
+═══ 输出格式 ═══
+评级：[A/B/C级] — [一句话总结]
+⭐ 入场质量：[Q3完美/Q2标准/Q1勉强] — [理由]
+✅ 做对：[具体说什么做得好]
+⚠️ SOP检查：[有问题才写，没问题写"全部通过"]
+❌ 问题：[有才写，没有写"无"]
+${hasImg?'📷 图表：[标注和记录是否一致，有无作弊]':''}
+💡 一句话：[给他的核心反馈]`;
 }
 
 // ─── AI EVAL (headless) ───────────────────────────────────────
