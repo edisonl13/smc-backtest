@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<!-- saved from url=(0087)file:///C:/Users/ediso/Downloads/SMC_ICT_%E5%9B%9E%E6%B5%8B%E7%B3%BB%E7%BB%9F_V8_3.html -->
+<!-- saved from url=(0087)file:///C:/Users/ediso/Downloads/SMC_ICT_%E5%9B%9E%E6%B5%8B%E7%B3%BB%E7%BB%9F_V8_4.html -->
 <html lang="zh"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SMC/ICT 回测系统 V8</title>
-<script src="./SMC_ICT 回测系统 V8_files/client" async=""></script>
+<script src="./SMC_ICT 回测系统 V8.4_files/client" async=""></script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
 :root{
@@ -835,59 +835,8 @@ textarea{resize:vertical;min-height:80px;font-size:15px}
 <div class="modal-overlay" id="modal" onclick="if(event.target===this)this.classList.remove(&#39;show&#39;)">
   <div class="modal-box">
     <div class="modal-close" onclick="document.getElementById(&#39;modal&#39;).classList.remove(&#39;show&#39;)">✕</div>
-    <div class="modal-title" id="modalTitle">#10 EURUSD — 2026-03-16</div>
-    <div id="modalContent">
-    <div class="modal-grid">
-      <div class="d-item"><div class="d-label">结果</div><div class="d-val yellow">BE保本（小盈）</div></div>
-      <div class="d-item"><div class="d-label">模型</div><div class="d-val">主模型</div></div>
-      <div class="d-item"><div class="d-label">Killzone</div><div class="d-val">纽约KZ</div></div>
-      <div class="d-item"><div class="d-label">日线偏见</div><div class="d-val">空</div></div>
-      <div class="d-item"><div class="d-label">4H结构</div><div class="d-val">BOS延续-空</div></div>
-      <div class="d-item"><div class="d-label">DOL</div><div class="d-val">下方未回补4H FVG</div></div>
-      <div class="d-item"><div class="d-label">Sweep</div><div class="d-val">扫伦敦高点BSL（诱多做空）</div></div>
-      <div class="d-item"><div class="d-label">质量</div><div class="d-val">Q2 标准</div></div>
-      <div class="d-item"><div class="d-label">情绪</div><div class="d-val">😌 平静</div></div>
-      <div class="d-item"><div class="d-label">入场</div><div class="d-val">1.12703</div></div>
-      <div class="d-item"><div class="d-label">止损</div><div class="d-val red">1.12741</div></div>
-      <div class="d-item"><div class="d-label">TP1/RR1</div><div class="d-val green">1.1251 / 5.08x</div></div>
-      <div class="d-item"><div class="d-label">TP2/RR2</div><div class="d-val green">1.12318 / 10.13x</div></div>
-      <div class="d-item"><div class="d-label">TP1命中</div><div class="d-val green">Y✅</div></div>
-      <div class="d-item"><div class="d-label">TP2命中</div><div class="d-val red">—</div></div>
-      <div class="d-item"><div class="d-label">预判</div><div class="d-val red">N</div></div>
-      <div class="d-item"><div class="d-label">逻辑</div><div class="d-val green">Y</div></div>
-      <div class="d-item"><div class="d-label">持仓</div><div class="d-val">14.5h</div></div>
-    </div>
-    
-    <div style="margin:10px 0" id="modal_entry_wrap">
-      <div class="d-label" style="margin-bottom:6px">📷 入场截图 <span style="color:var(--txm);font-weight:400;text-transform:none;font-size:11px">（无截图）</span></div>
-      <div style="margin:4px 0"><a href="https://www.tradingview.com/x/XdF9pU7s/" target="_blank" style="color:var(--blue);font-size:12px">🔗 https://www.tradingview.com/x/XdF9pU7s/</a></div>
-      <div id="modal_entry_drop" class="img-drop" style="flex-direction:column;min-height:80px;gap:4px" onclick="document.getElementById(&#39;modal_entry_file&#39;).click()" ondragover="event.preventDefault();this.style.borderColor=&#39;var(--blue)&#39;" ondragleave="this.style.borderColor=&#39;&#39;" ondrop="event.preventDefault();this.style.borderColor=&#39;&#39;;handleModalImg(&#39;entry&#39;,event.dataTransfer.files[0])">
-        <div style="font-size:22px;opacity:.4">📷</div>
-        <div style="font-size:13px;color:var(--txd)">粘贴 / 拖拽 / 点击上传截图</div>
-        <div style="font-size:11px;color:var(--txm)">
-          ⚠️ 未登录Drive — 仅存本机（换设备会消失）
-        </div>
-      </div>
-      <input type="file" id="modal_entry_file" accept="image/*" style="display:none" onchange="handleModalImg(&#39;entry&#39;,this.files[0])">
-    </div><div style="margin:10px 0" id="modal_result_wrap">
-      <div class="d-label" style="margin-bottom:6px">📷 结果截图 <span style="color:var(--txm);font-weight:400;text-transform:none;font-size:11px">（无截图）</span></div>
-      <div style="margin:4px 0"><a href="https://www.tradingview.com/x/i9tiP5HC/" target="_blank" style="color:var(--blue);font-size:12px">🔗 https://www.tradingview.com/x/i9tiP5HC/</a></div>
-      <div id="modal_result_drop" class="img-drop" style="flex-direction:column;min-height:80px;gap:4px" onclick="document.getElementById(&#39;modal_result_file&#39;).click()" ondragover="event.preventDefault();this.style.borderColor=&#39;var(--blue)&#39;" ondragleave="this.style.borderColor=&#39;&#39;" ondrop="event.preventDefault();this.style.borderColor=&#39;&#39;;handleModalImg(&#39;result&#39;,event.dataTransfer.files[0])">
-        <div style="font-size:22px;opacity:.4">📷</div>
-        <div style="font-size:13px;color:var(--txd)">粘贴 / 拖拽 / 点击上传截图</div>
-        <div style="font-size:11px;color:var(--txm)">
-          ⚠️ 未登录Drive — 仅存本机（换设备会消失）
-        </div>
-      </div>
-      <input type="file" id="modal_result_file" accept="image/*" style="display:none" onchange="handleModalImg(&#39;result&#39;,this.files[0])">
-    </div>
-    <div class="sec" style="margin-bottom:10px"><div class="d-label" style="margin-bottom:5px">📖 叙事</div><div style="font-size:14px;color:var(--blue);line-height:1.7">纽约KZ，日线偏见空，4H BOS延续-空。算法扫伦敦高点BSL（诱多做空），DOL目标下方未回补4H FVG。小周期CHoCH确认，位移FVG有效。入场1.12703，止损1.12741，TP1 1.12510，RR1 5.08x。</div></div>
-    <div class="sec" style="margin-bottom:10px"><div class="d-label" style="margin-bottom:5px">💡 教训</div><div style="font-size:14px;color:var(--yellow);line-height:1.6">没毛病-纪律操作</div></div>
-    <div class="sec" style="margin:14px 0;border-color:var(--blue)" id="modal_ai_sec"><div class="d-label" style="margin-bottom:8px;color:var(--blue)">🤖 AI 审核评价</div><div style="line-height:1.9"><div style="background:var(--sf2);border:1px solid var(--bd2);border-radius:8px;padding:10px 14px;margin-bottom:10px;font-weight:700;font-size:15px">评级：**A-** — **教科书级的入场执行，但对DOL的判定逻辑存在自我矛盾。**</div><div style="color:var(--green);font-weight:700;margin:10px 0 4px">✅ 做对</div><div style="padding:2px 0 2px 4px">- **Judas Swing 捕捉精准**：完美识别出纽约KZ内对伦敦高点（LO.H）的扫荡，这是典型的高胜率诱多陷阱。</div><div style="padding:2px 0 2px 4px">- **风险管理执行到位**：严格遵守TP1平仓80%并移止损至BE的规则，在价格反抽时保护了大部分利润，这是长期生存的关键。</div><div style="padding:2px 0 2px 4px">- **结构对齐**：日线、4H、5m三位一体共振，入场点选在位移FVG的回测，非常标准。</div><div style="color:var(--orange);font-weight:700;margin:10px 0 4px">⚠️ SOP检查</div><div style="padding:2px 0 2px 4px">- **1-10项全部满足**。特别表扬对第9项“路径无大级别FVG阻挡”的观察，确保了下行空间的流畅性。</div><div style="color:var(--red);font-weight:700;margin:10px 0 4px">❌ 抓到的问题</div><div style="padding:2px 0 2px 4px">- **逻辑/预判标记矛盾（自欺欺人/定义模糊）**：你标记了“TP1触及：Y”，但在预判里标了“N”。根据SOP：**DOL是算法要去的最近一站，TP1就设在那里**。既然TP1到了，说明你对“算法下一步要去哪”的预判是**正确**的。你标N可能是因为没到TP2，但在SOP体系下，TP1到了，预判就该是Y。别因为没吃到大波段就否定逻辑。</div><div style="color:var(--purple);font-weight:700;margin:10px 0 4px">📷 图表审查</div><div style="padding:2px 0 2px 4px">- **5m CHoCH 标注准确**：实体收盘跌破前低，随后伴随明显的位移（Displacement），FVG入场位置无可挑剔。</div><div style="padding:2px 0 2px 4px">- **4H 目标位**：从左图看，你的TP1设在4H FVG的顶端，这是极度理性的做法。</div><div style="color:var(--blue);font-weight:700;margin:10px 0 4px">💡 一句话</div><div style="padding:2px 0 2px 4px">**执行近乎完美，但要统一你对“预判正确”的认知：TP1是你的DOL，TP1到了，你的预判就是满分。**</div></div></div>
-    <div class="btn-row">
-      <button class="btn" style="background:var(--sf2);color:var(--txd);border-color:var(--bd)" id="modal_regen_btn" onclick="regenAI(1773648675842)">🔄 重新生成</button>
-      <button class="btn btn-danger" onclick="delTrade(1773648675842)">🗑 删除</button>
-    </div></div>
+    <div class="modal-title" id="modalTitle"></div>
+    <div id="modalContent"></div>
   </div>
 </div>
 
