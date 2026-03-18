@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<!-- saved from url=(0087)file:///C:/Users/ediso/Downloads/SMC_ICT_%E5%9B%9E%E6%B5%8B%E7%B3%BB%E7%BB%9F_V8_5.html -->
+<!-- saved from url=(0087)file:///C:/Users/ediso/Downloads/SMC_ICT_%E5%9B%9E%E6%B5%8B%E7%B3%BB%E7%BB%9F_V8_6.html -->
 <html lang="zh"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SMC/ICT 回测系统 V8</title>
-<script src="./SMC_ICT 回测系统 V8_files/client" async=""></script>
+<script src="./SMC_ICT 回测系统 V8.1_files/client" async=""></script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
 :root{
@@ -165,8 +165,8 @@ textarea{resize:vertical;min-height:80px;font-size:15px}
 
 <div class="nav">
   <div class="nav-brand">SMC V8</div>
-  <div class="nav-tab active" onclick="showPage(&#39;entry&#39;,this)">记录</div>
-  <div class="nav-tab" onclick="showPage(&#39;history&#39;,this)">历史</div>
+  <div class="nav-tab" onclick="showPage(&#39;entry&#39;,this)">记录</div>
+  <div class="nav-tab active" onclick="showPage(&#39;history&#39;,this)">历史</div>
   <div class="nav-tab" onclick="showPage(&#39;dashboard&#39;,this)">统计</div>
   <div class="nav-tab" onclick="showPage(&#39;ai&#39;,this)">AI</div>
   <div class="nav-right">
@@ -195,7 +195,7 @@ textarea{resize:vertical;min-height:80px;font-size:15px}
 </div>
 
 <!-- ═══ ENTRY ═══ -->
-<div id="page-entry" class="page active">
+<div id="page-entry" class="page">
   <div class="alert-banner" id="lossAlert">⚠️ 连续亏损3笔！停下来复盘。</div>
 
   <div class="sec">
@@ -371,7 +371,7 @@ textarea{resize:vertical;min-height:80px;font-size:15px}
 </div>
 
 <!-- ═══ HISTORY ═══ -->
-<div id="page-history" class="page">
+<div id="page-history" class="page active">
   <div class="history-filters">
     <button class="filter-btn active" onclick="filterH(&#39;all&#39;,this)">全部</button>
     <button class="filter-btn" onclick="filterH(&#39;盈&#39;,this)">盈</button>
@@ -1854,8 +1854,12 @@ function buildPrompt(trade,hasImg){
 ═══ SOP ═══
 主模型10条：1.日线偏见 2.4H一致 3.PD区域 4.DOL清晰 5.KZ时段 6.Judas在KZ内 7.CHoCH确认 8.FVG有效 9.路径无阻 10.RR≥2x
 Silver Bullet：前置1-4，SB窗口内（伦敦3-4am/纽约AM10-11am/纽约PM2-3pm ET）扫流动性+位移+FVG，不需Judas/CHoCH。SB止盈=对面session流动性/当日高低/前一交易日高低（约20-30pips目标）。
-管理：TP1=DOL（最近目标）平80%→20%移BE→等TP2（4H远目标）或BE出场。每笔1-2%，连亏3笔停。
-进场意图检查：对比【进场意图】vs【实际结果】——意图是否清晰？预判是否一致？TP2命中说明了什么？
+管理：TP1=4H FVG（近目标，平80%仓位）→20%移BE→等TP2=日线SSL/BSL流动性（远目标）或KZ结束手动平。每笔1-2%，连亏3笔停。
+【DOL定义】DOL有两层：TP1=最近的4H FVG（算法第一目标），TP2=更远的日线流动性（SSL/BSL）。TP1设在4H FVG是正确的，不要用小周期结构点当TP1。
+
+═══ 空字段处理 ═══
+【进场意图/教训为空】→ 不扣分，不评论"文档缺失"。这些字段是可选的，空着说明交易员专注执行，不是偷懒。只根据有记录的数据评审。
+【叙事为空】→ 根据其他字段推断逻辑，不批评叙事缺失。
 
 ═══ 常见错误 ═══
 #1 KZ外信号 #3 忘4H区域 #4 没CHoCH就入 #8 日线4H矛盾 #11 以结果判逻辑 #14"差不多"心态
@@ -1863,7 +1867,7 @@ Silver Bullet：前置1-4，SB窗口内（伦敦3-4am/纽约AM10-11am/纽约PM2-
 ═══ 审核方式 ═══
 ${hasImg?
 '【有截图模式】根据文字记录＋图表截图综合评价。1.SOP逐条查 2.叙事/教训一致 3.情绪诚实 4.逻辑/预判合理 5.图表标注准确（标注是否清晰？入场点/止损/目标是否合理？）6.不因盈利给高分':
-'【纯文字模式】没有截图，只根据文字记录评价。不要提"没有截图"或"无法看图"，直接根据叙事/教训/数据评审。1.SOP逐条查 2.叙事/教训一致 3.情绪诚实 4.逻辑/预判合理 5.不因盈利给高分'}
+'【纯文字模式】没有截图，只根据文字记录评价。不要提"没有截图"或"无法看图"，直接根据叙事/教训/数据评审。1.SOP逐条查 2.情绪诚实 3.逻辑/预判合理 4.不因盈利给高分'}
 
 ═══ #${trade.num} ═══
 ${model}|${trade.direction}|${trade.killzone}|${trade.date}
@@ -1874,9 +1878,9 @@ RR1:${trade.rr1?trade.rr1.toFixed(2)+'x':'—'}|wRR:${wRR?wRR.toFixed(2)+'x':'�
 结果:${trade.result||'—'}|TP1命中:${trade.tp1Hit||'—'}|TP2命中:${trade.tp2Hit||'—'}
 逻辑:${trade.logicCorrect||'—'}|预判:${trade.predCorrect||'—'}
 情绪:${trade.emotion||'—'}|质量:${trade.entryQuality||'—'}/3
-进场意图:${trade.intent||'（未填）'}
-叙事:${trade.narrative||'（未填）'}
-教训:${trade.lesson||'（未填）'}
+进场意图:${trade.intent||'（未填-不扣分）'}
+叙事:${trade.narrative||'（未填-不扣分）'}
+教训:${trade.lesson||'（未填-不扣分）'}
 进度:${trades.length}/100|胜率${stats?stats.winRate.toFixed(0):'—'}%|RR${stats?stats.avgRR.toFixed(2):'—'}x
 最近:${recent||'—'}
 
@@ -1886,7 +1890,7 @@ RR1:${trade.rr1?trade.rr1.toFixed(2)+'x':'—'}|wRR:${wRR?wRR.toFixed(2)+'x':'�
 ✅ 做对：
 ⚠️ SOP检查：
 ❌ 抓到的问题：[无则写"无"]
-📌 意图vs结果：[进场意图清晰吗？TP1/TP2结果符合意图吗？]
+📌 意图vs结果：[只根据有填的字段评，没填的跳过]
 ${hasImg?'📷 图表审查：':''}
 💡 一句话：`;
 }
