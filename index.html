@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<!-- saved from url=(0087)file:///C:/Users/ediso/Downloads/SMC_ICT_%E5%9B%9E%E6%B5%8B%E7%B3%BB%E7%BB%9F_V8_4.html -->
+<!-- saved from url=(0087)file:///C:/Users/ediso/Downloads/SMC_ICT_%E5%9B%9E%E6%B5%8B%E7%B3%BB%E7%BB%9F_V8_5.html -->
 <html lang="zh"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SMC/ICT 回测系统 V8</title>
-<script src="https://accounts.google.com/gsi/client" async></script>
+<script src="./SMC_ICT 回测系统 V8_files/client" async=""></script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
 :root{
@@ -1054,9 +1054,14 @@ function getSweepText(){
 
 async function saveTrade(){
   if(document.getElementById('saveBtn').classList.contains('locked')){toast('条件未达标','error');return;}
+
+  // If has screenshot but Drive not logged in, warn user
+  if((formImgs.entry||formImgs.result)&&!isDriveReady()){
+    const proceed=confirm('⚠️ 你有截图但还没登录 Google Drive！\n\n截图只会存在本机浏览器，换设备会消失。\n\n点「确定」继续保存（仅本机）\n点「取消」先去 AI 页面登录 Google Drive');
+    if(!proceed){showPage('ai',document.querySelector('.nav-tab:last-child'));return;}
+  }
+
   const e=gf('entry'),s=gf('sl'),t1=gf('tp1'),t2=gf('tp2');
-  // Auto-calculate entry quality based on RR and emotion
-  // Q3=RR≥3x + 平静, Q2=SOP全过（默认）, Q1=情绪不好或RR勉强
   const rr1Val=(e&&s&&t1)?Math.abs((t1-e)/(e-s)):0;
   const autoQuality=P.emo&&P.emo!=='平静'?'1':rr1Val>=3?'3':'2';
   const trade={
@@ -1084,13 +1089,11 @@ async function saveTrade(){
   };
   trades.push(trade);
   localStorage.setItem('smc_trades_v6',JSON.stringify(trades));
-  // Save images to IndexedDB
   if(formImgs.entry)await saveImg(trade.id,'entry',formImgs.entry.b64,formImgs.entry.mime);
   if(formImgs.result)await saveImg(trade.id,'result',formImgs.result.b64,formImgs.result.mime);
   updateNav();checkConsec();
   toast(`✅ #${trade.num} 已保存 — AI评价生成中…`,'success');
   clearForm();
-  // Auto-run AI eval with entry screenshot
   const evalText=await runAIEval(trade,formImgs.entry?.b64,formImgs.entry?.mime);
   if(evalText){
     const ti=trades.findIndex(t=>t.id===trade.id);
