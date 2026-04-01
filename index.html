@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html lang="zh">
-<head>
-<meta charset="UTF-8">
+<!-- saved from url=(0041)https://edisonl13.github.io/smc-backtest/ -->
+<html lang="zh"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>SMC/ICT V10 — MODERN</title>
 <style>
@@ -782,11 +782,11 @@ textarea {
 <body>
 <div class="nav">
   <div class="brand">◆ SMC V10</div>
-  <div class="ntab on" onclick="pg('today',this)">TODAY</div>
-  <div class="ntab" onclick="pg('hist',this)">HISTORY</div>
-  <div class="ntab" onclick="pg('stats',this)">STATS</div>
-  <div class="ntab" onclick="pg('arch',this)">ARCHIVE</div>
-  <div class="ntab" onclick="pg('cfg',this)">CONFIG</div>
+  <div class="ntab" onclick="pg(&#39;today&#39;,this)">TODAY</div>
+  <div class="ntab on" onclick="pg(&#39;hist&#39;,this)">HISTORY</div>
+  <div class="ntab" onclick="pg(&#39;stats&#39;,this)">STATS</div>
+  <div class="ntab" onclick="pg(&#39;arch&#39;,this)">ARCHIVE</div>
+  <div class="ntab" onclick="pg(&#39;cfg&#39;,this)">CONFIG</div>
   <div class="nright">
     <div class="nstat"><span class="nstat-v" id="nT" style="color:var(--cy)">0</span><div class="nstat-l">TRADES</div></div>
     <div class="nstat"><span class="nstat-v" id="nW" style="color:var(--gn)">—</span><div class="nstat-l">WIN%</div></div>
@@ -794,13 +794,13 @@ textarea {
   </div>
 </div>
 
-<div id="pg-today" class="page active">
+<div id="pg-today" class="page">
   <div class="bhead" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
     <div>
-      <div class="clock-myt" style="font-family: 'Orbitron'; font-size: 0.9rem; color: var(--pk);" id="cMYT"></div>
-      <div class="clock-et" style="font-family: 'Orbitron'; font-size: 2.5rem; font-weight: 700; line-height: 1;" id="cET"></div>
-      <div class="clock-date" style="font-size: 0.8rem; color: var(--tx-dim);" id="cDate"></div>
-      <div class="clock-dst" style="font-size: 0.7rem; margin-top: 4px; display: inline-block; padding: 2px 10px; border-radius: 40px; border: 1px solid;" id="cDST"></div>
+      <div class="clock-myt" style="font-family: &#39;Orbitron&#39;; font-size: 0.9rem; color: var(--pk);" id="cMYT">17:45:39 MYT — 2026/04/01 周三</div>
+      <div class="clock-et" style="font-family: &#39;Orbitron&#39;; font-size: 2.5rem; font-weight: 700; line-height: 1;" id="cET">05:45:39 ET</div>
+      <div class="clock-date" style="font-size: 0.8rem; color: var(--tx-dim);" id="cDate">2026/04/01 (EDT UTC-4)</div>
+      <div class="clock-dst" style="font-size: 0.7rem; margin-top: 4px; display: inline-block; padding: 2px 10px; border-radius: 40px; border-width: 1px; border-style: solid; border-color: var(--ye); border-image: initial; color: var(--ye);" id="cDST">🌞 SUMMER — EDT UTC-4</div>
     </div>
     <div style="display: flex; gap: 12px;">
       <button class="btn" onclick="rBoard()">↺ REFRESH</button>
@@ -808,8 +808,8 @@ textarea {
     </div>
   </div>
   <div class="warn" id="lossWarn">⚠ CONSECUTIVE LOSS ×3 — STOP TODAY</div>
-  <div class="kzgrid" id="kzGrid"></div>
-  <div class="bgrid" id="bGrid"><div class="empty"><div style="font-size: 2rem;">◈</div><div>No analysis today</div><div style="font-size: 0.8rem;">Click ANALYZE to begin</div></div></div>
+  <div class="kzgrid" id="kzGrid"><div class="kzb ldn"><div class="kzbn"><span class="flag">🇬🇧</span><span class="name">伦敦KZ</span></div><div class="kzbt">02:00 – 05:00 ET</div><div class="kzbm">🌞 14:00-17:00 MYT</div><div class="kzpw" style="height:3px;background:rgba(90,102,138,0.3);border-radius:4px;margin-top:10px;"><div class="kzpb" style="width:0%;height:100%;background:var(--rd);border-radius:4px;"></div></div><div class="kzst kzst-wait">○ STANDBY</div></div><div class="kzb ny"><div class="kzbn"><span class="flag">🇺🇸</span><span class="name">纽约KZ</span></div><div class="kzbt">08:30 – 11:00 ET</div><div class="kzbm">🌞 20:30-23:00 MYT</div><div class="kzpw" style="height:3px;background:rgba(90,102,138,0.3);border-radius:4px;margin-top:10px;"><div class="kzpb" style="width:25%;height:100%;background:var(--ye);border-radius:4px;"></div></div><div class="kzst kzst-analyze">◆ ANALYZE WINDOW</div></div></div>
+  <div class="bgrid" id="bGrid"><div class="slot done" onclick="oSlot(1775033839977)"><div class="slhead"><span class="bdg b-eur">EURUSD</span><span class="bdg b-ldn">伦敦KZ</span><span class="slstat" style="color:var(--gn)">✓ DONE</span></div><div class="slinfo"><div>BIAS <strong>空</strong> · 4H <strong>CHoCH空</strong></div><div>POI <strong>OB</strong> · ★</div></div><div class="slphases"><div style="display:flex;gap:6px"><div class="pip done" title="P1"></div><div class="pip done" title="P2"></div><div class="pip done" title="P3"></div></div><button class="btn btn-rd" style="padding:4px 12px;font-size:0.7rem" onclick="event.stopPropagation();delSlot(1775033839977)">✕</button></div></div></div>
   <div class="card" style="margin-top: 16px;">
     <div class="clabel">KZ TIME REFERENCE</div>
     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
@@ -821,22 +821,22 @@ textarea {
   </div>
 </div>
 
-<div id="pg-hist" class="page">
+<div id="pg-hist" class="page active">
   <div class="hf" style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px;">
-    <button class="hfb btn" onclick="fH('all',this)">ALL</button>
-    <button class="hfb btn" onclick="fH('全盈',this)">WIN</button>
-    <button class="hfb btn" onclick="fH('部分盈',this)">PARTIAL</button>
-    <button class="hfb btn" onclick="fH('亏',this)">LOSS</button>
-    <button class="hfb btn" onclick="fH('无设置',this)">NO SETUP</button>
-    <button class="hfb btn" onclick="fH('EURUSD',this)">EUR</button>
-    <button class="hfb btn" onclick="fH('XAUUSD',this)">XAU</button>
-    <button class="hfb btn" onclick="fH('伦敦',this)">LDN</button>
-    <button class="hfb btn" onclick="fH('纽约',this)">NY</button>
-    <button class="hfb btn" onclick="fH('伦敦银弹',this)">LDN SB</button>
-    <button class="hfb btn" onclick="fH('纽约银弹',this)">NY SB</button>
+    <button class="hfb btn" onclick="fH(&#39;all&#39;,this)">ALL</button>
+    <button class="hfb btn" onclick="fH(&#39;全盈&#39;,this)">WIN</button>
+    <button class="hfb btn" onclick="fH(&#39;部分盈&#39;,this)">PARTIAL</button>
+    <button class="hfb btn" onclick="fH(&#39;亏&#39;,this)">LOSS</button>
+    <button class="hfb btn" onclick="fH(&#39;无设置&#39;,this)">NO SETUP</button>
+    <button class="hfb btn" onclick="fH(&#39;EURUSD&#39;,this)">EUR</button>
+    <button class="hfb btn" onclick="fH(&#39;XAUUSD&#39;,this)">XAU</button>
+    <button class="hfb btn" onclick="fH(&#39;伦敦&#39;,this)">LDN</button>
+    <button class="hfb btn" onclick="fH(&#39;纽约&#39;,this)">NY</button>
+    <button class="hfb btn" onclick="fH(&#39;伦敦银弹&#39;,this)">LDN SB</button>
+    <button class="hfb btn" onclick="fH(&#39;纽约银弹&#39;,this)">NY SB</button>
     <button class="btn btn-cy" onclick="expData()" style="margin-left: auto;">EXPORT</button>
   </div>
-  <div id="hList"></div>
+  <div id="hList"><div class="tc no"><div class="tch"><span class="tcn">#2</span><span class="bdg b-eur">EURUSD</span><span class="bdg b-ldn">伦敦KZ</span><span class="bdg b-no">NO SETUP</span><span style="margin-left:auto;font-size:0.7rem;">2026-04-01</span></div></div><div class="tc no"><div class="tch"><span class="tcn">#1</span><span class="bdg b-eur">EURUSD</span><span class="bdg b-ldn">伦敦KZ</span><span class="bdg b-no">NO SETUP</span><span style="margin-left:auto;font-size:0.7rem;">2026-04-01</span></div></div></div>
 </div>
 
 <div id="pg-stats" class="page">
@@ -849,7 +849,7 @@ textarea {
     <div class="scard"><span class="sv" id="stC" style="color:var(--tx-dim)">—</span><div class="sl">Calm %</div></div>
   </div>
   <div class="card"><div class="clabel">LIVE TRADING CONDITIONS</div><div id="stGoal" style="font-size: 0.9rem;"></div></div>
-  <div class="card"><div class="clabel">P&L STREAK</div><div id="stStreak" style="display: flex; gap: 4px; flex-wrap: wrap;"></div></div>
+  <div class="card"><div class="clabel">P&amp;L STREAK</div><div id="stStreak" style="display: flex; gap: 4px; flex-wrap: wrap;"></div></div>
   <div class="card"><div class="clabel">SETUP FREQUENCY</div><div id="stFreq"></div></div>
   <div class="card"><div class="clabel">LONG vs SHORT</div><div id="sbDir"></div></div>
   <div class="card"><div class="clabel">4H POI TYPE</div><div id="sbPoi"></div></div>
@@ -935,7 +935,45 @@ function openRv(){['rv1','rv2','rv3'].forEach(id=>{const e=document.getElementBy
 function chkRv(){const ok=gv('rv1').length>5&&gv('rv2').length>5&&gv('rv3').length>5;document.getElementById('rvBtn').className=ok?'sbtn ready':'sbtn locked';}
 function subRv(){if(gv('rv1').length<5||gv('rv2').length<5||gv('rv3').length<5){toast('COMPLETE ALL 3','e');return;}const last=[...TR].reverse().find(t=>t.result==='亏'&&!t.reviewDone);if(last){last.reviewDone=true;sv();}document.getElementById('mReview').classList.remove('on');if(RCB){RCB();RCB=null;}}
 function fH(f,btn){HF=f;document.querySelectorAll('.hfb').forEach(b=>b.classList.remove('on'));if(btn)btn.classList.add('on');rHist();}
-function rHist(){const list=document.getElementById('hList');let arr=[...TR].reverse();if(HF==='全盈')arr=arr.filter(t=>t.result==='全盈');else if(HF==='部分盈')arr=arr.filter(t=>t.result==='部分盈');else if(HF==='亏')arr=arr.filter(t=>t.result==='亏');else if(HF==='无设置')arr=arr.filter(t=>t.result==='无设置');else if(HF==='EURUSD')arr=arr.filter(t=>t.symbol==='EURUSD');else if(HF==='XAUUSD')arr=arr.filter(t=>t.symbol==='XAUUSD');else if(HF==='伦敦')arr=arr.filter(t=>(t.killzone||'').includes('伦敦')&&!t.silverBullet);else if(HF==='纽约')arr=arr.filter(t=>(t.killzone||'').includes('纽约')&&!t.silverBullet);else if(HF==='伦敦银弹')arr=arr.filter(t=>t.killzone==='伦敦KZ'&&t.silverBullet);else if(HF==='纽约银弹')arr=arr.filter(t=>t.killzone==='纽约KZ'&&t.silverBullet);if(!arr.length){list.innerHTML=`<div class="empty"><div style="font-size:2rem;">◈</div><div>No records</div></div>`;return;}const emos={平静:'😌',急躁:'😤',FOMO:'😰',报复:'😠'};list.innerHTML=arr.map(t=>{if(t.result==='无设置')return`<div class="tc no"><div class="tch"><span class="tcn">#${t.num}</span><span class="bdg b-${t.symbol==='EURUSD'?'eur':'xau'}">${t.symbol||'—'}</span><span class="bdg ${(t.killzone||'').includes('伦敦')?'b-ldn':'b-ny'}">${t.killzone||'—'}</span><span class="bdg b-no">NO SETUP</span><span style="margin-left:auto;font-size:0.7rem;">${t.date}</span></div></div>`;const rc=t.result==='全盈'?'win':t.result==='部分盈'?'pw':t.result==='亏'?'loss':'be';const rb=t.result==='全盈'?'b-win':t.result==='部分盈'?'b-pw':t.result==='亏'?'b-loss':'b-be';const qs=t.poiQuality?'★'.repeat(+t.poiQuality):'';return`<div class="tc ${rc}" onclick="showDet(${t.id})"><div class="tch"><span class="tcn">#${t.num}</span><span class="tcsym">${t.symbol||'—'}</span><span class="bdg b-${t.symbol==='EURUSD'?'eur':'xau'}">${t.symbol}</span><span class="bdg ${(t.killzone||'').includes('伦敦')?'b-ldn':'b-ny'}">${t.killzone}</span><span class="bdg ${rb}">${t.result}</span>${qs?`<span style="color:var(--ye);font-size:0.8rem">${qs}</span>`:''}<span class="tcrr" style="color:${t.realRR>0?'var(--gn)':t.realRR<0?'var(--rd)':'var(--tx-dim)'}">${t.realRR!=null?t.realRR+'x':'—'}</span></div><div class="tcm"><span>${t.date}</span>${t.bias?`<span>BIAS <strong>${t.bias}</strong></span>`:''}${t.poi4H?`<span>POI <strong>${t.poi4H.replace('4H ','')}</strong></span>`:''}${t.emotion?`<span>${emos[t.emotion]||''} <strong>${t.emotion}</strong></span>`:''}</div></div>`;}).join('');}
+// ========== 新增删除交易函数 ==========
+function delTrade(id, event) {
+    event.stopPropagation(); // 阻止点击记录展开详情
+    if (!confirm('删除该交易？')) return;
+    TR = TR.filter(t => t.id !== id);
+    sv(); // 保存到 localStorage
+    updNav(); // 更新顶部统计
+    rHist(); // 刷新历史列表
+    toast('已删除', 's');
+}
+// ========== 修改后的 rHist 函数（带删除按钮）==========
+function rHist() {
+    const list = document.getElementById('hList');
+    let arr = [...TR].reverse();
+    if (HF === '全盈') arr = arr.filter(t => t.result === '全盈');
+    else if (HF === '部分盈') arr = arr.filter(t => t.result === '部分盈');
+    else if (HF === '亏') arr = arr.filter(t => t.result === '亏');
+    else if (HF === '无设置') arr = arr.filter(t => t.result === '无设置');
+    else if (HF === 'EURUSD') arr = arr.filter(t => t.symbol === 'EURUSD');
+    else if (HF === 'XAUUSD') arr = arr.filter(t => t.symbol === 'XAUUSD');
+    else if (HF === '伦敦') arr = arr.filter(t => (t.killzone || '').includes('伦敦') && !t.silverBullet);
+    else if (HF === '纽约') arr = arr.filter(t => (t.killzone || '').includes('纽约') && !t.silverBullet);
+    else if (HF === '伦敦银弹') arr = arr.filter(t => t.killzone === '伦敦KZ' && t.silverBullet);
+    else if (HF === '纽约银弹') arr = arr.filter(t => t.killzone === '纽约KZ' && t.silverBullet);
+    if (!arr.length) {
+        list.innerHTML = `<div class="empty"><div style="font-size:2rem;">◈</div><div>No records</div></div>`;
+        return;
+    }
+    const emos = {平静:'😌',急躁:'😤',FOMO:'😰',报复:'😠'};
+    list.innerHTML = arr.map(t => {
+        if (t.result === '无设置') {
+            return `<div class="tc no"><div class="tch"><span class="tcn">#${t.num}</span><span class="bdg b-${t.symbol==='EURUSD'?'eur':'xau'}">${t.symbol||'—'}</span><span class="bdg ${(t.killzone||'').includes('伦敦')?'b-ldn':'b-ny'}">${t.killzone||'—'}</span><span class="bdg b-no">NO SETUP</span><span style="margin-left:auto;display:flex;gap:8px;align-items:center;"><span style="font-size:0.7rem;">${t.date}</span><button onclick="delTrade(${t.id}, event)" style="background:none;border:none;color:var(--rd);cursor:pointer;font-size:1rem;">✕</button></span></div></div>`;
+        }
+        const rc = t.result==='全盈'?'win':t.result==='部分盈'?'pw':t.result==='亏'?'loss':'be';
+        const rb = t.result==='全盈'?'b-win':t.result==='部分盈'?'b-pw':t.result==='亏'?'b-loss':'b-be';
+        const qs = t.poiQuality ? '★'.repeat(+t.poiQuality) : '';
+        return `<div class="tc ${rc}" onclick="showDet(${t.id})"><div class="tch"><span class="tcn">#${t.num}</span><span class="tcsym">${t.symbol||'—'}</span><span class="bdg b-${t.symbol==='EURUSD'?'eur':'xau'}">${t.symbol}</span><span class="bdg ${(t.killzone||'').includes('伦敦')?'b-ldn':'b-ny'}">${t.killzone}</span><span class="bdg ${rb}">${t.result}</span>${qs?`<span style="color:var(--ye);font-size:0.8rem">${qs}</span>`:''}<span class="tcrr" style="color:${t.realRR>0?'var(--gn)':t.realRR<0?'var(--rd)':'var(--tx-dim)'}">${t.realRR!=null?t.realRR+'x':'—'}</span><span style="margin-left:auto;display:flex;gap:8px;align-items:center;"><span style="font-size:0.7rem;">${t.date}</span><button onclick="delTrade(${t.id}, event)" style="background:none;border:none;color:var(--rd);cursor:pointer;font-size:1rem;">✕</button></span></div><div class="tcm"><span>${t.date}</span>${t.bias?`<span>BIAS <strong>${t.bias}</strong></span>`:''}${t.poi4H?`<span>POI <strong>${t.poi4H.replace('4H ','')}</strong></span>`:''}${t.emotion?`<span>${emos[t.emotion]||''} <strong>${t.emotion}</strong></span>`:''}</div></div>`;
+    }).join('');
+}
 function showDet(id){const t=TR.find(tr=>tr.id===id);if(!t)return;document.getElementById('mDetTitle').textContent=`#${t.num} ${t.symbol} ◆ ${t.date}`;const rc=t.result==='全盈'?'g':t.result==='部分盈'?'c':t.result==='亏'?'r':'y';const be=t.entry&&t.sl&&t.tp1?calcBE(t.symbol,t.direction,t.entry,t.sl,t.tp1,t.holdingHours?Math.ceil(t.holdingHours/24):2):null;const dr=(l,v)=>`<div class="di"><div class="dil">${l}</div><div class="div">${v}</div></div>`;document.getElementById('mDetContent').innerHTML=`<div class="dgrid">${dr('Result',`<span class="${rc}">${t.result||'—'}</span>`)}${dr('Real RR',`<span style="color:${t.realRR>0?'var(--gn)':t.realRR<0?'var(--rd)':'var(--tx-dim)'}">${t.realRR!=null?t.realRR+'x':'—'}</span>`)}${dr('KZ',t.killzone||'—')}${dr('Dir',t.direction||'—')}${dr('Daily',t.bias||'—')}${dr('4H',(t.h4structure||'—').replace('延续-','').replace('反转-',''))}${dr('4H POI',t.poi4H||'—')}${dr('Quality',t.poiQuality?'★'.repeat(+t.poiQuality):'—')}${dr('Zone',t.poiZone||'—')}${dr('DOL',t.dol||'—')}${dr('Entry',`<span style="font-family:'Orbitron',monospace">${t.entry||'—'}</span>`)}${dr('SL',`<span style="color:var(--rd);font-family:'Orbitron',monospace">${t.sl||'—'}</span>`)}${dr('TP1/RR1',`<span style="color:var(--gn);font-family:'Orbitron',monospace">${t.tp1||'—'} / ${t.rr1?t.rr1.toFixed(2)+'x':'—'}</span>`)}${dr('TP2/RR2',`<span style="color:var(--gn);font-family:'Orbitron',monospace">${t.tp2||'—'} / ${t.rr2?t.rr2.toFixed(2)+'x':'—'}</span>`)}${dr('TP1 Hit',`<span style="color:${t.tp1Hit==='Y✅'?'var(--gn)':'var(--rd)'}">${t.tp1Hit||'—'}</span>`)}${dr('TP2 Hit',`<span style="color:${t.tp2Hit==='Y✅'?'var(--gn)':t.tp2Hit==='BE出场'?'var(--ye)':'var(--rd)'}">${t.tp2Hit||'—'}</span>`)}${dr('Emotion',t.emotion||'—')}${dr('Hold',t.holdingHours?t.holdingHours+'h':'—')}${dr('Silver',t.silverBullet?'⚡ YES':'—')}</div>${be?beHTML(be,t.symbol):''}${t.narrative?`<div style="background:rgba(0,0,0,0.3);border-radius:var(--radius-md);padding:14px;margin-top:16px;font-size:0.85rem;color:var(--cy);">${t.narrative}</div>`:''}${t.lesson?`<div style="background:var(--ye);color:#000;border-radius:var(--radius-md);padding:14px;margin-top:12px;font-size:0.9rem;">◆ ${t.lesson}</div>`:''}<div style="margin-top:16px"><button class="btn btn-rd" onclick="delT(${t.id})">✕ DELETE</button></div>`;document.getElementById('mDetail').classList.add('on');}
 function delT(id){if(!confirm('Delete?'))return;TR=TR.filter(t=>t.id!==id);sv();closeDet();updNav();rHist();toast('DELETED','e');}
 function rStats(){const real=TR.filter(t=>t.result&&t.result!=='无设置');const n=real.length,wins=real.filter(t=>isW(t)).length,losses=real.filter(t=>t.result==='亏').length;const wr=n?wins/n*100:0;const rrArr=real.filter(t=>t.realRR!=null).map(t=>t.realRR);const avgRR=rrArr.length?rrArr.reduce((a,b)=>a+b,0)/rrArr.length:0;const exp=n?((wins/n)*Math.max(avgRR,0)-(losses/n)*1):0;const tp1h=real.filter(t=>t.tp1Hit==='Y✅');const tp2r=tp1h.length?tp1h.filter(t=>t.tp2Hit==='Y✅').length/tp1h.length*100:0;const eArr=real.filter(t=>t.emotion);const calmPct=eArr.length?eArr.filter(t=>t.emotion==='平静').length/eArr.length*100:0;const noS=TR.filter(t=>t.result==='无设置').length;const sv2=(id,v,c)=>{const e=document.getElementById(id);if(e){e.textContent=v;if(c)e.style.color=c;}};sv2('stT',n);document.getElementById('stTP').style.width=Math.min(n/50*100,100)+'%';sv2('stW',n?wr.toFixed(1)+'%':'—',wr>=60?'var(--gn)':wr<40?'var(--rd)':'var(--txd)');document.getElementById('stWP').style.width=wr+'%';sv2('stR',avgRR?avgRR.toFixed(2)+'x':'—',avgRR>0?'var(--pu)':'var(--rd)');sv2('stE',rrArr.length?exp.toFixed(2):'—',exp>0?'var(--gn)':exp<0?'var(--rd)':'var(--txd)');sv2('stTP2',tp1h.length?tp2r.toFixed(1)+'%':'—');sv2('stC',eArr.length?calmPct.toFixed(0)+'%':'—',calmPct>=70?'var(--gn)':calmPct<50?'var(--rd)':'var(--or)');const g1=n>=50,g2=exp>0&&rrArr.length>=10,g3=calmPct>=70&&eArr.length>=10;document.getElementById('stGoal').innerHTML=`<div style="color:${g1?'var(--gn)':'var(--txd)'}">${g1?'✓':'○'} 50+ trades (${n}/50)</div><div style="color:${g2?'var(--gn)':'var(--txd)'}">${g2?'✓':'○'} Expectancy > 0 (${rrArr.length>=10?exp.toFixed(2):'need more data'})</div><div style="color:${g3?'var(--gn)':'var(--txd)'}">${g3?'✓':'○'} Calm > 70% (${eArr.length>=10?calmPct.toFixed(0)+'%':'need more data'})</div><div style="color:var(--txd);margin-top:4px;font-size:0.75rem">No setup days: ${noS}</div>`;const streak=document.getElementById('stStreak');streak.innerHTML=real.map(t=>{const c=t.result==='全盈'?'var(--gn)':t.result==='部分盈'?'var(--cy)':t.result==='亏'?'var(--rd)':'var(--ye)';return`<div title="#${t.num} ${t.result}" style="width:20px;height:20px;border-radius:40px;background:${c};margin-right:2px;"></div>`;}).join('')||'<span style="color:var(--tx-muted);">No data yet</span>';const totalD=TR.length?Math.ceil((Date.now()-new Date(TR[0].date).getTime())/86400000):0;const totalW=Math.max(1,Math.ceil(totalD/7));document.getElementById('stFreq').innerHTML=`Days tracked: <span style="color:var(--tx)">${totalD}</span><br>Valid setups: <span style="color:var(--gn)">${n}</span>  No-setup days: <span style="color:var(--txd)">${noS}</span><br>Avg per week: <span style="color:var(--cy)">${(n/totalW).toFixed(1)}</span>`;const bars=(cid,groups,col)=>{const el=document.getElementById(cid);if(!el)return;const max=Math.max(...groups.map(g=>g.t.length),1);el.innerHTML=groups.map(g=>{const arr=g.t,n2=arr.length;if(!n2)return`<div class="brow"><div class="blbl">${g.l}</div><div class="btrack"><div class="btext">—</div></div></div>`;const w2=arr.filter(t=>isW(t)).length,wr2=n2?w2/n2*100:0;const ra=arr.filter(t=>t.realRR!=null).map(t=>t.realRR);const rr2=ra.length?ra.reduce((a,b)=>a+b,0)/ra.length:0;const bw=Math.max(n2/max*100,4);const wc=wr2>=60?'var(--gn)':wr2<40?'var(--rd)':'var(--txd)';const rc=rr2>0?'var(--gn)':rr2<0?'var(--rd)':'var(--txd)';return`<div class="brow"><div class="blbl">${g.l}</div><div class="btrack"><div class="bfill" style="width:${bw}%;background:${col};opacity:0.2"></div><div class="btext"><span style="color:var(--tx);font-weight:600">${n2}</span><span style="color:${wc}">${wr2.toFixed(0)}% WIN</span><span style="color:${rc}">${rr2.toFixed(2)}x</span></div></div></div>`;}).join('');};bars('sbDir',[{l:'LONG',t:real.filter(t=>t.direction==='做多')},{l:'SHORT',t:real.filter(t=>t.direction==='做空')}],'var(--gn)');bars('sbPoi',[{l:'4H FVG',t:real.filter(t=>t.poi4H==='4H FVG')},{l:'4H OB',t:real.filter(t=>t.poi4H==='4H OB')},{l:'FVG+OB',t:real.filter(t=>t.poi4H==='4H FVG+OB重叠')}],'var(--cy)');bars('sbQ',[{l:'★★★',t:real.filter(t=>t.poiQuality==='3')},{l:'★★',t:real.filter(t=>t.poiQuality==='2')},{l:'★',t:real.filter(t=>t.poiQuality==='1')}],'var(--ye)');const ldnMain=real.filter(t=>t.killzone==='伦敦KZ'&&!t.silverBullet);const ldnSb=real.filter(t=>t.killzone==='伦敦KZ'&&t.silverBullet);const nyMain=real.filter(t=>t.killzone==='纽约KZ'&&!t.silverBullet);const nySb=real.filter(t=>t.killzone==='纽约KZ'&&t.silverBullet);bars('sbSes',[{l:'LONDON KZ',t:ldnMain},{l:'LONDON SB',t:ldnSb},{l:'NEW YORK KZ',t:nyMain},{l:'NEW YORK SB',t:nySb}],'var(--or)');bars('sbZone',[{l:'DISCOUNT',t:real.filter(t=>t.poiZone==='折扣区Discount')},{l:'PREMIUM',t:real.filter(t=>t.poiZone==='溢价区Premium')}],'var(--rd)');bars('sbEmo',[{l:'😌CALM',t:real.filter(t=>t.emotion==='平静')},{l:'😤RUSH',t:real.filter(t=>t.emotion==='急躁')},{l:'😰FOMO',t:real.filter(t=>t.emotion==='FOMO')},{l:'😠REV',t:real.filter(t=>t.emotion==='报复')}],'var(--pu)');bars('sbSym',[{l:'EUR/USD',t:real.filter(t=>t.symbol==='EURUSD')},{l:'XAU/USD',t:real.filter(t=>t.symbol==='XAUUSD')}],'var(--cy)');}
@@ -953,5 +991,5 @@ function expData(){if(!TR.length){toast('NO DATA','e');return;}const out=JSON.st
 function clrAll(){if(!confirm('Clear ALL V10 data?'))return;if(!confirm('Confirm?'))return;TR=[];SL=[];localStorage.removeItem(ST);localStorage.removeItem(SS);updNav();rBoard();toast('CLEARED','e');}
 updNav();updClock();
 </script>
-</body>
-</html>
+
+</body></html>
