@@ -20,9 +20,48 @@ function mytStr(){const n=new Date();return`${n.getFullYear()}-${pad(n.getMonth(
 function mytDisp(){const n=new Date();const dn=['日','一','二','三','四','五','六'];return`${n.getFullYear()}/${pad(n.getMonth()+1)}/${pad(n.getDate())} 周${dn[n.getDay()]}`;}
 const KZC={'伦敦KZ':{ks:2*60,ke:5*60,as:1*60,ae:1*60+30,col:'var(--rd)',cls:'ldn'},'纽约KZ':{ks:8*60+30,ke:11*60,as:5*60,ae:8*60,col:'var(--gn)',cls:'ny'}};
 function kzSt(key){const k=KZC[key],m=etM();if(key==='伦敦KZ'){const asiaOn=m>=21*60||m<1*60;if(asiaOn)return'asia';if(m>=k.as&&m<k.ae)return'analyze';if(m>=k.ae&&m<k.ks)return'locked';if(m>=k.ks&&m<k.ke)return'active';return'closed';}if(key==='纽约KZ'){if(m>=k.as&&m<k.ae)return'analyze';if(m>=k.ae&&m<k.ks)return'locked';if(m>=k.ks&&m<k.ke)return'active';return'closed';}return'closed';}
-function updClock(){const{d,dst}=getET(),n=new Date();document.getElementById('cMYT').textContent=`${pad(n.getHours())}:${pad(n.getMinutes())}:${pad(n.getSeconds())} MYT — ${mytDisp()}`;document.getElementById('cET').textContent=`${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())} ET`;document.getElementById('cDate').textContent=`${d.getFullYear()}/${pad(d.getMonth()+1)}/${pad(d.getDate())} (${dst?'EDT UTC-4':'EST UTC-5'})`;const dste=document.getElementById('cDST');dste.textContent=dst?'🌞 SUMMER — EDT UTC-4':'❄️ WINTER — EST UTC-5';dste.style.borderColor=dst?'var(--ye)':'var(--cy)';dste.style.color=dst?'var(--ye)':'var(--cy)';}
+function updClock(){
+  const{d,dst}=getET(),n=new Date();
+  const etEl=document.getElementById('cET');
+  if(etEl)etEl.textContent=`${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+  const mytEl=document.getElementById('cMYT');
+  if(mytEl)mytEl.textContent=`${pad(n.getHours())}:${pad(n.getMinutes())} MYT`;
+  const dateEl=document.getElementById('cDate');
+  if(dateEl)dateEl.textContent=`${mytDisp()} — ${d.getFullYear()}/${pad(d.getMonth()+1)}/${pad(d.getDate())} ET`;
+  const dstEl=document.getElementById('cDST');
+  if(dstEl){dstEl.textContent=dst?'EDT':'EST';dstEl.style.borderColor=dst?'var(--ye)':'var(--cy)';dstEl.style.color=dst?'var(--ye)':'var(--cy)';}
+}
 setInterval(()=>{if(document.getElementById('pg-today').classList.contains('active')){updClock();rKZ();}},1000);
-function rKZ(){const g=document.getElementById('kzGrid');if(!g)return;const{dst}=getET(),m=etM();g.innerHTML=Object.entries(KZC).map(([key,k])=>{const st=kzSt(key);let stHTML='',pct=0,pc=k.col;if(st==='asia'){stHTML=`<div class="kzst kzst-wait">⏳ ASIA</div>`;}else if(st==='analyze'){stHTML=`<div class="kzst kzst-analyze">◆ ANALYZE WINDOW</div>`;pct=Math.min((m-k.as)/(k.ae-k.as)*100,100);pc='var(--ye)';}else if(st==='locked'){stHTML=`<div class="kzst kzst-locked">✕ PRE‑ANALYSIS CLOSED</div>`;pct=100;pc='var(--rd)';}else if(st==='active'){stHTML=`<div class="kzst kzst-active">● LIVE</div>`;pct=Math.min((m-k.ks)/(k.ke-k.ks)*100,100);}else{stHTML=`<div class="kzst kzst-wait">○ STANDBY</div>`;}const myt=key==='伦敦KZ'?(dst?'14:00-17:00 MYT':'15:00-18:00 MYT'):(dst?'20:30-23:00 MYT':'21:30-00:00 MYT');return`<div class="kzb ${k.cls}"><div class="kzbn"><span class="flag">${key==='伦敦KZ'?'🇬🇧':'🇺🇸'}</span><span class="name">${key}</span></div><div class="kzbt">${pad(Math.floor(k.ks/60))}:${pad(k.ks%60)} – ${pad(Math.floor(k.ke/60))}:${pad(k.ke%60)} ET</div><div class="kzbm">${dst?'🌞':'❄️'} ${myt}</div><div class="kzpw" style="height:3px;background:rgba(90,102,138,0.3);border-radius:4px;margin-top:10px;"><div class="kzpb" style="width:${pct}%;height:100%;background:${pc};border-radius:4px;"></div></div>${stHTML}</div>`;}).join('');}
+function rKZ(){
+  const g=document.getElementById('kzGrid');if(!g)return;
+  const{dst}=getET(),m=etM();
+  const defs=[
+    {key:'伦敦KZ',flag:'🇬🇧',cls:'ldn',ks:2*60,ke:5*60,as:1*60,ae:1*60+30,
+     myt:dst?'14:00-17:00':'15:00-18:00'},
+    {key:'纽约KZ',flag:'🇺🇸',cls:'ny',ks:8*60+30,ke:11*60,as:5*60,ae:8*60,
+     myt:dst?'20:30-23:00':'21:30-00:00'}
+  ];
+  g.innerHTML=defs.map(k=>{
+    const st=kzSt(k.key);
+    let badge='',badgeCls='standby',pct=0,barColor='rgba(90,102,138,0.5)';
+    if(st==='asia'){badge='⏳ ASIA';badgeCls='asia';}
+    else if(st==='analyze'){badge='◆ ANALYZE';badgeCls='analyze';pct=Math.min((m-k.as)/(k.ae-k.as)*100,100);barColor='#ffcc33';}
+    else if(st==='locked'){badge='✕ CLOSED';badgeCls='locked';pct=100;barColor='#ef5350';}
+    else if(st==='active'){badge='● LIVE';badgeCls='active';pct=Math.min((m-k.ks)/(k.ke-k.ks)*100,100);barColor=k.cls==='ldn'?'#ef5350':'#26a69a';}
+    else{badge='○ STANDBY';badgeCls='standby';}
+    return`<div class="tv-kz-cell ${k.cls}">
+      <div class="tv-kz-left">
+        <div class="tv-kz-name">${k.flag} ${k.key}</div>
+        <div class="tv-kz-time">${pad(Math.floor(k.ks/60))}:${pad(k.ks%60)} – ${pad(Math.floor(k.ke/60))}:${pad(k.ke%60)} ET</div>
+        <div class="tv-kz-myt">${dst?'🌞':'❄️'} ${k.myt} MYT</div>
+      </div>
+      <div class="tv-kz-right">
+        <div class="tv-kz-badge ${badgeCls}">${badge}</div>
+        <div class="tv-kz-prog"><div class="tv-kz-prog-bar" style="width:${pct}%;background:${barColor}"></div></div>
+      </div>
+    </div>`;
+  }).join('');
+}
 function pg(n,el){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.querySelectorAll('.ntab').forEach(t=>t.classList.remove('on'));document.getElementById('pg-'+n).classList.add('active');if(el)el.classList.add('on');if(n==='hist')rHist();if(n==='stats')rStats();if(n==='arch')rArch();if(n==='cfg')ldCfg();if(n==='today'){rBoard();}}
 function rBoard(){updClock();rKZ();const r=[...TR].reverse().slice(0,3);const consec=r.length>=3&&r.every(t=>t.result==='亏');document.getElementById('lossWarn').className='warn'+(consec?' on':'');if(!SL.length){document.getElementById('bGrid').innerHTML=`<div class="empty"><div style="font-size:2rem;">◈</div><div>No analysis today</div><div style="font-size:0.8rem;">Click ANALYZE</div></div>`;return;}document.getElementById('bGrid').innerHTML=SL.map(s=>{const st = s.phase3Done ? 'done' : s.phase2Done ? 'active' : s.phase1Done ? 'active' : 'empty';const sb=`<span class="bdg b-${s.sym==='EURUSD'?'eur':'xau'}">${s.sym}</span>`;const kb=`<span class="bdg b-${s.kz.includes('伦敦')?'ldn':'ny'}">${s.kz}</span>`;let stx='',sc='var(--tx-dim)';if(st==='empty'){stx='○ PENDING';sc='var(--pu)';}else if(st==='active'){stx='● LIVE';sc='var(--or)';}else if(st==='done'){stx='✓ DONE';sc='var(--gn)';}let info='';if(s.bias)info+=`<div>BIAS <strong>${s.bias}</strong> · 4H <strong>${(s.h4||'—').replace('延续-','').replace('反转-','')}</strong></div>`;if(s.poi)info+=`<div>POI <strong>${s.poi.replace('4H ','')}</strong>${s.poiQ?' · '+'★'.repeat(+s.poiQ):''}</div>`;if(s.entry)info+=`<div>ENTRY <strong>${s.entry}</strong> SL <strong style="color:var(--rd)">${s.sl}</strong></div>`;if(s.result&&s.result!=='无设置'){const rb=s.result==='全盈'?'b-win':s.result==='部分盈'?'b-pw':s.result==='亏'?'b-loss':'b-be';info+=`<div style="margin-top:6px"><span class="bdg ${rb}">${s.result}</span>${s.realRR!=null?`<span style="font-family:'Orbitron',monospace;font-size:0.9rem;margin-left:8px;color:${s.realRR>0?'var(--gn)':s.realRR<0?'var(--rd)':'var(--tx-dim)'}">${s.realRR}x</span>`:''}</div>`;}const oc=st==='empty'?`oSlot(${s.id})`:`oSlot(${s.id})`;return`<div class="slot ${st}" onclick="${oc}"><div class="slhead">${sb}${kb}<span class="slstat" style="color:${sc}">${stx}</span></div><div class="slinfo">${info||`<span style="color:var(--tx-muted);">Click to analyze</span>`}</div><div class="slphases"><div style="display:flex;gap:6px"><div class="pip ${s.phase1Done?'done':''}" title="P1"></div><div class="pip ${s.phase2Done?'done':s.phase1Done?'active':''}" title="P2"></div><div class="pip ${s.phase3Done?'done':s.phase2Done?'active':''}" title="P3"></div></div><button class="btn btn-rd" style="padding:4px 12px;font-size:0.7rem" onclick="event.stopPropagation();delSlot(${s.id})">✕</button></div></div>`;}).join('');}
 function openNew(){document.getElementById('mTitle').textContent='＋ INITIALIZE ANALYSIS';document.getElementById('mContent').innerHTML=`<div class="fg" style="margin-bottom:22px"><div><label>Symbol</label><div class="pills" id="nSym"><div class="pill" data-v="EURUSD" onclick="nPick('sym',this)">EUR/USD</div><div class="pill" data-v="XAUUSD" onclick="nPick('sym',this)">XAU/USD</div></div></div><div><label>KZ Session</label><div class="pills" id="nKZ"><div class="pill" data-v="伦敦KZ" onclick="nKZ(this)"><span style="font-size:1.2em;">🇬🇧</span> LONDON KZ<br><span style="font-size:0.7rem;">02:00-05:00 ET</span></div><div class="pill" data-v="纽约KZ" onclick="nKZ(this)"><span style="font-size:1.2em;">🇺🇸</span> NEW YORK KZ<br><span style="font-size:0.7rem;">08:30-11:00 ET</span></div></div></div></div><div id="nWarn" style="display:none; margin-bottom:16px;"></div><div style="margin-bottom:18px"><label>Record Date (MYT)</label><input type="date" id="nDate" style="font-family:'Inter'"></div><button class="sbtn ready" onclick="confSlot()">CREATE SLOT</button>`;document.getElementById('nDate').value=mytStr();window._ns={sym:'',kz:'',lk:false};document.getElementById('mAnal').classList.add('on');}
