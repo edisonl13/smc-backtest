@@ -249,7 +249,8 @@ function btP2HTML(){return`
     <div class="ck" id="btck3" onclick="btTogCk('cce',this)"><div class="ckbox">✓</div>Limit at 5M FVG 50%</div>
     <div class="ck" id="btck4" onclick="btTogCk('csl',this)"><div class="ckbox">✓</div>SL beyond Judas extreme</div>
     <div class="ck" id="btck5" onclick="btTogCk('cnarr',this)"><div class="ckbox">✓</div>Narrative clear</div>
-  </div>`;}
+  </div>
+  <div id="btScorePanel" style="display:none"></div>`;}
 
 function btP3HTML(){return`
   <div class="fg">
@@ -297,6 +298,44 @@ function btCalc(){
     sb('bt-rp1',p1.toFixed(1)+' '+u,'TP1','info');
     if(t2){const r2=Math.abs((t2-e)/(e-s)),p2=isE?Math.abs((t2-e)/0.0001):Math.abs(t2-e);sb('bt-rr2',r2.toFixed(2)+'x','RR2',r2>=2?'pass':'fail');sb('bt-rp2',p2.toFixed(1)+' '+u,'TP2','info');}
   }
+  // Score panel
+  const b1=window._btP1||{},b2=window._btP2||{},mc=window._btMC||{};
+  const btSP=document.getElementById('btScorePanel');
+  if(btSP&&b2.dir&&b2.sweep&&b2.sweep!=='方向矛盾'&&e&&s&&t1){
+    const fakeSlot={kz:window._ns.kz||'',poiQ:b1.poiQ,poi:b1.poi};
+    const btET=document.getElementById('btEntryTime');
+    const fakeTimeEl={value:btET?btET.value:''};
+    const origGetEl=document.getElementById;
+    // Patch entryTime temporarily for isSilverBullet inside scoreHTML
+    const patchedSlot=Object.assign({},fakeSlot);
+    const timeStr=btET?btET.value:'';
+    const sbCheck=isSilverBullet(patchedSlot.kz,timeStr);
+    // Build score manually to avoid DOM dependency
+    const scores=[];let total=0;
+    const hasJudas=b2.sweep==='扫SSL做多'||b2.sweep==='扫BSL做空';
+    if(hasJudas){total+=3;scores.push({l:'✦ Judas Swing (当前KZ)',v:'+3',c:'var(--gn)'});}
+    else{scores.push({l:'○ Judas Swing (无/前序)',v:'+0',c:'var(--tx-muted)'});}
+    const q=parseInt(b1.poiQ)||0;
+    if(q===3){total+=2;scores.push({l:'✦ POI Quality ★★★',v:'+2',c:'var(--gn)'});}
+    else if(q===2){total+=1;scores.push({l:'✦ POI Quality ★★',v:'+1',c:'var(--ye)'});}
+    else{scores.push({l:'○ POI Quality ★',v:'+0',c:'var(--tx-muted)'});}
+    if(sbCheck){total+=2;scores.push({l:'✦ Silver Bullet 时间窗口',v:'+2',c:'var(--gn)'});}
+    else{scores.push({l:'○ Silver Bullet',v:'+0',c:'var(--tx-muted)'});}
+    if(b1.poi==='4H FVG+OB重叠'){total+=2;scores.push({l:'✦ POI = FVG+OB 重叠',v:'+2',c:'var(--gn)'});}
+    else{scores.push({l:'○ POI 单一类型',v:'+0',c:'var(--tx-muted)'});}
+    const rr1=(e&&s&&t1)?Math.abs((t1-e)/(e-s)):0;
+    if(rr1>=3){total+=1;scores.push({l:'✦ RR ≥ 3x',v:'+1',c:'var(--gn)'});}
+    else{scores.push({l:'○ RR 2-3x',v:'+0',c:'var(--tx-muted)'});}
+    let risk,riskColor,riskLabel,emoji;
+    if(total>=8){risk='1.0%';riskColor='var(--gn)';riskLabel='满仓';emoji='🟢';}
+    else if(total>=5){risk='0.75%';riskColor='var(--ye)';riskLabel='标准仓';emoji='🟡';}
+    else if(total>=3){risk='0.5%';riskColor='var(--or)';riskLabel='半仓';emoji='🟠';}
+    else{risk='—';riskColor='var(--rd)';riskLabel='建议跳过';emoji='🔴';}
+    const rows=scores.map(s=>`<div style="display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid rgba(66,78,110,0.15);"><span style="font-size:0.78rem;color:${s.c}">${s.l}</span><span style="font-family:'JetBrains Mono',monospace;font-size:0.78rem;font-weight:700;color:${s.c}">${s.v}</span></div>`).join('');
+    btSP.innerHTML=`<div style="background:rgba(10,14,23,0.9);border:1px solid rgba(66,78,110,0.4);border-radius:8px;padding:14px;margin-top:14px;"><div style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--tx-muted);letter-spacing:1.5px;margin-bottom:10px">CONFIDENCE SCORE</div>${rows}<div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding-top:10px;border-top:1px solid rgba(66,78,110,0.3);"><span style="font-family:'Orbitron',monospace;font-size:1.4rem;font-weight:900;color:${riskColor}">${total}<span style="font-size:0.7rem;color:var(--tx-muted)">/10</span></span><div style="text-align:right"><div style="font-family:'Orbitron',monospace;font-size:0.9rem;font-weight:700;color:${riskColor}">${emoji} ${riskLabel}</div><div style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:var(--tx-dim)">建议风险 <strong style="color:${riskColor}">${risk}</strong> 每笔</div></div></div></div>`;
+    btSP.style.display='block';
+    window._btScore=total;
+  } else if(btSP){btSP.style.display='none';}
 }
 
 function saveBT(){
@@ -336,7 +375,7 @@ function saveBT(){
     rr1:+r1.toFixed(3),rr2:r2?+r2.toFixed(3):null,
     emotion:b3.emo,result,tp1Hit:b3.tp1h,tp2Hit:b3.tp2h,
     holdingHours:gf('bt-hrs')||null,lesson:gv('bt-les'),narrative:'',
-    realRR:rrr,reviewDone:true,
+    realRR:rrr,reviewDone:true,confScore:window._btScore||null,
     entryTime:timeStr,silverBullet:sb2,priorSweepDone:(b2.sweep==='前序KZ已扫荡（顺势）'),
     c15m:!!mc.c15m,c5m:!!mc.c5m,cce:!!mc.cce,csl:!!mc.csl,cnarr:!!mc.cnarr};
   TR.push(trade);sv();closeAnal();updNav();
