@@ -16,6 +16,9 @@
     <div class="ntab" onclick="pg('cfg',this)">CONFIG</div>
     <div class="ntab" onclick="pg('rules',this)">📘 规则手册</div>
     <div class="nright">
+        <div class="mode-toggle" onclick="toggleMode()" id="modeToggle" title="切换模式">
+            <span id="modeLabel">🔴 LIVE SIM</span>
+        </div>
         <div class="nstat"><span class="nstat-v" id="nT" style="color:var(--cy)">0</span><div class="nstat-l">TRADES</div></div>
         <div class="nstat"><span class="nstat-v" id="nW" style="color:var(--gn)">—</span><div class="nstat-l">WIN%</div></div>
         <div class="nstat"><span class="nstat-v" id="nR" style="color:var(--pu)">—</span><div class="nstat-l">AVG RR</div></div>
@@ -97,7 +100,7 @@
 
   <!-- TOP BAR: clock + actions -->
   <div class="tv-topbar">
-    <div class="tv-clock-block">
+    <div class="tv-clock-block" id="liveClockBlock">
       <div class="tv-clock-row">
         <div class="tv-clock-et" id="cET">00:00:00</div>
         <div class="tv-clock-sep"></div>
@@ -106,17 +109,29 @@
       </div>
       <div class="tv-clock-date" id="cDate"></div>
     </div>
+    <div class="tv-clock-block" id="btClockBlock" style="display:none">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:var(--or);letter-spacing:1px;margin-bottom:4px">📊 BACKTEST MODE</div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:0.8rem;color:var(--tx-dim)">TV Bar Replay → 一格一格前进 → 不准倒回</div>
+    </div>
     <div class="tv-actions">
       <button class="tv-btn-ghost" onclick="rBoard()">↺</button>
-      <button class="tv-btn-primary" onclick="openNew()">＋ ANALYZE</button>
+      <button class="tv-btn-primary" id="analyzeBtn" onclick="openNew()">＋ ANALYZE</button>
     </div>
   </div>
 
   <!-- WARN BANNER -->
   <div class="warn" id="lossWarn">⚠ CONSECUTIVE LOSS ×3 — STOP TODAY</div>
 
-  <!-- KZ STATUS STRIP -->
+  <!-- KZ STATUS STRIP - live mode only -->
   <div class="tv-kz-strip" id="kzGrid"></div>
+
+  <!-- BACKTEST REMINDER - backtest mode only -->
+  <div id="btReminder" style="display:none;background:rgba(255,136,68,0.08);border:1px solid rgba(255,136,68,0.3);border-radius:8px;padding:12px 16px;margin-bottom:12px;font-size:0.8rem;color:var(--or);font-family:'JetBrains Mono',monospace;line-height:1.8">
+    ⚡ BACKTEST RULES — TV Bar Replay 打开后：<br>
+    &nbsp;&nbsp;1. 只能往前播，不准暂停倒回<br>
+    &nbsp;&nbsp;2. 看到你的KZ时间点停下来分析<br>
+    &nbsp;&nbsp;3. 决定做不做，填进工具，继续播看结果
+  </div>
 
   <!-- SLOT GRID -->
   <div class="tv-section-label">TODAY'S SESSIONS</div>
@@ -164,8 +179,8 @@
 
 <!-- HISTORY 页面 -->
 <div id="pg-hist" class="page">
-    <div class="hf" style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px;">
-        <button class="hfb btn" onclick="fH('all',this)">ALL</button>
+    <div class="hf" style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 8px;">
+        <button class="hfb btn on" onclick="fH('all',this)">ALL</button>
         <button class="hfb btn" onclick="fH('全盈',this)">WIN</button>
         <button class="hfb btn" onclick="fH('部分盈',this)">PARTIAL</button>
         <button class="hfb btn" onclick="fH('亏',this)">LOSS</button>
@@ -178,11 +193,23 @@
         <button class="hfb btn" onclick="fH('纽约银弹',this)">NY SB</button>
         <button class="btn btn-cy" onclick="expData()" style="margin-left: auto;">EXPORT</button>
     </div>
+    <div style="display:flex;gap:8px;margin-bottom:16px;padding:8px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
+        <span style="font-size:0.7rem;color:var(--tx-muted);font-family:'JetBrains Mono',monospace;letter-spacing:1px;align-self:center">MODE:</span>
+        <button class="hfb btn on" id="mf-all" onclick="fMode('all',this)">📊 ALL</button>
+        <button class="hfb btn" id="mf-bt" onclick="fMode('backtest',this)">📊 BACKTEST</button>
+        <button class="hfb btn" id="mf-live" onclick="fMode('live',this)">🔴 LIVE SIM</button>
+    </div>
     <div id="hList"></div>
 </div>
 
 <!-- STATS 页面 -->
 <div id="pg-stats" class="page">
+    <div style="display:flex;gap:8px;margin-bottom:16px;padding:10px 14px;background:rgba(18,22,35,0.8);border:1px solid var(--border);border-radius:8px;align-items:center">
+        <span style="font-size:0.7rem;color:var(--tx-muted);font-family:'JetBrains Mono',monospace;letter-spacing:1px">STATS VIEW:</span>
+        <button class="hfb btn on" id="sf-all" onclick="sModeFilter('all',this)">ALL DATA</button>
+        <button class="hfb btn" id="sf-bt" onclick="sModeFilter('backtest',this)">📊 BACKTEST</button>
+        <button class="hfb btn" id="sf-live" onclick="sModeFilter('live',this)">🔴 LIVE SIM</button>
+    </div>
     <div class="sgrid">
         <div class="scard"><span class="sv" id="stT" style="color:var(--cy)">0</span><div class="sl">Total Trades</div><div class="pw"><div class="pb" id="stTP"></div></div></div>
         <div class="scard"><span class="sv" id="stW" style="color:var(--gn)">—</span><div class="sl">Win Rate</div><div class="pw"><div class="pb" id="stWP"></div></div></div>
