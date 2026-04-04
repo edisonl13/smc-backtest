@@ -27,73 +27,454 @@
 
 <!-- 规则手册页面 -->
 <div id="pg-rules" class="page">
-    <div class="card">
-        <div class="clabel">📖 SMC V10 规则手册</div>
-        <div class="rule-section">
-            <div class="rule-title">🎯 工具定位</div>
-            <div class="rule-desc">这是一套 <strong>SMC/ICT 实盘模拟与复盘工具</strong>。它不是为了自动回测，而是为了帮助交易员在真实行情中逐笔执行严格的交易规则，记录每一笔决策的门闸通过情况、情绪、盈亏，并自动统计胜率、期望值、最大连亏等关键指标。通过反复训练，形成肌肉记忆，避免情绪化交易。</div>
-        </div>
-        <div class="rule-section">
-            <div class="rule-title">🧠 核心逻辑（多周期联动）</div>
-            <div class="rule-desc"><strong>日线 → 4H → POI → DOL → KZ 扫荡 → 执行层确认 → 入场</strong></div>
-            <div class="rule-diagram">[日线偏见] → [4H结构一致] → [POI区域/质量] → [DOL方向] → [KZ内扫荡] → [CHoCH+FVG] → [RR≥2] → 入场</div>
-            <div class="rule-desc"><strong>每个环节的作用：</strong>
-                <ul style="margin-left: 20px; margin-top: 8px;">
-                    <li><span class="badge-rule">日线偏见</span> 确定大方向，过滤震荡市。只有多或空，不做震荡。</li>
-                    <li><span class="badge-rule">4H结构</span> 确认中期趋势与日线一致（BOS/CHoCH），避免逆势交易。</li>
-                    <li><span class="badge-rule">POI（兴趣区）</span> 找到机构可能进场的区域（折扣区做多，溢价区做空）。质量越高（Q3）胜率越高。</li>
-                    <li><span class="badge-rule">DOL（目标点）</span> 明确第一目标（4H未回补FVG或BSL/SSL），保证盈亏比。</li>
-                    <li><span class="badge-rule">KZ扫荡</span> 机构制造流动性猎杀散户止损。扫荡后才会出现真正的方向。</li>
-                    <li><span class="badge-rule">CHoCH + FVG</span> 确认扫荡后的反转有效，且存在价格失衡，提供精确入场点。</li>
-                    <li><span class="badge-rule">RR ≥ 2</span> 强制风险回报比，确保长期正期望值。</li>
-                    <li><span class="badge-rule">情绪/叙事/教训</span> 记录心理状态，暴露弱点，持续改进。</li>
-                </ul>
-            </div>
-        </div>
-        <div class="rule-section">
-            <div class="rule-title">⚡ 关键修正：KZ扫荡的传递性</div>
-            <div class="rule-desc">传统理解要求每个KZ都必须有自己的扫荡才能入场。但实际中，<strong>前一个KZ已经完成了扫荡，当前KZ无需重复扫荡，只要出现同向的CHoCH+FVG即可入场。</strong></div>
-            <div class="rule-diagram">🔹 示例：伦敦KZ扫了亚洲盘低点（诱空做多） → 价格反转向上，留下FVG。<br>🔹 纽约KZ开盘后，价格回踩该FVG，并出现15M CHoCH + 5M FVG（做多信号） → <strong>直接做多，不需要等纽约再扫伦敦高点。</strong></div>
-            <div class="rule-tip">✅ 规则更新：在 Phase 2 的 Sweep 选项中，新增 <strong>“前序KZ已扫荡（顺势）”</strong>。选择此项后，系统不再要求当前KZ必须有扫荡，只要前一个KZ发生过同向扫荡，且当前KZ满足CHoCH+FVG+RR≥2，门闸即通过。</div>
-        </div>
-        <div class="rule-section">
-            <div class="rule-title">📋 门闸逐项解读</div>
-            <div class="rule-desc"><strong>Phase 1（结构门闸）</strong> 全部通过才能进入Phase 2：
-                <ul style="margin-left: 20px; margin-top: 8px;">
-                    <li><span class="badge-rule">Daily Bias</span> 多/空，震荡则放弃。</li>
-                    <li><span class="badge-rule">4H Structure</span> 必须与Daily方向一致（BOS/CHoCH）。</li>
-                    <li><span class="badge-rule">4H POI Type</span> 必须明确（FVG/OB/重叠），不能无POI。</li>
-                    <li><span class="badge-rule">POI Quality</span> 1-3星，3星最佳。</li>
-                    <li><span class="badge-rule">POI Zone</span> 多→折扣区，空→溢价区。</li>
-                    <li><span class="badge-rule">DOL Target</span> 多→上方目标，空→下方目标，且与偏见一致。</li>
-                    <li><span class="badge-rule">Path Obstruction</span> 无阻挡或已调整TP1。</li>
-                    <li><span class="badge-rule">Expected Judas</span> 多→扫SSL，空→扫BSL（预期）。</li>
-                </ul>
-            </div>
-            <div class="rule-desc"><strong>Phase 2（执行门闸）</strong> 全部通过才能开仓：
-                <ul style="margin-left: 20px; margin-top: 8px;">
-                    <li><span class="badge-rule">Direction</span> 与Phase 1的Bias一致。</li>
-                    <li><span class="badge-rule">Sweep</span> 当前KZ扫荡 或 前序KZ已同向扫荡。</li>
-                    <li><span class="badge-rule">15M CHoCH + Displacement</span> 结构转变确认。</li>
-                    <li><span class="badge-rule">5M FVG Valid</span> 有效失衡区域。</li>
-                    <li><span class="badge-rule">CE (50% FVG)</span> 限价单挂FVG中位。</li>
-                    <li><span class="badge-rule">SL beyond Judas extreme</span> 止损设在扫荡点外侧。</li>
-                    <li><span class="badge-rule">Narrative</span> 能清晰说出入场逻辑。</li>
-                    <li><span class="badge-rule">RR ≥ 2</span> 盈亏比达标。</li>
-                </ul>
-            </div>
-        </div>
-        <div class="rule-section">
-            <div class="rule-title">💡 常见误区与解答</div>
-            <div class="rule-desc"><strong>Q: 一定要在KZ内入场吗？</strong><br>A: 是的，因为机构订单流集中在KZ时段。但入场不一定需要当前KZ扫荡，可以利用前序KZ的扫荡结果。</div>
-            <div class="rule-desc"><strong>Q: 如果当前KZ没有扫荡，但出现了CHoCH+FVG，可以做吗？</strong><br>A: 可以，前提是前一个KZ已经完成了同向扫荡。规则手册已明确支持这种“传递性”。</div>
-            <div class="rule-desc"><strong>Q: 为什么必须等CHoCH+FVG？直接扫完入场不行吗？</strong><br>A: 扫荡后立即入场容易被反向扫损。等待CHoCH+FVG确认反转，胜率更高。</div>
-            <div class="rule-desc"><strong>Q: 工具会帮我自动平仓吗？</strong><br>A: 不会。这是一套手动记录工具，你需要根据实际价格行为在Phase 3中填写TP1/TP2是否命中、最终结果和实际RR。</div>
-        </div>
-        <hr>
-        <div class="rule-desc" style="text-align: center; color: var(--tx-muted);">🧠 交易纪律比交易技术更重要。每次开仓前，确保所有门闸亮起绿灯。连续亏损3笔，暂停复盘。<br>📊 100笔回测后，若期望值 > 0.3R 且平静率 > 70%，你的系统已具备正向期望。<br>⚡ 现在，回到 TODAY 页面，开始你的下一笔交易。</div>
+
+<!-- ── 1. 交易类型 ── -->
+<div class="card">
+  <div class="clabel">📋 交易类型 · 你做的是什么</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
+    <div style="background:rgba(0,255,136,0.06);border:1px solid rgba(0,255,136,0.25);border-radius:8px;padding:14px">
+      <div style="font-family:'Orbitron',monospace;font-size:0.75rem;color:var(--gn);margin-bottom:8px">✓ 你的交易类型</div>
+      <div style="font-size:0.9rem;font-weight:700;color:var(--tx);margin-bottom:4px">日内交易 · 多周期分析</div>
+      <div style="font-size:0.78rem;color:var(--tx-dim);line-height:1.7">5M入场 · 止损在CHoCH低点<br>持仓通常 4-48小时<br>最多跨越1-2个交易日</div>
     </div>
+    <div style="background:rgba(66,78,110,0.15);border:1px solid rgba(66,78,110,0.3);border-radius:8px;padding:14px">
+      <div style="font-family:'Orbitron',monospace;font-size:0.75rem;color:var(--tx-muted);margin-bottom:8px">✕ 不是</div>
+      <div style="font-size:0.9rem;font-weight:700;color:var(--tx-dim);margin-bottom:4px">波段交易</div>
+      <div style="font-size:0.78rem;color:var(--tx-muted);line-height:1.7">波段 = 4H入场 · 持仓10-30天<br>你用的是5M执行层<br>不是波段的持仓逻辑</div>
+    </div>
+  </div>
+  <div style="background:rgba(0,255,255,0.05);border-left:3px solid var(--cy);border-radius:4px;padding:12px 14px;font-size:0.82rem;color:var(--tx-dim);line-height:1.8">
+    ⚠️ 持仓超过2天是正常的，因为你用的是<strong style="color:var(--cy)">日线+4H做方向分析</strong>，等待价格到达DOL需要时间。但入场和止损逻辑仍然是日内级别的。
+  </div>
 </div>
+
+<!-- ── 2. 每日流程 ── -->
+<div class="card">
+  <div class="clabel">⏰ 每日流程 · MYT时间</div>
+  <div style="display:flex;flex-direction:column;gap:8px">
+    <div style="display:flex;gap:12px;align-items:flex-start">
+      <div style="background:rgba(0,255,255,0.1);border:1px solid var(--cy);border-radius:6px;padding:6px 12px;font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:var(--cy);white-space:nowrap;min-width:110px;text-align:center">08:00-12:00</div>
+      <div style="flex:1;padding-top:4px">
+        <div style="font-weight:700;font-size:0.85rem;color:var(--tx);margin-bottom:3px">亚盘分析时间</div>
+        <div style="font-size:0.78rem;color:var(--tx-dim);line-height:1.6">打开日线+4H判断偏向 · 标记前日高低点、BSL/SSL · 等亚盘区间成型 · 查看经济日历</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:12px;align-items:flex-start">
+      <div style="background:rgba(255,238,0,0.08);border:1px solid rgba(255,238,0,0.3);border-radius:6px;padding:6px 12px;font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:var(--ye);white-space:nowrap;min-width:110px;text-align:center">12:00</div>
+      <div style="flex:1;padding-top:4px">
+        <div style="font-weight:700;font-size:0.85rem;color:var(--tx);margin-bottom:3px">标记NY Midnight Open</div>
+        <div style="font-size:0.78rem;color:var(--tx-dim)">00:00 ET = 每日算法重置基准 · 折扣/溢价分界线</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:12px;align-items:flex-start">
+      <div style="background:rgba(239,83,80,0.08);border:1px solid rgba(239,83,80,0.3);border-radius:6px;padding:6px 12px;font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:#ef5350;white-space:nowrap;min-width:110px;text-align:center">13:00-14:00🌞<br>14:00-15:00❄️</div>
+      <div style="flex:1;padding-top:4px">
+        <div style="font-weight:700;font-size:0.85rem;color:var(--tx);margin-bottom:3px">🇬🇧 伦敦KZ分析窗口</div>
+        <div style="font-size:0.78rem;color:var(--tx-dim);line-height:1.6">完成P1分析 · 等待Judas Swing · 02:00-05:00 ET是KZ时段</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:12px;align-items:flex-start">
+      <div style="background:rgba(239,83,80,0.12);border:1px solid rgba(239,83,80,0.4);border-radius:6px;padding:6px 12px;font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:#ef5350;font-weight:700;white-space:nowrap;min-width:110px;text-align:center">14:00-17:00🌞<br>15:00-18:00❄️</div>
+      <div style="flex:1;padding-top:4px">
+        <div style="font-weight:700;font-size:0.85rem;color:#ef5350;margin-bottom:3px">🇬🇧 LONDON KZ · 核心交易时段</div>
+        <div style="font-size:0.78rem;color:var(--tx-dim);line-height:1.6">等Judas扫荡 → 15M CHoCH → 5M FVG入场 · SB窗口: 15:00-16:00🌞 / 16:00-17:00❄️</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:12px;align-items:flex-start">
+      <div style="background:rgba(38,166,154,0.08);border:1px solid rgba(38,166,154,0.3);border-radius:6px;padding:6px 12px;font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:#26a69a;white-space:nowrap;min-width:110px;text-align:center">17:00-20:00🌞<br>18:00-21:00❄️</div>
+      <div style="flex:1;padding-top:4px">
+        <div style="font-weight:700;font-size:0.85rem;color:var(--tx);margin-bottom:3px">🇺🇸 纽约KZ分析窗口</div>
+        <div style="font-size:0.78rem;color:var(--tx-dim)">完成P1分析 · 纽约KZ是08:30-11:00 ET</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:12px;align-items:flex-start">
+      <div style="background:rgba(38,166,154,0.12);border:1px solid rgba(38,166,154,0.4);border-radius:6px;padding:6px 12px;font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:#26a69a;font-weight:700;white-space:nowrap;min-width:110px;text-align:center">20:30-23:00🌞<br>21:30-00:00❄️</div>
+      <div style="flex:1;padding-top:4px">
+        <div style="font-weight:700;font-size:0.85rem;color:#26a69a;margin-bottom:3px">🇺🇸 NEW YORK KZ · 第二交易时段</div>
+        <div style="font-size:0.78rem;color:var(--tx-dim);line-height:1.6">可利用伦敦扫荡（传递性）· SB窗口: 22:00-23:00🌞 / 23:00-00:00❄️</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:12px;align-items:flex-start">
+      <div style="background:rgba(66,78,110,0.15);border:1px solid rgba(66,78,110,0.3);border-radius:6px;padding:6px 12px;font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:var(--tx-muted);white-space:nowrap;min-width:110px;text-align:center">23:00+</div>
+      <div style="flex:1;padding-top:4px">
+        <div style="font-weight:700;font-size:0.85rem;color:var(--tx-dim);margin-bottom:3px">收工 · 复盘</div>
+        <div style="font-size:0.78rem;color:var(--tx-muted)">23:00后不开新仓 · 有持仓设好追踪止损 · 填写P3 · 睡觉</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── 3. 方向联动链 ── -->
+<div class="card">
+  <div class="clabel">🔗 方向联动链 · 必须全绿才能进场</div>
+  <svg viewBox="0 0 700 100" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:700px;display:block;margin:0 auto 16px">
+    <defs>
+      <filter id="gc"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    </defs>
+    <!-- boxes -->
+    <rect x="2" y="20" width="100" height="60" rx="6" fill="rgba(0,255,136,0.08)" stroke="#00ff88" stroke-width="1.5"/>
+    <text x="52" y="45" text-anchor="middle" fill="#00ff88" font-family="Orbitron,monospace" font-size="9" font-weight="700">DAILY</text>
+    <text x="52" y="60" text-anchor="middle" fill="#00ff88" font-family="Orbitron,monospace" font-size="8">BIAS</text>
+    <text x="52" y="73" text-anchor="middle" fill="rgba(0,255,136,0.6)" font-size="9">多 / 空</text>
+    <text x="106" y="53" fill="rgba(0,255,255,0.6)" font-size="18" font-weight="700">→</text>
+    <rect x="118" y="20" width="100" height="60" rx="6" fill="rgba(0,255,255,0.05)" stroke="#00ffff" stroke-width="1.5"/>
+    <text x="168" y="45" text-anchor="middle" fill="#00ffff" font-family="Orbitron,monospace" font-size="9" font-weight="700">4H</text>
+    <text x="168" y="60" text-anchor="middle" fill="#00ffff" font-family="Orbitron,monospace" font-size="8">STRUCTURE</text>
+    <text x="168" y="73" text-anchor="middle" fill="rgba(0,255,255,0.6)" font-size="9">BOS / CHoCH</text>
+    <text x="222" y="53" fill="rgba(0,255,255,0.6)" font-size="18" font-weight="700">→</text>
+    <rect x="234" y="20" width="100" height="60" rx="6" fill="rgba(170,0,255,0.06)" stroke="#aa00ff" stroke-width="1.5"/>
+    <text x="284" y="45" text-anchor="middle" fill="#aa00ff" font-family="Orbitron,monospace" font-size="9" font-weight="700">DIRECTION</text>
+    <text x="284" y="60" text-anchor="middle" fill="#aa00ff" font-family="Orbitron,monospace" font-size="8">+ ZONE</text>
+    <text x="284" y="73" text-anchor="middle" fill="rgba(170,0,255,0.6)" font-size="9">折扣/溢价</text>
+    <text x="338" y="53" fill="rgba(0,255,255,0.6)" font-size="18" font-weight="700">→</text>
+    <rect x="350" y="20" width="100" height="60" rx="6" fill="rgba(255,204,51,0.06)" stroke="#ffcc33" stroke-width="1.5"/>
+    <text x="400" y="45" text-anchor="middle" fill="#ffcc33" font-family="Orbitron,monospace" font-size="9" font-weight="700">SWEEP</text>
+    <text x="400" y="60" text-anchor="middle" fill="#ffcc33" font-family="Orbitron,monospace" font-size="8">DIRECTION</text>
+    <text x="400" y="73" text-anchor="middle" fill="rgba(255,204,51,0.6)" font-size="9">Judas方向</text>
+    <text x="454" y="53" fill="rgba(0,255,255,0.6)" font-size="18" font-weight="700">→</text>
+    <rect x="466" y="20" width="100" height="60" rx="6" fill="rgba(255,136,68,0.06)" stroke="#ff8844" stroke-width="1.5"/>
+    <text x="516" y="45" text-anchor="middle" fill="#ff8844" font-family="Orbitron,monospace" font-size="9" font-weight="700">DOL</text>
+    <text x="516" y="60" text-anchor="middle" fill="#ff8844" font-family="Orbitron,monospace" font-size="8">TARGET</text>
+    <text x="516" y="73" text-anchor="middle" fill="rgba(255,136,68,0.6)" font-size="9">BSL / SSL</text>
+    <text x="570" y="53" fill="rgba(0,255,136,0.8)" font-size="18" font-weight="700">✓</text>
+    <rect x="586" y="28" width="106" height="44" rx="6" fill="rgba(0,255,136,0.12)" stroke="#00ff88" stroke-width="2"/>
+    <text x="639" y="53" text-anchor="middle" fill="#00ff88" font-family="Orbitron,monospace" font-size="10" font-weight="900">ENTER</text>
+  </svg>
+  <div style="font-size:0.78rem;color:var(--rd);font-family:'JetBrains Mono',monospace;background:rgba(255,0,68,0.05);border:1px solid rgba(255,0,68,0.2);border-radius:6px;padding:10px 14px">
+    ⛔ 任何一环方向矛盾 → 立即终止，不入场。方向链是硬规则，不是建议。
+  </div>
+</div>
+
+<!-- ── 4. Judas Swing ── -->
+<div class="card">
+  <div class="clabel">⚡ Judas Swing = KZ扫荡 · 同一件事</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:14px">
+    <!-- Bullish example -->
+    <div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:var(--gn);margin-bottom:8px;letter-spacing:1px">做多例子 — 扫SSL</div>
+      <svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;background:rgba(5,0,8,0.8);border-radius:8px;border:1px solid rgba(66,78,110,0.3)">
+        <!-- Asian range -->
+        <line x1="20" y1="60" x2="140" y2="60" stroke="rgba(255,238,0,0.4)" stroke-width="1" stroke-dasharray="4,3"/>
+        <text x="22" y="56" fill="rgba(255,238,0,0.7)" font-size="8" font-family="JetBrains Mono,monospace">亚盘高点 BSL</text>
+        <line x1="20" y1="110" x2="140" y2="110" stroke="rgba(255,238,0,0.4)" stroke-width="1" stroke-dasharray="4,3"/>
+        <text x="22" y="125" fill="rgba(255,238,0,0.7)" font-size="8" font-family="JetBrains Mono,monospace">亚盘低点 SSL</text>
+        <!-- Candles before sweep -->
+        <rect x="30" y="80" width="8" height="25" rx="1" fill="rgba(0,255,136,0.6)"/>
+        <rect x="45" y="75" width="8" height="30" rx="1" fill="rgba(0,255,136,0.6)"/>
+        <rect x="60" y="85" width="8" height="20" rx="1" fill="rgba(255,255,255,0.4)"/>
+        <rect x="75" y="80" width="8" height="22" rx="1" fill="rgba(0,255,136,0.6)"/>
+        <!-- Judas down sweep -->
+        <rect x="100" y="90" width="10" height="45" rx="1" fill="rgba(255,255,255,0.8)"/>
+        <line x1="105" y1="90" x2="105" y2="80" stroke="rgba(255,255,255,0.6)" stroke-width="1.5"/>
+        <line x1="105" y1="135" x2="105" y2="148" stroke="rgba(255,0,68,0.9)" stroke-width="2"/>
+        <circle cx="105" cy="148" r="4" fill="rgba(255,0,68,0.3)" stroke="#ff0044" stroke-width="1.5"/>
+        <text x="112" y="152" fill="#ff0044" font-size="9" font-family="JetBrains Mono,monospace">SSL扫荡!</text>
+        <!-- Reversal arrow -->
+        <path d="M118 140 Q140 120 150 85" stroke="#00ff88" stroke-width="2" fill="none" stroke-dasharray="none"/>
+        <polygon points="148,78 155,88 142,90" fill="#00ff88"/>
+        <!-- Reversal candles -->
+        <rect x="122" y="70" width="9" height="40" rx="1" fill="rgba(0,255,136,0.8)"/>
+        <rect x="135" y="65" width="9" height="35" rx="1" fill="rgba(0,255,136,0.8)"/>
+        <!-- Labels -->
+        <rect x="148" y="58" width="60" height="16" rx="3" fill="rgba(0,255,136,0.12)" stroke="rgba(0,255,136,0.4)" stroke-width="1"/>
+        <text x="178" y="70" text-anchor="middle" fill="#00ff88" font-size="8" font-family="JetBrains Mono,monospace">CHoCH → 做多</text>
+        <!-- KZ label -->
+        <rect x="88" y="10" width="90" height="18" rx="3" fill="rgba(239,83,80,0.12)" stroke="rgba(239,83,80,0.4)" stroke-width="1"/>
+        <text x="133" y="22" text-anchor="middle" fill="#ef5350" font-size="8" font-family="Orbitron,monospace" font-weight="700">LONDON KZ</text>
+      </svg>
+    </div>
+    <!-- Bearish example -->
+    <div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:var(--rd);margin-bottom:8px;letter-spacing:1px">做空例子 — 扫BSL</div>
+      <svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;background:rgba(5,0,8,0.8);border-radius:8px;border:1px solid rgba(66,78,110,0.3)">
+        <line x1="20" y1="80" x2="140" y2="80" stroke="rgba(255,238,0,0.4)" stroke-width="1" stroke-dasharray="4,3"/>
+        <text x="22" y="76" fill="rgba(255,238,0,0.7)" font-size="8" font-family="JetBrains Mono,monospace">亚盘高点 BSL</text>
+        <line x1="20" y1="130" x2="140" y2="130" stroke="rgba(255,238,0,0.4)" stroke-width="1" stroke-dasharray="4,3"/>
+        <text x="22" y="145" fill="rgba(255,238,0,0.7)" font-size="8" font-family="JetBrains Mono,monospace">亚盘低点 SSL</text>
+        <rect x="30" y="95" width="8" height="25" rx="1" fill="rgba(255,255,255,0.6)"/>
+        <rect x="45" y="100" width="8" height="22" rx="1" fill="rgba(255,255,255,0.6)"/>
+        <rect x="60" y="93" width="8" height="30" rx="1" fill="rgba(0,255,136,0.5)"/>
+        <rect x="75" y="98" width="8" height="25" rx="1" fill="rgba(255,255,255,0.6)"/>
+        <!-- Judas up sweep -->
+        <rect x="100" y="58" width="10" height="45" rx="1" fill="rgba(0,255,136,0.8)"/>
+        <line x1="105" y1="58" x2="105" y2="46" stroke="rgba(255,0,68,0.9)" stroke-width="2"/>
+        <circle cx="105" cy="46" r="4" fill="rgba(255,0,68,0.3)" stroke="#ff0044" stroke-width="1.5"/>
+        <text x="112" y="44" fill="#ff0044" font-size="9" font-family="JetBrains Mono,monospace">BSL扫荡!</text>
+        <path d="M118 60 Q140 80 150 115" stroke="#ff0044" stroke-width="2" fill="none"/>
+        <polygon points="148,122 155,112 142,110" fill="#ff0044"/>
+        <rect x="122" y="90" width="9" height="38" rx="1" fill="rgba(255,255,255,0.8)"/>
+        <rect x="135" y="95" width="9" height="35" rx="1" fill="rgba(255,255,255,0.8)"/>
+        <rect x="148" y="125" width="62" height="16" rx="3" fill="rgba(255,0,68,0.1)" stroke="rgba(255,0,68,0.4)" stroke-width="1"/>
+        <text x="179" y="137" text-anchor="middle" fill="#ff0044" font-size="8" font-family="JetBrains Mono,monospace">CHoCH → 做空</text>
+        <rect x="88" y="10" width="90" height="18" rx="3" fill="rgba(38,166,154,0.1)" stroke="rgba(38,166,154,0.4)" stroke-width="1"/>
+        <text x="133" y="22" text-anchor="middle" fill="#26a69a" font-size="8" font-family="Orbitron,monospace" font-weight="700">NEW YORK KZ</text>
+      </svg>
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+    <div style="background:rgba(0,255,136,0.05);border-left:2px solid var(--gn);padding:10px 12px;border-radius:4px;font-size:0.78rem;color:var(--tx-dim);line-height:1.7">
+      <strong style="color:var(--gn)">做多流程</strong><br>
+      日线多 → 亚盘SSL被扫 → 15M CHoCH向上 → 5M FVG做多 → TP = BSL/上方DOL
+    </div>
+    <div style="background:rgba(255,0,68,0.05);border-left:2px solid var(--rd);padding:10px 12px;border-radius:4px;font-size:0.78rem;color:var(--tx-dim);line-height:1.7">
+      <strong style="color:var(--rd)">做空流程</strong><br>
+      日线空 → 亚盘BSL被扫 → 15M CHoCH向下 → 5M FVG做空 → TP = SSL/下方DOL
+    </div>
+  </div>
+</div>
+
+<!-- ── 5. 15M + 5M 入场 ── -->
+<div class="card">
+  <div class="clabel">📐 15M + 5M · 两层确认</div>
+  <svg viewBox="0 0 700 220" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:700px;display:block;margin:0 auto 16px;background:rgba(5,0,8,0.8);border-radius:8px;border:1px solid rgba(66,78,110,0.3)">
+    <!-- 15M section -->
+    <text x="175" y="20" text-anchor="middle" fill="rgba(0,255,255,0.8)" font-size="10" font-family="Orbitron,monospace" font-weight="700">15M — 结构确认层</text>
+    <line x1="350" y1="10" x2="350" y2="210" stroke="rgba(66,78,110,0.4)" stroke-width="1" stroke-dasharray="4,3"/>
+    <text x="525" y="20" text-anchor="middle" fill="rgba(255,136,68,0.8)" font-size="10" font-family="Orbitron,monospace" font-weight="700">5M — 执行入场层</text>
+    <!-- 15M candles - downtrend then reversal -->
+    <rect x="20" y="80" width="16" height="50" rx="2" fill="rgba(255,255,255,0.7)"/>
+    <line x1="28" y1="80" x2="28" y2="68" stroke="rgba(255,255,255,0.5)" stroke-width="1.5"/>
+    <line x1="28" y1="130" x2="28" y2="142" stroke="rgba(255,255,255,0.5)" stroke-width="1.5"/>
+    <rect x="42" y="90" width="16" height="55" rx="2" fill="rgba(255,255,255,0.7)"/>
+    <rect x="64" y="100" width="16" height="60" rx="2" fill="rgba(255,255,255,0.7)"/>
+    <line x1="72" y1="160" x2="72" y2="175" stroke="rgba(255,0,68,0.8)" stroke-width="2"/>
+    <!-- SSL sweep -->
+    <circle cx="72" cy="178" r="5" fill="rgba(255,0,68,0.2)" stroke="#ff0044" stroke-width="1.5"/>
+    <text x="82" y="182" fill="#ff0044" font-size="9" font-family="JetBrains Mono,monospace">SSL</text>
+    <!-- Big reversal candle = displacement -->
+    <rect x="88" y="100" width="20" height="75" rx="2" fill="rgba(0,255,136,0.9)"/>
+    <line x1="98" y1="100" x2="98" y2="88" stroke="rgba(0,255,136,0.7)" stroke-width="2"/>
+    <text x="98" y="84" text-anchor="middle" fill="rgba(0,255,136,0.9)" font-size="8" font-family="JetBrains Mono,monospace">位移</text>
+    <!-- CHoCH label -->
+    <line x1="64" y1="97" x2="110" y2="97" stroke="rgba(0,255,255,0.5)" stroke-width="1.5" stroke-dasharray="3,2"/>
+    <text x="72" y="92" fill="var(--cy)" font-size="9" font-family="Orbitron,monospace" font-weight="700">CHoCH</text>
+    <!-- More candles up -->
+    <rect x="114" y="85" width="16" height="50" rx="2" fill="rgba(0,255,136,0.7)"/>
+    <rect x="136" y="75" width="16" height="45" rx="2" fill="rgba(0,255,136,0.7)"/>
+    <rect x="158" y="78" width="16" height="40" rx="2" fill="rgba(255,255,255,0.5)"/>
+    <rect x="180" y="70" width="16" height="42" rx="2" fill="rgba(0,255,136,0.7)"/>
+    <!-- 15M FVG area -->
+    <rect x="88" y="65" width="42" height="23" rx="2" fill="rgba(0,255,136,0.08)" stroke="rgba(0,255,136,0.3)" stroke-width="1" stroke-dasharray="3,2"/>
+    <text x="109" y="74" text-anchor="middle" fill="rgba(0,255,136,0.7)" font-size="7" font-family="JetBrains Mono,monospace">15M FVG</text>
+    <!-- 15M label box -->
+    <rect x="14" y="188" width="200" height="22" rx="4" fill="rgba(0,255,255,0.06)" stroke="rgba(0,255,255,0.2)" stroke-width="1"/>
+    <text x="114" y="203" text-anchor="middle" fill="var(--cy)" font-size="9" font-family="JetBrains Mono,monospace">CHoCH + 位移 → 方向确认 ✓</text>
+    <!-- 5M section -->
+    <!-- Zoomed in FVG -->
+    <rect x="370" y="50" width="280" height="100" rx="4" fill="rgba(10,0,18,0.6)" stroke="rgba(66,78,110,0.3)" stroke-width="1"/>
+    <text x="510" y="42" text-anchor="middle" fill="rgba(66,78,110,0.7)" font-size="8" font-family="JetBrains Mono,monospace">← 15M 位移区域放大</text>
+    <!-- 5M candles -->
+    <rect x="382" y="95" width="11" height="45" rx="1" fill="rgba(255,255,255,0.6)"/>
+    <rect x="398" y="90" width="11" height="50" rx="1" fill="rgba(255,255,255,0.6)"/>
+    <!-- Big displacement 5M -->
+    <rect x="414" y="55" width="14" height="80" rx="1" fill="rgba(0,255,136,0.95)"/>
+    <line x1="421" y1="55" x2="421" y2="43" stroke="rgba(0,255,136,0.6)" stroke-width="1.5"/>
+    <!-- 5M FVG highlight -->
+    <rect x="414" y="55" width="60" height="28" rx="2" fill="rgba(0,255,136,0.12)" stroke="rgba(0,255,136,0.5)" stroke-width="1.5"/>
+    <text x="444" y="66" text-anchor="middle" fill="#00ff88" font-size="9" font-family="Orbitron,monospace" font-weight="700">5M FVG</text>
+    <text x="444" y="78" text-anchor="middle" fill="rgba(0,255,136,0.7)" font-size="8" font-family="JetBrains Mono,monospace">50% CE</text>
+    <!-- Limit order line -->
+    <line x1="414" y1="69" x2="550" y2="69" stroke="rgba(255,204,51,0.8)" stroke-width="1.5" stroke-dasharray="4,2"/>
+    <text x="555" y="73" fill="#ffcc33" font-size="9" font-family="JetBrains Mono,monospace">限价单</text>
+    <!-- SL line -->
+    <line x1="382" y1="143" x2="550" y2="143" stroke="rgba(255,0,68,0.8)" stroke-width="1.5" stroke-dasharray="4,2"/>
+    <text x="555" y="147" fill="#ff0044" font-size="9" font-family="JetBrains Mono,monospace">SL ← CHoCH低点下</text>
+    <!-- TP line -->
+    <line x1="382" y1="22" x2="550" y2="22" stroke="rgba(0,255,136,0.6)" stroke-width="1.5" stroke-dasharray="4,2"/>
+    <text x="555" y="26" fill="#00ff88" font-size="9" font-family="JetBrains Mono,monospace">TP1 → DOL</text>
+    <!-- More 5M candles after -->
+    <rect x="434" y="80" width="10" height="35" rx="1" fill="rgba(255,255,255,0.5)"/>
+    <rect x="450" y="72" width="10" height="30" rx="1" fill="rgba(0,255,136,0.7)"/>
+    <!-- 5M label box -->
+    <rect x="364" y="160" width="285" height="46" rx="4" fill="rgba(255,136,68,0.06)" stroke="rgba(255,136,68,0.2)" stroke-width="1"/>
+    <text x="506" y="178" text-anchor="middle" fill="var(--or)" font-size="9" font-family="JetBrains Mono,monospace">5M FVG 50%挂限价 → 止损CHoCH低点外侧</text>
+    <text x="506" y="197" text-anchor="middle" fill="rgba(255,136,68,0.7)" font-size="9" font-family="JetBrains Mono,monospace">止损越小 = RR越高 = 这就是用5M的原因</text>
+  </svg>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+    <div style="background:rgba(0,255,255,0.05);border-left:2px solid var(--cy);padding:10px 12px;border-radius:4px">
+      <div style="font-size:0.8rem;font-weight:700;color:var(--cy);margin-bottom:4px">15M 的作用</div>
+      <div style="font-size:0.78rem;color:var(--tx-dim);line-height:1.7">确认方向转变 + 位移<br>告诉你 <strong style="color:var(--tx)">要做多了</strong></div>
+    </div>
+    <div style="background:rgba(255,136,68,0.05);border-left:2px solid var(--or);padding:10px 12px;border-radius:4px">
+      <div style="font-size:0.8rem;font-weight:700;color:var(--or);margin-bottom:4px">5M 的作用</div>
+      <div style="font-size:0.78rem;color:var(--tx-dim);line-height:1.7">找精确入场 FVG 50%<br>告诉你 <strong style="color:var(--tx)">在这里做多</strong></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── 6. 止损 ── -->
+<div class="card">
+  <div class="clabel">🛡️ 止损逻辑 · 结构失效点</div>
+  <svg viewBox="0 0 600 160" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:600px;display:block;margin:0 auto 16px;background:rgba(5,0,8,0.8);border-radius:8px;border:1px solid rgba(66,78,110,0.3)">
+    <!-- Displacement candle -->
+    <rect x="120" y="40" width="18" height="90" rx="2" fill="rgba(0,255,136,0.9)"/>
+    <line x1="129" y1="40" x2="129" y2="25" stroke="rgba(0,255,136,0.6)" stroke-width="2"/>
+    <text x="129" y="21" text-anchor="middle" fill="rgba(0,255,136,0.8)" font-size="8" font-family="JetBrains Mono,monospace">位移K线</text>
+    <!-- CHoCH low -->
+    <line x1="60" y1="130" x2="350" y2="130" stroke="rgba(0,255,255,0.5)" stroke-width="1.5" stroke-dasharray="5,3"/>
+    <text x="62" y="126" fill="var(--cy)" font-size="9" font-family="Orbitron,monospace" font-weight="700">CHoCH</text>
+    <!-- SL line -->
+    <line x1="60" y1="146" x2="350" y2="146" stroke="rgba(255,0,68,0.8)" stroke-width="2" stroke-dasharray="4,2"/>
+    <text x="355" y="150" fill="#ff0044" font-size="9" font-family="JetBrains Mono,monospace">← SL</text>
+    <!-- Buffer bracket -->
+    <line x1="50" y1="130" x2="50" y2="146" stroke="rgba(255,0,68,0.6)" stroke-width="1.5"/>
+    <line x1="45" y1="130" x2="55" y2="130" stroke="rgba(255,0,68,0.6)" stroke-width="1.5"/>
+    <line x1="45" y1="146" x2="55" y2="146" stroke="rgba(255,0,68,0.6)" stroke-width="1.5"/>
+    <text x="18" y="140" fill="rgba(255,0,68,0.8)" font-size="8" font-family="JetBrains Mono,monospace">缓冲</text>
+    <!-- Entry -->
+    <line x1="60" y1="75" x2="350" y2="75" stroke="rgba(255,204,51,0.7)" stroke-width="1.5" stroke-dasharray="4,2"/>
+    <text x="355" y="79" fill="#ffcc33" font-size="9" font-family="JetBrains Mono,monospace">← 入场 (FVG 50%)</text>
+    <!-- TP -->
+    <line x1="60" y1="20" x2="350" y2="20" stroke="rgba(0,255,136,0.5)" stroke-width="1.5" stroke-dasharray="4,2"/>
+    <text x="355" y="24" fill="#00ff88" font-size="9" font-family="JetBrains Mono,monospace">← TP1</text>
+    <!-- RR bracket -->
+    <line x1="420" y1="20" x2="420" y2="146" stroke="rgba(170,0,255,0.5)" stroke-width="1.5"/>
+    <line x1="415" y1="20" x2="425" y2="20" stroke="rgba(170,0,255,0.5)" stroke-width="1.5"/>
+    <line x1="415" y1="146" x2="425" y2="146" stroke="rgba(170,0,255,0.5)" stroke-width="1.5"/>
+    <line x1="415" y1="75" x2="425" y2="75" stroke="rgba(255,204,51,0.5)" stroke-width="1.5"/>
+    <text x="430" y="55" fill="#aa00ff" font-size="10" font-family="Orbitron,monospace" font-weight="700">TP</text>
+    <text x="430" y="115" fill="rgba(170,0,255,0.7)" font-size="10" font-family="Orbitron,monospace" font-weight="700">SL</text>
+    <text x="455" y="88" fill="rgba(170,0,255,0.9)" font-size="12" font-family="Orbitron,monospace" font-weight="900">≥2x</text>
+    <!-- Candles continuing -->
+    <rect x="145" y="55" width="12" height="35" rx="1" fill="rgba(0,255,136,0.6)"/>
+    <rect x="163" y="48" width="12" height="32" rx="1" fill="rgba(255,255,255,0.4)"/>
+    <rect x="181" y="42" width="12" height="35" rx="1" fill="rgba(0,255,136,0.6)"/>
+  </svg>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+    <div style="background:rgba(0,255,136,0.05);border-left:2px solid var(--gn);padding:10px 12px;border-radius:4px;font-size:0.78rem;color:var(--tx-dim);line-height:1.7">
+      <strong style="color:var(--gn)">EURUSD</strong><br>
+      止损 = CHoCH低点 + 3-5 pips 缓冲<br>
+      <span style="color:var(--tx-muted)">防针刺，不是猜测</span>
+    </div>
+    <div style="background:rgba(255,238,0,0.05);border-left:2px solid var(--ye);padding:10px 12px;border-radius:4px;font-size:0.78rem;color:var(--tx-dim);line-height:1.7">
+      <strong style="color:var(--ye)">XAUUSD</strong><br>
+      止损 = CHoCH低点 + $1-2 缓冲<br>
+      <span style="color:var(--tx-muted)">黄金波动幅度更大</span>
+    </div>
+  </div>
+  <div style="background:rgba(255,0,68,0.05);border:1px solid rgba(255,0,68,0.2);border-radius:6px;padding:10px 14px;margin-top:10px;font-size:0.78rem;color:var(--tx-dim);line-height:1.7">
+    ⚠️ <strong style="color:var(--rd)">止损不是Judas Swing极端点</strong> — 那太远了，RR无法成立。止损放<strong style="color:var(--tx)">执行层（5M CHoCH）的失效点</strong>，不是分析层的失效点。
+  </div>
+</div>
+
+<!-- ── 7. 评分系统 ── -->
+<div class="card">
+  <div class="clabel">🎯 信心评分 · 仓位决策</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:14px">
+    <div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:var(--tx-muted);letter-spacing:1px;margin-bottom:10px">必要条件（全部满足才评分）</div>
+      <div style="display:flex;flex-direction:column;gap:5px">
+        <div style="display:flex;align-items:center;gap:8px;font-size:0.78rem"><span style="color:var(--gn)">□</span><span style="color:var(--tx-dim)">日线偏向明确</span></div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:0.78rem"><span style="color:var(--gn)">□</span><span style="color:var(--tx-dim)">4H结构与日线一致</span></div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:0.78rem"><span style="color:var(--gn)">□</span><span style="color:var(--tx-dim)">POI在正确折扣/溢价区</span></div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:0.78rem"><span style="color:var(--gn)">□</span><span style="color:var(--tx-dim)">15M CHoCH + 位移</span></div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:0.78rem"><span style="color:var(--gn)">□</span><span style="color:var(--tx-dim)">5M FVG有效</span></div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:0.78rem"><span style="color:var(--gn)">□</span><span style="color:var(--tx-dim)">RR ≥ 2x</span></div>
+        <div style="margin-top:6px;font-size:0.75rem;color:var(--rd);background:rgba(255,0,68,0.06);border:1px solid rgba(255,0,68,0.2);border-radius:4px;padding:6px 10px">
+          任何一个 ✕ → 🚫 封锁，不评分
+        </div>
+      </div>
+    </div>
+    <div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:var(--tx-muted);letter-spacing:1px;margin-bottom:10px">加分条件</div>
+      <div style="display:flex;flex-direction:column;gap:6px">
+        <div style="display:flex;justify-content:space-between;padding:6px 10px;background:rgba(0,255,136,0.06);border:1px solid rgba(0,255,136,0.2);border-radius:4px">
+          <span style="font-size:0.78rem;color:var(--tx-dim)">✦ Judas Swing (当前KZ)</span>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:0.78rem;font-weight:700;color:var(--gn)">+3</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;padding:6px 10px;background:rgba(0,255,136,0.04);border:1px solid rgba(0,255,136,0.15);border-radius:4px">
+          <span style="font-size:0.78rem;color:var(--tx-dim)">✦ POI Quality ★★★</span>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:0.78rem;font-weight:700;color:var(--gn)">+2</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;padding:6px 10px;background:rgba(255,238,0,0.04);border:1px solid rgba(255,238,0,0.15);border-radius:4px">
+          <span style="font-size:0.78rem;color:var(--tx-dim)">✦ POI Quality ★★</span>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:0.78rem;font-weight:700;color:var(--ye)">+1</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;padding:6px 10px;background:rgba(0,255,136,0.04);border:1px solid rgba(0,255,136,0.15);border-radius:4px">
+          <span style="font-size:0.78rem;color:var(--tx-dim)">✦ Silver Bullet 窗口</span>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:0.78rem;font-weight:700;color:var(--gn)">+2</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;padding:6px 10px;background:rgba(0,255,136,0.04);border:1px solid rgba(0,255,136,0.15);border-radius:4px">
+          <span style="font-size:0.78rem;color:var(--tx-dim)">✦ POI = FVG+OB重叠</span>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:0.78rem;font-weight:700;color:var(--gn)">+2</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;padding:6px 10px;background:rgba(0,255,136,0.03);border:1px solid rgba(0,255,136,0.1);border-radius:4px">
+          <span style="font-size:0.78rem;color:var(--tx-dim)">✦ RR ≥ 3x</span>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:0.78rem;font-weight:700;color:var(--gn)">+1</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Score to risk table -->
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px">
+    <div style="background:rgba(0,255,136,0.08);border:1px solid rgba(0,255,136,0.3);border-radius:6px;padding:12px;text-align:center">
+      <div style="font-family:'Orbitron',monospace;font-size:1.2rem;font-weight:900;color:var(--gn)">8-10</div>
+      <div style="font-size:0.7rem;color:var(--tx-muted);margin:4px 0">分</div>
+      <div style="font-size:0.8rem;font-weight:700;color:var(--gn)">🟢 满仓</div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:0.85rem;color:var(--gn);font-weight:700;margin-top:4px">1.0%</div>
+    </div>
+    <div style="background:rgba(255,238,0,0.06);border:1px solid rgba(255,238,0,0.25);border-radius:6px;padding:12px;text-align:center">
+      <div style="font-family:'Orbitron',monospace;font-size:1.2rem;font-weight:900;color:var(--ye)">5-7</div>
+      <div style="font-size:0.7rem;color:var(--tx-muted);margin:4px 0">分</div>
+      <div style="font-size:0.8rem;font-weight:700;color:var(--ye)">🟡 标准仓</div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:0.85rem;color:var(--ye);font-weight:700;margin-top:4px">0.75%</div>
+    </div>
+    <div style="background:rgba(255,136,68,0.06);border:1px solid rgba(255,136,68,0.25);border-radius:6px;padding:12px;text-align:center">
+      <div style="font-family:'Orbitron',monospace;font-size:1.2rem;font-weight:900;color:var(--or)">3-4</div>
+      <div style="font-size:0.7rem;color:var(--tx-muted);margin:4px 0">分</div>
+      <div style="font-size:0.8rem;font-weight:700;color:var(--or)">🟠 半仓</div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:0.85rem;color:var(--or);font-weight:700;margin-top:4px">0.5%</div>
+    </div>
+    <div style="background:rgba(255,0,68,0.06);border:1px solid rgba(255,0,68,0.25);border-radius:6px;padding:12px;text-align:center">
+      <div style="font-family:'Orbitron',monospace;font-size:1.2rem;font-weight:900;color:var(--rd)">0-2</div>
+      <div style="font-size:0.7rem;color:var(--tx-muted);margin:4px 0">分</div>
+      <div style="font-size:0.8rem;font-weight:700;color:var(--rd)">🔴 警示</div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:0.85rem;color:var(--rd);font-weight:700;margin-top:4px">跳过</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── 8. 情绪规则 ── -->
+<div class="card">
+  <div class="clabel">🧠 情绪规则 · 纪律红线</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px">
+    <div style="background:rgba(255,0,68,0.07);border:1px solid rgba(255,0,68,0.3);border-radius:8px;padding:14px;text-align:center">
+      <div style="font-size:1.8rem;margin-bottom:6px">🔴</div>
+      <div style="font-family:'Orbitron',monospace;font-size:0.75rem;color:var(--rd);font-weight:700;margin-bottom:6px">连亏3笔</div>
+      <div style="font-size:0.75rem;color:var(--tx-dim);line-height:1.6">立即停止今天所有交易 · 等明天重新分析</div>
+    </div>
+    <div style="background:rgba(255,0,68,0.07);border:1px solid rgba(255,0,68,0.3);border-radius:8px;padding:14px;text-align:center">
+      <div style="font-size:1.8rem;margin-bottom:6px">📝</div>
+      <div style="font-family:'Orbitron',monospace;font-size:0.75rem;color:var(--rd);font-weight:700;margin-bottom:6px">亏损后必须</div>
+      <div style="font-size:0.75rem;color:var(--tx-dim);line-height:1.6">完成3问重新确认 · 才能开下一单 · 工具强制执行</div>
+    </div>
+    <div style="background:rgba(255,136,68,0.07);border:1px solid rgba(255,136,68,0.3);border-radius:8px;padding:14px;text-align:center">
+      <div style="font-size:1.8rem;margin-bottom:6px">😌</div>
+      <div style="font-family:'Orbitron',monospace;font-size:0.75rem;color:var(--or);font-weight:700;margin-bottom:6px">目标情绪</div>
+      <div style="font-size:0.75rem;color:var(--tx-dim);line-height:1.6">平静率 &gt; 70% · 才算达标 · Stats页追踪</div>
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+    <div style="background:rgba(255,0,68,0.04);border-left:2px solid var(--rd);padding:10px 12px;border-radius:4px;font-size:0.78rem;color:var(--tx-dim);line-height:1.7">
+      <strong style="color:var(--rd)">❌ 避免</strong><br>
+      FOMO追价 · 报复交易 · 急躁早入 · KZ外随意开单
+    </div>
+    <div style="background:rgba(0,255,136,0.04);border-left:2px solid var(--gn);padding:10px 12px;border-radius:4px;font-size:0.78rem;color:var(--tx-dim);line-height:1.7">
+      <strong style="color:var(--gn)">✓ 目标</strong><br>
+      按规则等待 · 有设置就做 · 没设置就记"无设置" · 接受亏损
+    </div>
+  </div>
+</div>
+
+<!-- ── 底部 ── -->
+<div style="text-align:center;padding:16px;font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:var(--tx-muted);line-height:2">
+  ⚡ 进实盘门槛：50笔+ · 期望值 &gt; 0 · 平静率 &gt; 70%<br>
+  📊 现在回到 TODAY 开始你的下一笔交易
+</div>
+
+</div>
+
+
 
 <!-- TODAY 页面 -->
 <div id="pg-today" class="page">
