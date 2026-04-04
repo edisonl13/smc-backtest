@@ -4,8 +4,40 @@ let TR=JSON.parse(localStorage.getItem(ST)||'[]');
 let SL=JSON.parse(localStorage.getItem(SS)||'[]');
 let AR=JSON.parse(localStorage.getItem(SA)||'[]');
 let CFG=JSON.parse(localStorage.getItem(SC)||'{"sEL":-0.51,"sES":0.13,"sXL":-0.45,"sXS":-0.15}');
-let CID=null,RCB=null,HF='all';
+let CID=null,RCB=null,HF='all',MF='all';
 let P1={},P2={},P3={},MC={};
+let IS_BT=false; // false=LIVE SIM, true=BACKTEST
+let SM='all'; // stats mode filter: all/backtest/live
+function sModeFilter(m,btn){SM=m;document.querySelectorAll('[id^="sf-"]').forEach(b=>b.classList.remove('on'));if(btn)btn.classList.add('on');rStats();}
+
+function toggleMode(){
+  IS_BT=!IS_BT;
+  const lbl=document.getElementById('modeLabel');
+  const tog=document.getElementById('modeToggle');
+  const abtn=document.getElementById('analyzeBtn');
+  const live=document.getElementById('liveClockBlock');
+  const bt=document.getElementById('btClockBlock');
+  const kzg=document.getElementById('kzGrid');
+  const btr=document.getElementById('btReminder');
+  if(IS_BT){
+    lbl.textContent='📊 BACKTEST';
+    tog.style.borderColor='var(--or)';tog.style.color='var(--or)';
+    if(abtn)abtn.textContent='＋ BACKTEST';
+    if(live)live.style.display='none';
+    if(bt)bt.style.display='block';
+    if(kzg)kzg.style.display='none';
+    if(btr)btr.style.display='block';
+  } else {
+    lbl.textContent='🔴 LIVE SIM';
+    tog.style.borderColor='';tog.style.color='';
+    if(abtn)abtn.textContent='＋ ANALYZE';
+    if(live)live.style.display='block';
+    if(bt)bt.style.display='none';
+    if(kzg)kzg.style.display='grid';
+    if(btr)btr.style.display='none';
+  }
+  rBoard();
+}
 function sv(){localStorage.setItem(ST,JSON.stringify(TR));}
 function ss(){localStorage.setItem(SS,JSON.stringify(SL));}
 function gv(id){const e=document.getElementById(id);return e?e.value.trim():'';}
@@ -64,10 +96,252 @@ function rKZ(){
 }
 function pg(n,el){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.querySelectorAll('.ntab').forEach(t=>t.classList.remove('on'));document.getElementById('pg-'+n).classList.add('active');if(el)el.classList.add('on');if(n==='hist')rHist();if(n==='stats')rStats();if(n==='arch')rArch();if(n==='cfg')ldCfg();if(n==='today'){rBoard();}}
 function rBoard(){updClock();rKZ();const r=[...TR].reverse().slice(0,3);const consec=r.length>=3&&r.every(t=>t.result==='亏');document.getElementById('lossWarn').className='warn'+(consec?' on':'');if(!SL.length){document.getElementById('bGrid').innerHTML=`<div class="empty"><div style="font-size:2rem;">◈</div><div>No analysis today</div><div style="font-size:0.8rem;">Click ANALYZE</div></div>`;return;}document.getElementById('bGrid').innerHTML=SL.map(s=>{const st = s.phase3Done ? 'done' : s.phase2Done ? 'active' : s.phase1Done ? 'active' : 'empty';const sb=`<span class="bdg b-${s.sym==='EURUSD'?'eur':'xau'}">${s.sym}</span>`;const kb=`<span class="bdg b-${s.kz.includes('伦敦')?'ldn':'ny'}">${s.kz}</span>`;let stx='',sc='var(--tx-dim)';if(st==='empty'){stx='○ PENDING';sc='var(--pu)';}else if(st==='active'){stx='● LIVE';sc='var(--or)';}else if(st==='done'){stx='✓ DONE';sc='var(--gn)';}let info='';if(s.bias)info+=`<div>BIAS <strong>${s.bias}</strong> · 4H <strong>${(s.h4||'—').replace('延续-','').replace('反转-','')}</strong></div>`;if(s.poi)info+=`<div>POI <strong>${s.poi.replace('4H ','')}</strong>${s.poiQ?' · '+'★'.repeat(+s.poiQ):''}</div>`;if(s.entry)info+=`<div>ENTRY <strong>${s.entry}</strong> SL <strong style="color:var(--rd)">${s.sl}</strong></div>`;if(s.result&&s.result!=='无设置'){const rb=s.result==='全盈'?'b-win':s.result==='部分盈'?'b-pw':s.result==='亏'?'b-loss':'b-be';info+=`<div style="margin-top:6px"><span class="bdg ${rb}">${s.result}</span>${s.realRR!=null?`<span style="font-family:'Orbitron',monospace;font-size:0.9rem;margin-left:8px;color:${s.realRR>0?'var(--gn)':s.realRR<0?'var(--rd)':'var(--tx-dim)'}">${s.realRR}x</span>`:''}</div>`;}const oc=st==='empty'?`oSlot(${s.id})`:`oSlot(${s.id})`;return`<div class="slot ${st}" onclick="${oc}"><div class="slhead">${sb}${kb}<span class="slstat" style="color:${sc}">${stx}</span></div><div class="slinfo">${info||`<span style="color:var(--tx-muted);">Click to analyze</span>`}</div><div class="slphases"><div style="display:flex;gap:6px"><div class="pip ${s.phase1Done?'done':''}" title="P1"></div><div class="pip ${s.phase2Done?'done':s.phase1Done?'active':''}" title="P2"></div><div class="pip ${s.phase3Done?'done':s.phase2Done?'active':''}" title="P3"></div></div><button class="btn btn-rd" style="padding:4px 12px;font-size:0.7rem" onclick="event.stopPropagation();delSlot(${s.id})">✕</button></div></div>`;}).join('');}
-function openNew(){document.getElementById('mTitle').textContent='＋ INITIALIZE ANALYSIS';document.getElementById('mContent').innerHTML=`<div class="fg" style="margin-bottom:22px"><div><label>Symbol</label><div class="pills" id="nSym"><div class="pill" data-v="EURUSD" onclick="nPick('sym',this)">EUR/USD</div><div class="pill" data-v="XAUUSD" onclick="nPick('sym',this)">XAU/USD</div></div></div><div><label>KZ Session</label><div class="pills" id="nKZ"><div class="pill" data-v="伦敦KZ" onclick="nKZ(this)"><span style="font-size:1.2em;">🇬🇧</span> LONDON KZ<br><span style="font-size:0.7rem;">02:00-05:00 ET</span></div><div class="pill" data-v="纽约KZ" onclick="nKZ(this)"><span style="font-size:1.2em;">🇺🇸</span> NEW YORK KZ<br><span style="font-size:0.7rem;">08:30-11:00 ET</span></div></div></div></div><div id="nWarn" style="display:none; margin-bottom:16px;"></div><div style="margin-bottom:18px"><label>Record Date (MYT)</label><input type="date" id="nDate" style="font-family:'Inter'"></div><button class="sbtn ready" onclick="confSlot()">CREATE SLOT</button>`;document.getElementById('nDate').value=mytStr();window._ns={sym:'',kz:'',lk:false};document.getElementById('mAnal').classList.add('on');}
+function openNew(){
+  if(IS_BT){openBT();return;}
+  document.getElementById('mTitle').textContent='＋ INITIALIZE ANALYSIS';document.getElementById('mContent').innerHTML=`<div class="fg" style="margin-bottom:22px"><div><label>Symbol</label><div class="pills" id="nSym"><div class="pill" data-v="EURUSD" onclick="nPick('sym',this)">EUR/USD</div><div class="pill" data-v="XAUUSD" onclick="nPick('sym',this)">XAU/USD</div></div></div><div><label>KZ Session</label><div class="pills" id="nKZ"><div class="pill" data-v="伦敦KZ" onclick="nKZ(this)"><span style="font-size:1.2em;">🇬🇧</span> LONDON KZ<br><span style="font-size:0.7rem;">02:00-05:00 ET</span></div><div class="pill" data-v="纽约KZ" onclick="nKZ(this)"><span style="font-size:1.2em;">🇺🇸</span> NEW YORK KZ<br><span style="font-size:0.7rem;">08:30-11:00 ET</span></div></div></div></div><div id="nWarn" style="display:none; margin-bottom:16px;"></div><div style="margin-bottom:18px"><label>Record Date (MYT)</label><input type="date" id="nDate" style="font-family:'Inter'"></div><button class="sbtn ready" onclick="confSlot()">CREATE SLOT</button>`;document.getElementById('nDate').value=mytStr();window._ns={sym:'',kz:'',lk:false};document.getElementById('mAnal').classList.add('on');
+}
 function nPick(k,el){el.parentElement.querySelectorAll('.pill').forEach(p=>p.className='pill');el.className='pill on';window._ns[k]=el.dataset.v;}
 function nKZ(el){el.parentElement.querySelectorAll('.pill').forEach(p=>p.className='pill');el.className='pill on';window._ns.kz=el.dataset.v;window._ns.lk=false;}
 function confSlot(){if(!window._ns.sym||!window._ns.kz){toast('SELECT SYMBOL AND KZ','e');return;}const slot={id:Date.now(),sym:window._ns.sym,kz:window._ns.kz,date:gv('nDate')||mytStr(),locked:false,phase1Done:false,phase2Done:false,phase3Done:false,bias:'',h4:'',poi:'',poiQ:'',poizone:'',dol:'',block:'',judas:'',dir:'',sweep:'',entrypoi:'',entryTime:'',c15m:false,c5m:false,cce:false,csl:false,cnarr:false,entry:null,sl:null,tp1:null,tp2:null,rr1:null,rr2:null,result:'',emotion:'',tp1Hit:'',tp2Hit:'',lesson:'',narrative:'',realRR:null,silverBullet:false,priorSweepDone:false};SL.push(slot);ss();closeAnal();rBoard();toast('SLOT CREATED','s');setTimeout(()=>oSlot(slot.id),300);}
+
+// ── BACKTEST MODE ──────────────────────────────────────────
+function openBT(){
+  document.getElementById('mTitle').textContent='📊 BACKTEST ENTRY';
+  document.getElementById('mContent').innerHTML=`
+    <div style="background:rgba(255,136,68,0.08);border:1px solid rgba(255,136,68,0.3);border-radius:8px;padding:10px 14px;margin-bottom:18px;font-size:0.75rem;color:var(--or);font-family:'JetBrains Mono',monospace">
+      📊 回测模式 — 一气呵成填完三个阶段后直接保存
+    </div>
+    <div class="fg" style="margin-bottom:18px">
+      <div><label>Symbol</label>
+        <div class="pills" id="nSym">
+          <div class="pill" data-v="EURUSD" onclick="nPick('sym',this)">EUR/USD</div>
+          <div class="pill" data-v="XAUUSD" onclick="nPick('sym',this)">XAU/USD</div>
+        </div>
+      </div>
+      <div><label>KZ Session</label>
+        <div class="pills" id="nKZ">
+          <div class="pill" data-v="伦敦KZ" onclick="nKZ(this)">🇬🇧 LONDON KZ</div>
+          <div class="pill" data-v="纽约KZ" onclick="nKZ(this)">🇺🇸 NEW YORK KZ</div>
+        </div>
+      </div>
+      <div><label>历史日期</label><input type="date" id="btDate" style="font-family:'JetBrains Mono',monospace"></div>
+      <div><label>Entry Time (ET)</label><input type="time" id="btEntryTime" step="60"></div>
+    </div>
+    <hr style="border-color:var(--border);margin:16px 0">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:var(--cy);letter-spacing:1px;margin-bottom:12px">── PHASE 1 — PRE-MARKET ANALYSIS ──</div>
+    ${btP1HTML()}
+    <hr style="border-color:var(--border);margin:16px 0">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:var(--cy);letter-spacing:1px;margin-bottom:12px">── PHASE 2 — EXECUTION ──</div>
+    ${btP2HTML()}
+    <hr style="border-color:var(--border);margin:16px 0">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:var(--cy);letter-spacing:1px;margin-bottom:12px">── PHASE 3 — RESULT ──</div>
+    ${btP3HTML()}
+    <hr style="border-color:var(--border);margin:16px 0">
+    <div id="btErrBox" style="display:none;background:var(--rd-dim);border-radius:8px;padding:10px;margin-bottom:12px;font-size:0.75rem;color:var(--rd)"></div>
+    <button class="sbtn ready" onclick="saveBT()" style="animation:none">💾 SAVE BACKTEST ENTRY</button>`;
+  const today=new Date();
+  document.getElementById('btDate').value=`${today.getFullYear()}-${pad(today.getMonth()+1)}-${pad(today.getDate())}`;
+  window._ns={sym:'',kz:'',lk:false};
+  window._btP1={};window._btP2={};window._btP3={};window._btMC={};
+  document.getElementById('mAnal').classList.add('on');
+}
+
+function btP1HTML(){return `
+  <div class="fg" style="margin-bottom:12px">
+    <div class="fgf"><label>Daily Bias</label>
+      <div class="pills" id="bt1b">
+        <div class="pill" data-v="多" onclick="btp1('bias',this)">LONG ↑</div>
+        <div class="pill" data-v="空" onclick="btp1('bias',this)">SHORT ↓</div>
+        <div class="pill" data-v="震荡-不做" onclick="btp1('bias',this)">RANGE ✕</div>
+      </div>
+    </div>
+    <div class="fgf"><label>4H Structure</label>
+      <div class="pills" id="bt1h">
+        <div class="pill" data-v="BOS延续-多" onclick="btp1('h4',this)">BOS LONG</div>
+        <div class="pill" data-v="CHoCH反转-多" onclick="btp1('h4',this)">CHoCH LONG</div>
+        <div class="pill" data-v="BOS延续-空" onclick="btp1('h4',this)">BOS SHORT</div>
+        <div class="pill" data-v="CHoCH反转-空" onclick="btp1('h4',this)">CHoCH SHORT</div>
+        <div class="pill" data-v="震荡-不做" onclick="btp1('h4',this)">RANGE ✕</div>
+      </div>
+    </div>
+    <div class="fgf"><label>4H POI Type</label>
+      <div class="pills" id="bt1p">
+        <div class="pill" data-v="4H FVG" onclick="btp1('poi',this)">4H FVG</div>
+        <div class="pill" data-v="4H OB" onclick="btp1('poi',this)">4H OB</div>
+        <div class="pill" data-v="4H FVG+OB重叠" onclick="btp1('poi',this)">FVG+OB ◆</div>
+        <div class="pill" data-v="无明确POI-不做" onclick="btp1('poi',this)">NO POI ✕</div>
+      </div>
+    </div>
+    <div class="fgf"><label>POI Quality</label>
+      <div class="pqs" id="bt1q">
+        <div class="pqo" data-v="3" onclick="btp1q(this)"><div>★★★</div><div class="pql">Daily PD + 4H OB + FVG</div></div>
+        <div class="pqo" data-v="2" onclick="btp1q(this)"><div>★★</div><div class="pql">OB+FVG / Daily FVG</div></div>
+        <div class="pqo" data-v="1" onclick="btp1q(this)"><div>★</div><div class="pql">Standalone FVG/OB</div></div>
+      </div>
+    </div>
+    <div class="fgf"><label>POI Zone</label>
+      <div class="pills" id="bt1z">
+        <div class="pill" data-v="折扣区Discount" onclick="btp1('poizone',this)">DISCOUNT ↓</div>
+        <div class="pill" data-v="溢价区Premium" onclick="btp1('poizone',this)">PREMIUM ↑</div>
+        <div class="pill" data-v="平衡区-不做" onclick="btp1('poizone',this)">EQUILIBRIUM ✕</div>
+      </div>
+    </div>
+    <div class="fgf"><label>DOL Target</label>
+      <div class="pills" id="bt1d">
+        <div class="pill" data-v="上方BSL（前高/等价高点）" onclick="btp1('dol',this)">↑ BSL HIGH</div>
+        <div class="pill" data-v="下方SSL（前低/等价低点）" onclick="btp1('dol',this)">↓ SSL LOW</div>
+        <div class="pill" data-v="上方未回补4H FVG" onclick="btp1('dol',this)">↑ 4H FVG</div>
+        <div class="pill" data-v="下方未回补4H FVG" onclick="btp1('dol',this)">↓ 4H FVG</div>
+        <div class="pill" data-v="不清楚-不做" onclick="btp1('dol',this)">UNCLEAR ✕</div>
+      </div>
+    </div>
+    <div class="fgf"><label>Path Check</label>
+      <div class="pills" id="bt1bl">
+        <div class="pill" data-v="无阻挡✅" onclick="btp1('block',this)">CLEAR ✓</div>
+        <div class="pill" data-v="有阻挡-TP1调整" onclick="btp1('block',this)">BLOCKED → TP1 ADJUST</div>
+      </div>
+    </div>
+    <div class="fgf"><label>Expected Judas</label>
+      <div class="pills" id="bt1j">
+        <div class="pill" data-v="预期扫SSL做多" onclick="btp1('judas',this)">SSL SWEEP → LONG</div>
+        <div class="pill" data-v="预期扫BSL做空" onclick="btp1('judas',this)">BSL SWEEP → SHORT</div>
+      </div>
+    </div>
+  </div>`;}
+
+function btP2HTML(){return`
+  <div class="fg" style="margin-bottom:12px">
+    <div class="fgf"><label>Direction</label>
+      <div class="pills" id="bt2d">
+        <div class="pill" data-v="做多" onclick="btp2('dir',this)">📈 LONG</div>
+        <div class="pill" data-v="做空" onclick="btp2('dir',this)">📉 SHORT</div>
+      </div>
+    </div>
+    <div class="fgf"><label>Sweep</label>
+      <div class="pills" id="bt2s">
+        <div class="pill" data-v="扫SSL做多" onclick="btp2('sweep',this)">✓ SSL → LONG</div>
+        <div class="pill" data-v="扫BSL做空" onclick="btp2('sweep',this)">✓ BSL → SHORT</div>
+        <div class="pill" data-v="前序KZ已扫荡（顺势）" onclick="btp2('sweep',this)">🔄 前序扫荡</div>
+        <div class="pill" data-v="方向矛盾" onclick="btp2('sweep',this)">✕ CONFLICT</div>
+      </div>
+    </div>
+    <div class="fgf"><label>5M Entry POI</label>
+      <div class="pills" id="bt2e">
+        <div class="pill" data-v="5M FVG" onclick="btp2('entrypoi',this)">5M FVG</div>
+        <div class="pill" data-v="4H OB内5M FVG" onclick="btp2('entrypoi',this)">5M FVG in 4H OB</div>
+      </div>
+    </div>
+    <div><label>Entry</label><input type="number" id="bt-en" step="0.00001" oninput="btCalc()"></div>
+    <div><label>Stop Loss</label><input type="number" id="bt-sl" step="0.00001" oninput="btCalc()"></div>
+    <div><label>TP1 (80%)</label><input type="number" id="bt-t1" step="0.00001" oninput="btCalc()"></div>
+    <div><label>TP2 (20%)</label><input type="number" id="bt-t2" step="0.00001" oninput="btCalc()"></div>
+    <div><label>Hold (days)</label><input type="number" id="bt-hd" value="1" step="1" min="1" oninput="btCalc()"></div>
+  </div>
+  <div class="rrgrid" id="btRR" style="margin-bottom:12px">
+    <div class="rrbox" id="bt-rr1"><div class="rrv">—</div><div class="rrl">RR1</div></div>
+    <div class="rrbox" id="bt-rr2"><div class="rrv">—</div><div class="rrl">RR2</div></div>
+    <div class="rrbox info" id="bt-rp1"><div class="rrv">—</div><div class="rrl">TP1 PIPS</div></div>
+    <div class="rrbox info" id="bt-rp2"><div class="rrv">—</div><div class="rrl">TP2 PIPS</div></div>
+  </div>
+  <div style="display:flex;flex-direction:column;gap:8px">
+    <div class="ck" id="btck1" onclick="btTogCk('c15m',this)"><div class="ckbox">✓</div>15M CHoCH + Displacement</div>
+    <div class="ck" id="btck2" onclick="btTogCk('c5m',this)"><div class="ckbox">✓</div>5M FVG Valid</div>
+    <div class="ck" id="btck3" onclick="btTogCk('cce',this)"><div class="ckbox">✓</div>Limit at 5M FVG 50%</div>
+    <div class="ck" id="btck4" onclick="btTogCk('csl',this)"><div class="ckbox">✓</div>SL beyond Judas extreme</div>
+    <div class="ck" id="btck5" onclick="btTogCk('cnarr',this)"><div class="ckbox">✓</div>Narrative clear</div>
+  </div>`;}
+
+function btP3HTML(){return`
+  <div class="fg">
+    <div class="fgf"><label>TP1 Hit?</label>
+      <div class="pills" id="bt3t1">
+        <div class="pill" data-v="Y✅" onclick="btp3('tp1h',this)">✓ HIT</div>
+        <div class="pill" data-v="N" onclick="btp3('tp1h',this)">✕ MISS</div>
+      </div>
+    </div>
+    <div class="fgf"><label>TP2 Hit?</label>
+      <div class="pills" id="bt3t2">
+        <div class="pill" data-v="Y✅" onclick="btp3('tp2h',this)">✓ HIT</div>
+        <div class="pill" data-v="BE出场" onclick="btp3('tp2h',this)">⚡ BE</div>
+        <div class="pill" data-v="止损" onclick="btp3('tp2h',this)">✕ STOP</div>
+        <div class="pill" data-v="N/A" onclick="btp3('tp2h',this)">— N/A</div>
+      </div>
+    </div>
+    <div><label>Hold (hours)</label><input type="number" id="bt-hrs" step="0.5" min="0" placeholder="24"></div>
+    <div class="fgf"><label>Emotion</label>
+      <div class="pills" id="bt3em">
+        <div class="pill" data-v="平静" onclick="btp3('emo',this)">😌 CALM</div>
+        <div class="pill" data-v="急躁" onclick="btp3('emo',this)">😤 RUSHED</div>
+        <div class="pill" data-v="FOMO" onclick="btp3('emo',this)">😰 FOMO</div>
+        <div class="pill" data-v="报复" onclick="btp3('emo',this)">😠 REVENGE</div>
+      </div>
+    </div>
+    <div class="fgf"><label>Key Lesson</label>
+      <textarea id="bt-les" placeholder="这笔最重要的教训…"></textarea>
+    </div>
+  </div>`;}
+
+function btp1(k,el){el.parentElement.querySelectorAll('.pill').forEach(p=>p.className='pill');el.className='pill on';window._btP1[k]=el.dataset.v;}
+function btp1q(el){document.querySelectorAll('#bt1q .pqo').forEach(o=>o.className='pqo');const v=el.dataset.v;el.className=`pqo q${v}`;window._btP1.poiQ=v;}
+function btp2(k,el){el.parentElement.querySelectorAll('.pill').forEach(p=>p.className='pill');el.className='pill on';window._btP2[k]=el.dataset.v;}
+function btp3(k,el){el.parentElement.querySelectorAll('.pill').forEach(p=>p.className='pill');el.className='pill on';window._btP3[k]=el.dataset.v;}
+function btTogCk(k,el){el.classList.toggle('on');window._btMC[k]=el.classList.contains('on');const b=el.querySelector('.ckbox');if(b)b.style.color=window._btMC[k]?'var(--gn)':'transparent';}
+
+function btCalc(){
+  const sym=window._ns.sym||'EURUSD',isE=sym==='EURUSD',u=isE?'pips':'$';
+  const e=gf('bt-en'),s=gf('bt-sl'),t1=gf('bt-t1'),t2=gf('bt-t2');
+  const sb=(id,val,lab,cls)=>{const el=document.getElementById(id);if(!el)return;el.className=`rrbox ${cls}`;el.innerHTML=`<div class="rrv">${val}</div><div class="rrl">${lab}</div>`;};
+  if(e&&s&&t1){
+    const r1=Math.abs((t1-e)/(e-s)),p1=isE?Math.abs((t1-e)/0.0001):Math.abs(t1-e);
+    sb('bt-rr1',r1.toFixed(2)+'x','RR1',r1>=2?'pass':'fail');
+    sb('bt-rp1',p1.toFixed(1)+' '+u,'TP1','info');
+    if(t2){const r2=Math.abs((t2-e)/(e-s)),p2=isE?Math.abs((t2-e)/0.0001):Math.abs(t2-e);sb('bt-rr2',r2.toFixed(2)+'x','RR2',r2>=2?'pass':'fail');sb('bt-rp2',p2.toFixed(1)+' '+u,'TP2','info');}
+  }
+}
+
+function saveBT(){
+  const b1=window._btP1,b2=window._btP2,b3=window._btP3,mc=window._btMC;
+  const sym=window._ns.sym,kz=window._ns.kz;
+  const date=gv('btDate'),timeStr=gv('btEntryTime');
+  const e=gf('bt-en'),s=gf('bt-sl'),t1=gf('bt-t1'),t2=gf('bt-t2');
+  const errs=[];
+  if(!sym)errs.push('Symbol');if(!kz)errs.push('KZ');if(!date)errs.push('Date');
+  if(!b1.bias||b1.bias==='震荡-不做')errs.push('Daily bias');
+  if(!b1.h4||b1.h4==='震荡-不做')errs.push('4H structure');
+  const aOk=b1.bias&&b1.h4&&((b1.bias==='多'&&b1.h4.includes('多'))||(b1.bias==='空'&&b1.h4.includes('空')));
+  if(!aOk)errs.push('Bias/4H mismatch');
+  if(!b1.poi||b1.poi==='无明确POI-不做')errs.push('4H POI');
+  if(!b2.dir)errs.push('Direction');
+  if(!b2.sweep||b2.sweep==='方向矛盾')errs.push('Sweep');
+  if(!e||!s||!t1)errs.push('Prices');
+  else if(Math.abs((t1-e)/(e-s))<2)errs.push('RR < 2x');
+  if(!b3.tp1h)errs.push('TP1 result');
+  if(!b3.emo)errs.push('Emotion');
+  const eb=document.getElementById('btErrBox');
+  if(errs.length){if(eb){eb.style.display='block';eb.textContent='ERROR: '+errs.join(' · ');}return;}
+  if(eb)eb.style.display='none';
+  const r1=Math.abs((t1-e)/(e-s));
+  const r2=t2?Math.abs((t2-e)/(e-s)):null;
+  let result='';
+  if(b3.tp1h==='Y✅')result=b3.tp2h==='Y✅'?'全盈':'部分盈';
+  else if(b3.tp1h==='N')result='亏';
+  const fakeT={result,rr1:+r1.toFixed(3),rr2:r2?+r2.toFixed(3):null,tp2Hit:b3.tp2h};
+  const rrr=calcRRR(fakeT);
+  const sb2=isSilverBullet(kz,timeStr);
+  const trade={id:Date.now(),num:TR.length+1,date,symbol:sym,killzone:kz,
+    mode:'backtest',
+    direction:b2.dir,bias:b1.bias,h4structure:b1.h4,poi4H:b1.poi,poiQuality:b1.poiQ,
+    poiZone:b1.poizone,dol:b1.dol,htfFvg:b1.block,sweepDesc:b2.sweep,
+    entryPOI:b2.entrypoi,entry:e,sl:s,tp1:t1,tp2:t2||null,
+    rr1:+r1.toFixed(3),rr2:r2?+r2.toFixed(3):null,
+    emotion:b3.emo,result,tp1Hit:b3.tp1h,tp2Hit:b3.tp2h,
+    holdingHours:gf('bt-hrs')||null,lesson:gv('bt-les'),narrative:'',
+    realRR:rrr,reviewDone:true,
+    entryTime:timeStr,silverBullet:sb2,priorSweepDone:(b2.sweep==='前序KZ已扫荡（顺势）'),
+    c15m:!!mc.c15m,c5m:!!mc.c5m,cce:!!mc.cce,csl:!!mc.csl,cnarr:!!mc.cnarr};
+  TR.push(trade);sv();closeAnal();updNav();
+  toast(`#${trade.num} BT ${result||'SAVED'}`,'s');
+}
 function delSlot(id){if(!confirm('Delete?'))return;SL=SL.filter(s=>s.id!==id);ss();rBoard();}
 function oSlot(id){const slot=SL.find(s=>s.id===id);if(!slot)return;CID=id;const last=[...TR].reverse().find(t=>t.result==='亏'&&!t.reviewDone);if(last&&slot.result!=='无设置'){RCB=()=>rSlot(slot);openRv();return;}rSlot(slot);}
 function rSlot(slot){document.getElementById('mTitle').textContent=`${slot.sym} ◆ ${slot.kz} ◆ ${slot.date}`;const p1c=slot.phase1Done?'done':'on',p2c=slot.phase1Done?(slot.phase2Done?'done':'on'):'locked',p3c=slot.phase2Done?(slot.phase3Done?'done':'on'):'locked';document.getElementById('mContent').innerHTML=`<div class="ptabs" style="display:flex;gap:0;margin-bottom:20px;border-radius:60px;background:rgba(0,0,0,0.2);padding:4px;"><div class="ptab ${p1c}" id="pt1" onclick="swP(1)" style="flex:1;text-align:center;padding:8px 12px;border-radius:40px;cursor:pointer;">01 PRE-MARKET</div><div class="ptab ${p2c}" id="pt2" onclick="${slot.phase1Done?'swP(2)':"toast('COMPLETE P1 FIRST','e')"}" style="flex:1;text-align:center;padding:8px 12px;border-radius:40px;">02 EXECUTE</div><div class="ptab ${p3c}" id="pt3" onclick="${slot.phase2Done?'swP(3)':"toast('COMPLETE P2 FIRST','e')"}" style="flex:1;text-align:center;padding:8px 12px;border-radius:40px;">03 REVIEW</div></div><div id="ph1" class="pc">${rP1()}</div><div id="ph2" class="pc">${rP2()}</div><div id="ph3" class="pc">${rP3()}</div>`;document.getElementById('mAnal').classList.add('on');P1={bias:slot.bias,h4:slot.h4,poi:slot.poi,poiQ:slot.poiQ,poizone:slot.poizone,dol:slot.dol,block:slot.block,judas:slot.judas};P2={dir:slot.dir,sweep:slot.sweep,entrypoi:slot.entrypoi,entryTime:slot.entryTime};MC={c15m:!!slot.c15m,c5m:!!slot.c5m,cce:!!slot.cce,csl:!!slot.csl,cnarr:!!slot.cnarr};P3={tp1h:slot.tp1Hit,tp2h:slot.tp2Hit,emo:slot.emotion};restSlot(slot);if(slot.phase2Done&&!slot.phase3Done)swP(3);else if(slot.phase1Done&&!slot.phase2Done)swP(2);else swP(1);updChain();updP2G();updP3R();updCalc();}
@@ -99,12 +373,45 @@ function svP3(){let res='';if(P3.tp1h==='Y✅')res=P3.tp2h==='Y✅'?'全盈':'�
 function openRv(){['rv1','rv2','rv3'].forEach(id=>{const e=document.getElementById(id);if(e)e.value='';});document.getElementById('rvBtn').className='sbtn locked';document.getElementById('mReview').classList.add('on');}
 function chkRv(){const ok=gv('rv1').length>5&&gv('rv2').length>5&&gv('rv3').length>5;document.getElementById('rvBtn').className=ok?'sbtn ready':'sbtn locked';}
 function subRv(){if(gv('rv1').length<5||gv('rv2').length<5||gv('rv3').length<5){toast('COMPLETE ALL 3','e');return;}const last=[...TR].reverse().find(t=>t.result==='亏'&&!t.reviewDone);if(last){last.reviewDone=true;sv();}document.getElementById('mReview').classList.remove('on');if(RCB){RCB();RCB=null;}}
+function fMode(f,btn){MF=f;document.querySelectorAll('[id^="mf-"]').forEach(b=>b.classList.remove('on'));if(btn)btn.classList.add('on');rHist();}
 function fH(f,btn){HF=f;document.querySelectorAll('.hfb').forEach(b=>b.classList.remove('on'));if(btn)btn.classList.add('on');rHist();}
 function delTrade(id, event) { event.stopPropagation(); if (!confirm('删除该交易？')) return; TR = TR.filter(t => t.id !== id); sv(); updNav(); rHist(); toast('已删除', 's'); }
-function rHist() { const list = document.getElementById('hList'); let arr = [...TR].reverse(); if (HF === '全盈') arr = arr.filter(t => t.result === '全盈'); else if (HF === '部分盈') arr = arr.filter(t => t.result === '部分盈'); else if (HF === '亏') arr = arr.filter(t => t.result === '亏'); else if (HF === '无设置') arr = arr.filter(t => t.result === '无设置'); else if (HF === 'EURUSD') arr = arr.filter(t => t.symbol === 'EURUSD'); else if (HF === 'XAUUSD') arr = arr.filter(t => t.symbol === 'XAUUSD'); else if (HF === '伦敦') arr = arr.filter(t => (t.killzone || '').includes('伦敦') && !t.silverBullet); else if (HF === '纽约') arr = arr.filter(t => (t.killzone || '').includes('纽约') && !t.silverBullet); else if (HF === '伦敦银弹') arr = arr.filter(t => t.killzone === '伦敦KZ' && t.silverBullet); else if (HF === '纽约银弹') arr = arr.filter(t => t.killzone === '纽约KZ' && t.silverBullet); if (!arr.length) { list.innerHTML = `<div class="empty"><div style="font-size:2rem;">◈</div><div>No records</div></div>`; return; } const emos = {平静:'😌',急躁:'😤',FOMO:'😰',报复:'😠'}; list.innerHTML = arr.map(t => { if (t.result === '无设置') { return `<div class="tc no"><div class="tch"><span class="tcn">#${t.num}</span><span class="bdg b-${t.symbol==='EURUSD'?'eur':'xau'}">${t.symbol||'—'}</span><span class="bdg ${(t.killzone||'').includes('伦敦')?'b-ldn':'b-ny'}">${t.killzone||'—'}</span><span class="bdg b-no">NO SETUP</span><span style="margin-left:auto;display:flex;gap:8px;align-items:center;"><span style="font-size:0.7rem;">${t.date}</span><button onclick="delTrade(${t.id}, event)" style="background:none;border:none;color:var(--rd);cursor:pointer;font-size:1rem;">✕</button></span></div></div>`; } const rc = t.result==='全盈'?'win':t.result==='部分盈'?'pw':t.result==='亏'?'loss':'be'; const rb = t.result==='全盈'?'b-win':t.result==='部分盈'?'b-pw':t.result==='亏'?'b-loss':'b-be'; const qs = t.poiQuality ? '★'.repeat(+t.poiQuality) : ''; return `<div class="tc ${rc}" onclick="showDet(${t.id})"><div class="tch"><span class="tcn">#${t.num}</span><span class="tcsym">${t.symbol||'—'}</span><span class="bdg b-${t.symbol==='EURUSD'?'eur':'xau'}">${t.symbol}</span><span class="bdg ${(t.killzone||'').includes('伦敦')?'b-ldn':'b-ny'}">${t.killzone}</span><span class="bdg ${rb}">${t.result}</span>${qs?`<span style="color:var(--ye);font-size:0.8rem">${qs}</span>`:''}<span class="tcrr" style="color:${t.realRR>0?'var(--gn)':t.realRR<0?'var(--rd)':'var(--tx-dim)'}">${t.realRR!=null?t.realRR+'x':'—'}</span><span style="margin-left:auto;display:flex;gap:8px;align-items:center;"><span style="font-size:0.7rem;">${t.date}</span><button onclick="delTrade(${t.id}, event)" style="background:none;border:none;color:var(--rd);cursor:pointer;font-size:1rem;">✕</button></span></div><div class="tcm"><span>${t.date}</span>${t.bias?`<span>BIAS <strong>${t.bias}</strong></span>`:''}${t.poi4H?`<span>POI <strong>${t.poi4H.replace('4H ','')}</strong></span>`:''}${t.emotion?`<span>${emos[t.emotion]||''} <strong>${t.emotion}</strong></span>`:''}</div></div>`; }).join(''); }
+function rHist() {
+  const list = document.getElementById('hList');
+  let arr = [...TR].reverse();
+  // mode filter
+  if(MF==='backtest')arr=arr.filter(t=>t.mode==='backtest');
+  else if(MF==='live')arr=arr.filter(t=>t.mode!=='backtest');
+  // result/symbol filter
+  if (HF === '全盈') arr = arr.filter(t => t.result === '全盈');
+  else if (HF === '部分盈') arr = arr.filter(t => t.result === '部分盈');
+  else if (HF === '亏') arr = arr.filter(t => t.result === '亏');
+  else if (HF === '无设置') arr = arr.filter(t => t.result === '无设置');
+  else if (HF === 'EURUSD') arr = arr.filter(t => t.symbol === 'EURUSD');
+  else if (HF === 'XAUUSD') arr = arr.filter(t => t.symbol === 'XAUUSD');
+  else if (HF === '伦敦') arr = arr.filter(t => (t.killzone || '').includes('伦敦') && !t.silverBullet);
+  else if (HF === '纽约') arr = arr.filter(t => (t.killzone || '').includes('纽约') && !t.silverBullet);
+  else if (HF === '伦敦银弹') arr = arr.filter(t => t.killzone === '伦敦KZ' && t.silverBullet);
+  else if (HF === '纽约银弹') arr = arr.filter(t => t.killzone === '纽约KZ' && t.silverBullet);
+  if (!arr.length) { list.innerHTML = `<div class="empty"><div style="font-size:2rem;">◈</div><div>No records</div></div>`; return; }
+  const emos = {平静:'😌',急躁:'😤',FOMO:'😰',报复:'😠'};
+  const btTag=`<span style="background:rgba(255,136,68,0.15);color:var(--or);border:1px solid rgba(255,136,68,0.4);border-radius:4px;font-size:0.65rem;padding:2px 6px;font-family:'JetBrains Mono',monospace">BT</span>`;
+  list.innerHTML = arr.map(t => {
+    const isBT=t.mode==='backtest';
+    if (t.result === '无设置') { return `<div class="tc no"><div class="tch"><span class="tcn">#${t.num}</span>${isBT?btTag:''}<span class="bdg b-${t.symbol==='EURUSD'?'eur':'xau'}">${t.symbol||'—'}</span><span class="bdg ${(t.killzone||'').includes('伦敦')?'b-ldn':'b-ny'}">${t.killzone||'—'}</span><span class="bdg b-no">NO SETUP</span><span style="margin-left:auto;display:flex;gap:8px;align-items:center;"><span style="font-size:0.7rem;">${t.date}</span><button onclick="delTrade(${t.id}, event)" style="background:none;border:none;color:var(--rd);cursor:pointer;font-size:1rem;">✕</button></span></div></div>`; }
+    const rc = t.result==='全盈'?'win':t.result==='部分盈'?'pw':t.result==='亏'?'loss':'be';
+    const rb = t.result==='全盈'?'b-win':t.result==='部分盈'?'b-pw':t.result==='亏'?'b-loss':'b-be';
+    const qs = t.poiQuality ? '★'.repeat(+t.poiQuality) : '';
+    return `<div class="tc ${rc}" onclick="showDet(${t.id})"><div class="tch"><span class="tcn">#${t.num}</span>${isBT?btTag:''}<span class="tcsym">${t.symbol||'—'}</span><span class="bdg b-${t.symbol==='EURUSD'?'eur':'xau'}">${t.symbol}</span><span class="bdg ${(t.killzone||'').includes('伦敦')?'b-ldn':'b-ny'}">${t.killzone}</span><span class="bdg ${rb}">${t.result}</span>${qs?`<span style="color:var(--ye);font-size:0.8rem">${qs}</span>`:''}<span class="tcrr" style="color:${t.realRR>0?'var(--gn)':t.realRR<0?'var(--rd)':'var(--tx-dim)'}">${t.realRR!=null?t.realRR+'x':'—'}</span><span style="margin-left:auto;display:flex;gap:8px;align-items:center;"><span style="font-size:0.7rem;">${t.date}</span><button onclick="delTrade(${t.id}, event)" style="background:none;border:none;color:var(--rd);cursor:pointer;font-size:1rem;">✕</button></span></div><div class="tcm"><span>${t.date}</span>${t.bias?`<span>BIAS <strong>${t.bias}</strong></span>`:''}${t.poi4H?`<span>POI <strong>${t.poi4H.replace('4H ','')}</strong></span>`:''}${t.emotion?`<span>${emos[t.emotion]||''} <strong>${t.emotion}</strong></span>`:''}</div></div>`;
+  }).join('');
+}
 function showDet(id){const t=TR.find(tr=>tr.id===id);if(!t)return;document.getElementById('mDetTitle').textContent=`#${t.num} ${t.symbol} ◆ ${t.date}`;const rc=t.result==='全盈'?'g':t.result==='部分盈'?'c':t.result==='亏'?'r':'y';const be=t.entry&&t.sl&&t.tp1?calcBE(t.symbol,t.direction,t.entry,t.sl,t.tp1,t.holdingHours?Math.ceil(t.holdingHours/24):2):null;const dr=(l,v)=>`<div class="di"><div class="dil">${l}</div><div class="div">${v}</div></div>`;document.getElementById('mDetContent').innerHTML=`<div class="dgrid">${dr('Result',`<span class="${rc}">${t.result||'—'}</span>`)}${dr('Real RR',`<span style="color:${t.realRR>0?'var(--gn)':t.realRR<0?'var(--rd)':'var(--tx-dim)'}">${t.realRR!=null?t.realRR+'x':'—'}</span>`)}${dr('KZ',t.killzone||'—')}${dr('Dir',t.direction||'—')}${dr('Daily',t.bias||'—')}${dr('4H',(t.h4structure||'—').replace('延续-','').replace('反转-',''))}${dr('4H POI',t.poi4H||'—')}${dr('Quality',t.poiQuality?'★'.repeat(+t.poiQuality):'—')}${dr('Zone',t.poiZone||'—')}${dr('DOL',t.dol||'—')}${dr('Entry',`<span style="font-family:'Orbitron',monospace">${t.entry||'—'}</span>`)}${dr('SL',`<span style="color:var(--rd);font-family:'Orbitron',monospace">${t.sl||'—'}</span>`)}${dr('TP1/RR1',`<span style="color:var(--gn);font-family:'Orbitron',monospace">${t.tp1||'—'} / ${t.rr1?t.rr1.toFixed(2)+'x':'—'}</span>`)}${dr('TP2/RR2',`<span style="color:var(--gn);font-family:'Orbitron',monospace">${t.tp2||'—'} / ${t.rr2?t.rr2.toFixed(2)+'x':'—'}</span>`)}${dr('TP1 Hit',`<span style="color:${t.tp1Hit==='Y✅'?'var(--gn)':'var(--rd)'}">${t.tp1Hit||'—'}</span>`)}${dr('TP2 Hit',`<span style="color:${t.tp2Hit==='Y✅'?'var(--gn)':t.tp2Hit==='BE出场'?'var(--ye)':'var(--rd)'}">${t.tp2Hit||'—'}</span>`)}${dr('Emotion',t.emotion||'—')}${dr('Hold',t.holdingHours?t.holdingHours+'h':'—')}${dr('Silver',t.silverBullet?'⚡ YES':'—')}${dr('前序扫荡',t.priorSweepDone?'✅ 是':'—')}</div>${be?beHTML(be,t.symbol):''}${t.narrative?`<div style="background:rgba(0,0,0,0.3);border-radius:var(--radius-md);padding:14px;margin-top:16px;font-size:0.85rem;color:var(--cy);">${t.narrative}</div>`:''}${t.lesson?`<div style="background:var(--ye);color:#000;border-radius:var(--radius-md);padding:14px;margin-top:12px;font-size:0.9rem;">◆ ${t.lesson}</div>`:''}<div style="margin-top:16px"><button class="btn btn-rd" onclick="delT(${t.id})">✕ DELETE</button></div>`;document.getElementById('mDetail').classList.add('on');}
 function delT(id){if(!confirm('Delete?'))return;TR=TR.filter(t=>t.id!==id);sv();closeDet();updNav();rHist();toast('DELETED','e');}
-function rStats(){const real=TR.filter(t=>t.result&&t.result!=='无设置');const n=real.length,wins=real.filter(t=>isW(t)).length,losses=real.filter(t=>t.result==='亏').length;const wr=n?wins/n*100:0;const rrArr=real.filter(t=>t.realRR!=null).map(t=>t.realRR);const avgRR=rrArr.length?rrArr.reduce((a,b)=>a+b,0)/rrArr.length:0;const exp=n?((wins/n)*Math.max(avgRR,0)-(losses/n)*1):0;const tp1h=real.filter(t=>t.tp1Hit==='Y✅');const tp2r=tp1h.length?tp1h.filter(t=>t.tp2Hit==='Y✅').length/tp1h.length*100:0;const eArr=real.filter(t=>t.emotion);const calmPct=eArr.length?eArr.filter(t=>t.emotion==='平静').length/eArr.length*100:0;const noS=TR.filter(t=>t.result==='无设置').length;const sv2=(id,v,c)=>{const e=document.getElementById(id);if(e){e.textContent=v;if(c)e.style.color=c;}};sv2('stT',n);document.getElementById('stTP').style.width=Math.min(n/50*100,100)+'%';sv2('stW',n?wr.toFixed(1)+'%':'—',wr>=60?'var(--gn)':wr<40?'var(--rd)':'var(--txd)');document.getElementById('stWP').style.width=wr+'%';sv2('stR',avgRR?avgRR.toFixed(2)+'x':'—',avgRR>0?'var(--pu)':'var(--rd)');sv2('stE',rrArr.length?exp.toFixed(2):'—',exp>0?'var(--gn)':exp<0?'var(--rd)':'var(--txd)');sv2('stTP2',tp1h.length?tp2r.toFixed(1)+'%':'—');sv2('stC',eArr.length?calmPct.toFixed(0)+'%':'—',calmPct>=70?'var(--gn)':calmPct<50?'var(--rd)':'var(--or)');const g1=n>=50,g2=exp>0&&rrArr.length>=10,g3=calmPct>=70&&eArr.length>=10;document.getElementById('stGoal').innerHTML=`<div style="color:${g1?'var(--gn)':'var(--txd)'}">${g1?'✓':'○'} 50+ trades (${n}/50)</div><div style="color:${g2?'var(--gn)':'var(--txd)'}">${g2?'✓':'○'} Expectancy > 0 (${rrArr.length>=10?exp.toFixed(2):'need more data'})</div><div style="color:${g3?'var(--gn)':'var(--txd)'}">${g3?'✓':'○'} Calm > 70% (${eArr.length>=10?calmPct.toFixed(0)+'%':'need more data'})</div><div style="color:var(--txd);margin-top:4px;font-size:0.75rem">No setup days: ${noS}</div>`;const streak=document.getElementById('stStreak');streak.innerHTML=real.map(t=>{const c=t.result==='全盈'?'var(--gn)':t.result==='部分盈'?'var(--cy)':t.result==='亏'?'var(--rd)':'var(--ye)';return`<div title="#${t.num} ${t.result}" style="width:20px;height:20px;border-radius:40px;background:${c};margin-right:2px;"></div>`;}).join('')||'<span style="color:var(--tx-muted);">No data yet</span>';const totalD=TR.length?Math.ceil((Date.now()-new Date(TR[0].date).getTime())/86400000):0;const totalW=Math.max(1,Math.ceil(totalD/7));document.getElementById('stFreq').innerHTML=`Days tracked: <span style="color:var(--tx)">${totalD}</span><br>Valid setups: <span style="color:var(--gn)">${n}</span>  No-setup days: <span style="color:var(--txd)">${noS}</span><br>Avg per week: <span style="color:var(--cy)">${(n/totalW).toFixed(1)}</span>`;const bars=(cid,groups,col)=>{const el=document.getElementById(cid);if(!el)return;const max=Math.max(...groups.map(g=>g.t.length),1);el.innerHTML=groups.map(g=>{const arr=g.t,n2=arr.length;if(!n2)return`<div class="brow"><div class="blbl">${g.l}</div><div class="btrack"><div class="btext">—</div></div></div>`;const w2=arr.filter(t=>isW(t)).length,wr2=n2?w2/n2*100:0;const ra=arr.filter(t=>t.realRR!=null).map(t=>t.realRR);const rr2=ra.length?ra.reduce((a,b)=>a+b,0)/ra.length:0;const bw=Math.max(n2/max*100,4);const wc=wr2>=60?'var(--gn)':wr2<40?'var(--rd)':'var(--txd)';const rc=rr2>0?'var(--gn)':rr2<0?'var(--rd)':'var(--txd)';return`<div class="brow"><div class="blbl">${g.l}</div><div class="btrack"><div class="bfill" style="width:${bw}%;background:${col};opacity:0.2"></div><div class="btext"><span style="color:var(--tx);font-weight:600">${n2}</span><span style="color:${wc}">${wr2.toFixed(0)}% WIN</span><span style="color:${rc}">${rr2.toFixed(2)}x</span></div></div></div>`;}).join('');};bars('sbDir',[{l:'LONG',t:real.filter(t=>t.direction==='做多')},{l:'SHORT',t:real.filter(t=>t.direction==='做空')}],'var(--gn)');bars('sbPoi',[{l:'4H FVG',t:real.filter(t=>t.poi4H==='4H FVG')},{l:'4H OB',t:real.filter(t=>t.poi4H==='4H OB')},{l:'FVG+OB',t:real.filter(t=>t.poi4H==='4H FVG+OB重叠')}],'var(--cy)');bars('sbQ',[{l:'★★★',t:real.filter(t=>t.poiQuality==='3')},{l:'★★',t:real.filter(t=>t.poiQuality==='2')},{l:'★',t:real.filter(t=>t.poiQuality==='1')}],'var(--ye)');const ldnMain=real.filter(t=>t.killzone==='伦敦KZ'&&!t.silverBullet);const ldnSb=real.filter(t=>t.killzone==='伦敦KZ'&&t.silverBullet);const nyMain=real.filter(t=>t.killzone==='纽约KZ'&&!t.silverBullet);const nySb=real.filter(t=>t.killzone==='纽约KZ'&&t.silverBullet);bars('sbSes',[{l:'LONDON KZ',t:ldnMain},{l:'LONDON SB',t:ldnSb},{l:'NEW YORK KZ',t:nyMain},{l:'NEW YORK SB',t:nySb}],'var(--or)');bars('sbZone',[{l:'DISCOUNT',t:real.filter(t=>t.poiZone==='折扣区Discount')},{l:'PREMIUM',t:real.filter(t=>t.poiZone==='溢价区Premium')}],'var(--rd)');bars('sbEmo',[{l:'😌CALM',t:real.filter(t=>t.emotion==='平静')},{l:'😤RUSH',t:real.filter(t=>t.emotion==='急躁')},{l:'😰FOMO',t:real.filter(t=>t.emotion==='FOMO')},{l:'😠REV',t:real.filter(t=>t.emotion==='报复')}],'var(--pu)');bars('sbSym',[{l:'EUR/USD',t:real.filter(t=>t.symbol==='EURUSD')},{l:'XAU/USD',t:real.filter(t=>t.symbol==='XAUUSD')}],'var(--cy)');}
+function rStats(){
+  let base=TR.filter(t=>t.result&&t.result!=='无设置');
+  if(SM==='backtest')base=base.filter(t=>t.mode==='backtest');
+  else if(SM==='live')base=base.filter(t=>t.mode!=='backtest');
+  const real=base;const n=real.length,wins=real.filter(t=>isW(t)).length,losses=real.filter(t=>t.result==='亏').length;const wr=n?wins/n*100:0;const rrArr=real.filter(t=>t.realRR!=null).map(t=>t.realRR);const avgRR=rrArr.length?rrArr.reduce((a,b)=>a+b,0)/rrArr.length:0;const exp=n?((wins/n)*Math.max(avgRR,0)-(losses/n)*1):0;const tp1h=real.filter(t=>t.tp1Hit==='Y✅');const tp2r=tp1h.length?tp1h.filter(t=>t.tp2Hit==='Y✅').length/tp1h.length*100:0;const eArr=real.filter(t=>t.emotion);const calmPct=eArr.length?eArr.filter(t=>t.emotion==='平静').length/eArr.length*100:0;const noS=TR.filter(t=>t.result==='无设置').length;const sv2=(id,v,c)=>{const e=document.getElementById(id);if(e){e.textContent=v;if(c)e.style.color=c;}};sv2('stT',n);document.getElementById('stTP').style.width=Math.min(n/50*100,100)+'%';sv2('stW',n?wr.toFixed(1)+'%':'—',wr>=60?'var(--gn)':wr<40?'var(--rd)':'var(--txd)');document.getElementById('stWP').style.width=wr+'%';sv2('stR',avgRR?avgRR.toFixed(2)+'x':'—',avgRR>0?'var(--pu)':'var(--rd)');sv2('stE',rrArr.length?exp.toFixed(2):'—',exp>0?'var(--gn)':exp<0?'var(--rd)':'var(--txd)');sv2('stTP2',tp1h.length?tp2r.toFixed(1)+'%':'—');sv2('stC',eArr.length?calmPct.toFixed(0)+'%':'—',calmPct>=70?'var(--gn)':calmPct<50?'var(--rd)':'var(--or)');const g1=n>=50,g2=exp>0&&rrArr.length>=10,g3=calmPct>=70&&eArr.length>=10;document.getElementById('stGoal').innerHTML=`<div style="color:${g1?'var(--gn)':'var(--txd)'}">${g1?'✓':'○'} 50+ trades (${n}/50)</div><div style="color:${g2?'var(--gn)':'var(--txd)'}">${g2?'✓':'○'} Expectancy > 0 (${rrArr.length>=10?exp.toFixed(2):'need more data'})</div><div style="color:${g3?'var(--gn)':'var(--txd)'}">${g3?'✓':'○'} Calm > 70% (${eArr.length>=10?calmPct.toFixed(0)+'%':'need more data'})</div><div style="color:var(--txd);margin-top:4px;font-size:0.75rem">No setup days: ${noS}</div>`;const streak=document.getElementById('stStreak');streak.innerHTML=real.map(t=>{const c=t.result==='全盈'?'var(--gn)':t.result==='部分盈'?'var(--cy)':t.result==='亏'?'var(--rd)':'var(--ye)';return`<div title="#${t.num} ${t.result}" style="width:20px;height:20px;border-radius:40px;background:${c};margin-right:2px;"></div>`;}).join('')||'<span style="color:var(--tx-muted);">No data yet</span>';const totalD=TR.length?Math.ceil((Date.now()-new Date(TR[0].date).getTime())/86400000):0;const totalW=Math.max(1,Math.ceil(totalD/7));document.getElementById('stFreq').innerHTML=`Days tracked: <span style="color:var(--tx)">${totalD}</span><br>Valid setups: <span style="color:var(--gn)">${n}</span>  No-setup days: <span style="color:var(--txd)">${noS}</span><br>Avg per week: <span style="color:var(--cy)">${(n/totalW).toFixed(1)}</span>`;const bars=(cid,groups,col)=>{const el=document.getElementById(cid);if(!el)return;const max=Math.max(...groups.map(g=>g.t.length),1);el.innerHTML=groups.map(g=>{const arr=g.t,n2=arr.length;if(!n2)return`<div class="brow"><div class="blbl">${g.l}</div><div class="btrack"><div class="btext">—</div></div></div>`;const w2=arr.filter(t=>isW(t)).length,wr2=n2?w2/n2*100:0;const ra=arr.filter(t=>t.realRR!=null).map(t=>t.realRR);const rr2=ra.length?ra.reduce((a,b)=>a+b,0)/ra.length:0;const bw=Math.max(n2/max*100,4);const wc=wr2>=60?'var(--gn)':wr2<40?'var(--rd)':'var(--txd)';const rc=rr2>0?'var(--gn)':rr2<0?'var(--rd)':'var(--txd)';return`<div class="brow"><div class="blbl">${g.l}</div><div class="btrack"><div class="bfill" style="width:${bw}%;background:${col};opacity:0.2"></div><div class="btext"><span style="color:var(--tx);font-weight:600">${n2}</span><span style="color:${wc}">${wr2.toFixed(0)}% WIN</span><span style="color:${rc}">${rr2.toFixed(2)}x</span></div></div></div>`;}).join('');};bars('sbDir',[{l:'LONG',t:real.filter(t=>t.direction==='做多')},{l:'SHORT',t:real.filter(t=>t.direction==='做空')}],'var(--gn)');bars('sbPoi',[{l:'4H FVG',t:real.filter(t=>t.poi4H==='4H FVG')},{l:'4H OB',t:real.filter(t=>t.poi4H==='4H OB')},{l:'FVG+OB',t:real.filter(t=>t.poi4H==='4H FVG+OB重叠')}],'var(--cy)');bars('sbQ',[{l:'★★★',t:real.filter(t=>t.poiQuality==='3')},{l:'★★',t:real.filter(t=>t.poiQuality==='2')},{l:'★',t:real.filter(t=>t.poiQuality==='1')}],'var(--ye)');const ldnMain=real.filter(t=>t.killzone==='伦敦KZ'&&!t.silverBullet);const ldnSb=real.filter(t=>t.killzone==='伦敦KZ'&&t.silverBullet);const nyMain=real.filter(t=>t.killzone==='纽约KZ'&&!t.silverBullet);const nySb=real.filter(t=>t.killzone==='纽约KZ'&&t.silverBullet);bars('sbSes',[{l:'LONDON KZ',t:ldnMain},{l:'LONDON SB',t:ldnSb},{l:'NEW YORK KZ',t:nyMain},{l:'NEW YORK SB',t:nySb}],'var(--or)');bars('sbZone',[{l:'DISCOUNT',t:real.filter(t=>t.poiZone==='折扣区Discount')},{l:'PREMIUM',t:real.filter(t=>t.poiZone==='溢价区Premium')}],'var(--rd)');bars('sbEmo',[{l:'😌CALM',t:real.filter(t=>t.emotion==='平静')},{l:'😤RUSH',t:real.filter(t=>t.emotion==='急躁')},{l:'😰FOMO',t:real.filter(t=>t.emotion==='FOMO')},{l:'😠REV',t:real.filter(t=>t.emotion==='报复')}],'var(--pu)');bars('sbSym',[{l:'EUR/USD',t:real.filter(t=>t.symbol==='EURUSD')},{l:'XAU/USD',t:real.filter(t=>t.symbol==='XAUUSD')}],'var(--cy)');}
 function impArch(){const raw=document.getElementById('archIn').value.trim();if(!raw){toast('PASTE DATA FIRST','e');return;}try{let d=JSON.parse(raw);if(d['交易记录'])d=d['交易记录'];if(!Array.isArray(d))throw'';AR=d;localStorage.setItem(SA,JSON.stringify(d));rArch();toast(`IMPORTED ${d.length} RECORDS`,'s');document.getElementById('archIn').value='';}catch{toast('INVALID JSON','e');}}
 function clrArch(){if(!confirm('Clear archive?'))return;AR=[];localStorage.setItem(SA,'[]');rArch();toast('CLEARED','e');}
 function rArch(){const list=document.getElementById('archList');if(!AR.length){list.innerHTML=`<div class="empty"><div style="font-size:2rem;">◈</div><div>Archive empty</div></div>`;return;}list.innerHTML=AR.map((t,i)=>{const rc=t.result==='盈'||t.result==='全盈'?'var(--gn)':t.result==='亏'?'var(--rd)':'var(--txd)';return`<div class="tc no" onclick="showArchDet(${i})" style="cursor:pointer"><div class="tch"><span class="tcn">#${t.num||i+1}</span><span style="font-weight:700">${t.symbol||'—'}</span><span class="bdg b-no">${t.killzone||'—'}</span><span style="color:${rc};">${t.result||'—'}</span><span style="margin-left:auto;font-size:0.7rem;">${t.date||'—'}</span></div>${t.lesson?`<div style="font-size:0.8rem;color:var(--tx-dim);margin-top:8px;">${t.lesson.substring(0,80)}${t.lesson.length>80?'…':''}</div>`:''}</div>`;}).join('');}
